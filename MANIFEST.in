@@ -1,0 +1,2 @@
+recursive-include wombat/public *
+recursive-include wombat/templates *

@@ -1,0 +1,7 @@
+build/*
+data/*
+dist/*
+media/*
+*.pyc
+*.swp
+production.ini
