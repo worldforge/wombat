@@ -13,20 +13,21 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-from os.path import getsize, join
+from os.path import getsize, join, basename
 from pylons import config
 
 class File:
     def __init__(self, path):
         self.path = path
         self.type = "Generic file"
-        self.size = getsize(join(config['app_conf']['media_dir'], path))
+        self.fullpath = join(config['app_conf']['media_dir'], path)
+        self.size = getsize(self.fullpath)
 
     def getPath(self):
         return self.path
 
     def getName(self):
-        return self.path
+        return basename(self.path)
 
     def getSize(self):
         return self.size
