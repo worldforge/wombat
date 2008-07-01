@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 class DirController(BaseController):
 
     def index(self):
-        c.name = 'WOMBAT'
+        c.name = config['app_conf']['site_name']
         c.title = 'Directory view'
         c.messages = []
         if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
