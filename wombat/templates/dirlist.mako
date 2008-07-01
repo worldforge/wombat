@@ -1,7 +1,7 @@
         <table border="0" class="dirs">
           <tr>
           <% i = 0 %>
-%for dir in c.dir.getSubdirs():
+%for dir in c.obj.getSubdirs():
             <td class="cell" valign="top" width="50%">
                 <a href="/dir?path=${dir.getPath()}" title="${dir.getName()}">
                   <img class="fade" src="/images/dir.gif" border="0" alt="*" />

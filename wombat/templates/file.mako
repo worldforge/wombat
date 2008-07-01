@@ -4,9 +4,9 @@
 <%include file="nav.mako"/>
         </div>
 
-        <div class="subtitle">${c.file.getName()}</div>
+        <div class="subtitle">${c.obj.getName()}</div>
 
-        <div class="description">Viewing ${c.file.getName()}.</div>
+        <div class="description">Viewing ${c.obj.getName()}.</div>
 
 <%include file="details.mako"/>
 <%include file="pagination.mako"/>

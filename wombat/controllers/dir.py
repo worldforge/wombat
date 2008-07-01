@@ -29,8 +29,8 @@ class DirController(BaseController):
             req_path = ""
         c.req_path = req_path
         try:
-            c.dir = c.root_dir.getDir(req_path)
+            c.obj = c.root_dir.getDir(req_path)
         except KeyError:
-            c.dir = c.root_dir
+            c.obj = c.root_dir
         return render('/dir.mako')
 

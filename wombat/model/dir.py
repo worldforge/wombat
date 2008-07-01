@@ -39,3 +39,6 @@ class Dir:
     def getName(self):
         return self.path
 
+    def getType(self):
+        return "dir"
+

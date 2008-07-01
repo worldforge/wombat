@@ -2,7 +2,7 @@
         <table border="0" class="group">
           <tr>
           <% i = 0 %>
-%for file in c.dir.getFiles():
+%for file in c.obj.getFiles():
             <td class="cell" valign="top" width="50%">
                 <a href="/file?path=${file.getPath()}" title="Download ${file.getName()}">
                   <img class="fade" src="/images/text.gif" border="0" alt="*" />

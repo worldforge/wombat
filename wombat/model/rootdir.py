@@ -30,7 +30,7 @@ class RootDir(Dir):
         self.scanpath = path
 
     def getName(self):
-        return "root"
+        return "/"
 
     def addDir(self, dir):
         self.all_dirs[dir.path] = dir

@@ -28,9 +28,9 @@ class FileController(BaseController):
             req_path = ""
         c.req_path = req_path
         try:
-            c.file = c.root_dir.getFile(req_path)
+            c.obj = c.root_dir.getFile(req_path)
         except KeyError:
             c.messages.append("Failed to locate file '%s'." % req_path)
-            c.dir = c.root_dir
+            c.obj = c.root_dir
             return render('/dir.mako')
         return render('/file.mako')

@@ -40,3 +40,6 @@ class File:
             size /= 1024.0
             i += 1
         return "%.2f %s" % (size, size_name[i])
+
+    def getType(self):
+        return "file"

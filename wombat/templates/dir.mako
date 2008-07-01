@@ -9,7 +9,7 @@
 
         <div class="subtitle">${c.name}</div>
 
-        <div class="description">Viewing ${c.dir.getName()} directory.</div>
+        <div class="description">Viewing ${c.obj.getName()} directory.</div>
 
 <%include file="dirlist.mako"/>
 <%include file="filelist.mako"/>
