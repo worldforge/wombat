@@ -60,13 +60,17 @@ wombat/public/images/word.gif
 wombat/public/images/zipdir.gif
 wombat/templates/additions.mako
 wombat/templates/base.mako
+wombat/templates/comments.mako
+wombat/templates/details.mako
 wombat/templates/dir.mako
 wombat/templates/dirlist.mako
+wombat/templates/file.mako
 wombat/templates/filelist.mako
 wombat/templates/index.mako
 wombat/templates/menu.mako
 wombat/templates/messages.mako
 wombat/templates/nav.mako
+wombat/templates/pagination.mako
 wombat/templates/please_scan.mako
 wombat/templates/searchbox.mako
 wombat/templates/serverinfo.mako
