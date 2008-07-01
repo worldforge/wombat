@@ -1,9 +1,6 @@
 <%inherit file="base.mako"/>
     <div id="main">
         <div class="block">
-<%include file="nav.mako"/>
-        </div>
-        <div class="block">
 <%include file="additions.mako"/>
         </div>
 

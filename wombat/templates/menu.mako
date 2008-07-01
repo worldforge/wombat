@@ -1,5 +1,5 @@
             <ul id="tabmenu">
-%if c.obj.getType() == "dir":
+%if c.obj != '' and c.obj.getType() == "dir":
 %for dir in c.obj.getSubdirs():
                 <li class="tab">
                     <a href="/dir?path=${dir.getPath()}">${dir.getName()}</a>
