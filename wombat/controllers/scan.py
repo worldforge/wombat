@@ -30,8 +30,8 @@ class ScanController(BaseController):
             cPickle.dump(dir, f, -1)
         finally:
             f.close()
-        f = open(config['app_conf']['scan_lock'], 'w')
-        f.close()
+
+        h.createScanLock()
 
         redirect_to(action="result")
 

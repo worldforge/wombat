@@ -24,7 +24,14 @@ def getBreadcrumbTrail(rootdir, obj):
     return trail
 
 def canScan():
+    if not os.path.exists(config['app_conf']['rootdir_cache']):
+        return True
+
     if os.path.exists(config['app_conf']['scan_lock']):
         return False
     return True
+
+def createScanLock():
+    f = open(config['app_conf']['scan_lock'], 'w')
+    f.close()
 

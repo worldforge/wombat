@@ -8,7 +8,8 @@
             <a href="/scan/scan">Scan</a> the repository. This can take quite
          some time.
 %else:
-            Scanning the repository is not necessary.
+            Scanning the repository is not necessary. Proceed to <a
+             href="/dir">directory view</a>.
 %endif
         </div>
     </div>
