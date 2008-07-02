@@ -1,9 +1,5 @@
 <%inherit file="base.mako"/>
     <div id="main">
-        <div class="block">
-<%include file="additions.mako"/>
-        </div>
-
         <div class="subtitle">Welcome to ${c.name}.</div>
 
         <div class="description">In some later version, this page will show some

@@ -21,6 +21,16 @@ from pylons import config
 from wombat.model.file import File
 from wombat.model.dir import Dir
 
+def cmpLatest(file_x, file_y):
+    x = file_x.getMtime()
+    y = file_y.getMtime()
+    if x > y:
+        return -1
+    elif x == y:
+        return 0
+    else:
+        return 1
+
 class RootDir(Dir):
     def __init__(self, path):
         Dir.__init__(self, path)
@@ -28,6 +38,7 @@ class RootDir(Dir):
         self.all_dirs = {}
         self.all_files = {}
         self.scanpath = path
+        self.latest = []
 
     def getName(self):
         return "/"
@@ -67,3 +78,8 @@ class RootDir(Dir):
                 parent_dir.addSubdir(dir_obj)
                 self.addDir(dir_obj)
 
+        self.latest = self.all_files.values()
+        self.latest.sort(cmp=cmpLatest)
+
+    def getLatestAdditions(self, num=5):
+        return self.latest[:num]

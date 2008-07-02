@@ -13,7 +13,8 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-from os.path import getsize, join, basename
+from os.path import getsize, join, basename, getmtime
+from time import strftime, gmtime
 from pylons import config
 
 class File:
@@ -22,6 +23,7 @@ class File:
         self.type = "Generic file"
         self.fullpath = join(config['app_conf']['media_dir'], path)
         self.size = getsize(self.fullpath)
+        self.mtime = getmtime(self.fullpath)
 
     def getPath(self):
         return self.path
@@ -43,3 +45,10 @@ class File:
 
     def getType(self):
         return "file"
+
+    def getMtime(self):
+        return self.mtime
+
+    def getLastChanged(self):
+        return strftime("%Y-%m-%d %H:%M:%S %Z", gmtime(self.mtime))
+
