@@ -4,6 +4,7 @@ Consists of functions to typically be used within templates, but also
 available to Controllers. This module is available to both as 'h'.
 """
 from webhelpers import *
+from pylons import config
 import os.path
 import string
 
@@ -22,4 +23,8 @@ def getBreadcrumbTrail(rootdir, obj):
 
     return trail
 
+def canScan():
+    if os.path.exists(config['app_conf']['scan_lock']):
+        return False
+    return True
 

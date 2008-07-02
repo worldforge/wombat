@@ -10,25 +10,34 @@ log = logging.getLogger(__name__)
 class ScanController(BaseController):
 
     def index(self):
-        # Return a rendered template
-        #   return render('/some/template.mako')
-        # or, Return a response
-        return 'Hello World'
+        c.name = config['app_conf']['site_name']
+        c.title = 'Scan mode'
+        c.messages = []
+        return render('/scan.mako')
 
     def scan(self):
         from wombat.model.rootdir import RootDir
 
+        if not h.canScan():
+            redirect_to(action="index")
+
         dir = RootDir(config['app_conf']['media_dir'])
         dir.scan()
-        if not os.path.exists(config.get('cache.dir')):
-            os.mkdir(config.get('cache.dir'))
-        f = open(config.get('app_conf').get('rootdir_cache'), 'w')
+        if not os.path.exists(config['cache.dir']):
+            os.mkdir(config['cache.dir'])
+        f = open(config['app_conf']['rootdir_cache'], 'w')
         try:
             cPickle.dump(dir, f, -1)
         finally:
             f.close()
+        f = open(config['app_conf']['scan_lock'], 'w')
+        f.close()
 
-        c.name = 'WOMBAT'
-        c.title = 'Scanning the repository'
-        return "SCANNING"
+        redirect_to(action="result")
+
+    def result(self):
+        c.name = config['app_conf']['site_name']
+        c.title = 'Scan complete'
+        c.messages = []
+        return render('/scan_complete.mako')
 

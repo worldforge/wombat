@@ -19,6 +19,7 @@ use = egg:wombat
 full_stack = true
 cache_dir = %(here)s/data
 rootdir_cache = %(here)s/data/rootdir.pickle
+scan_lock = %(here)s/data/scan.lock
 media_dir = %(here)s/media
 site_name = WOMBAT Demo Site
 beaker.session.key = wombat
