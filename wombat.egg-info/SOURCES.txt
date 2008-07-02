@@ -72,6 +72,8 @@ wombat/templates/messages.mako
 wombat/templates/nav.mako
 wombat/templates/pagination.mako
 wombat/templates/please_scan.mako
+wombat/templates/scan.mako
+wombat/templates/scan_complete.mako
 wombat/templates/searchbox.mako
 wombat/templates/serverinfo.mako
 wombat/tests/__init__.py
