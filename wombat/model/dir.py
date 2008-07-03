@@ -33,6 +33,28 @@ class Dir:
     def getFiles(self):
         return self.files
 
+    def getFilesByType(self):
+        image_files = []
+        model_files = []
+        sound_files = []
+        text_files = []
+        other_files = []
+
+        for file in self.files:
+            type = file.getType()
+            if type == "image":
+                image_files.append(file)
+            elif type == "model":
+                model_files.append(file)
+            elif type == "sound":
+                sound_files.append(file)
+            elif type == "text":
+                text_files.append(file)
+            else:
+                other_files.append(file)
+
+        return (image_files, model_files, sound_files, text_files, other_files)
+
     def getPath(self):
         return self.path
 
