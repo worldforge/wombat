@@ -3,6 +3,7 @@ from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
+from paste.urlmap import URLMap
 
 from pylons import config
 from pylons.error import error_template
@@ -53,5 +54,8 @@ def make_app(global_conf, full_stack=True, **app_conf):
     # Static files
     javascripts_app = StaticJavascripts()
     static_app = StaticURLParser(config['pylons.paths']['static_files'])
-    app = Cascade([static_app, javascripts_app, app])
+    media_app = StaticURLParser(config['app_conf']['media_dir'])
+    urlmap = URLMap()
+    urlmap['/media'] = media_app
+    app = Cascade([urlmap, static_app, javascripts_app, app])
     return app
