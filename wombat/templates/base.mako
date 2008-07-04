@@ -11,7 +11,7 @@
       <tr>
         <td>
           <div id="logo">
-            <a href="index">
+            <a href="/">
               <img src="/images/headerlogo.png" border="0" id="logo" title="${c.name}" />
             </a>
           </div>
