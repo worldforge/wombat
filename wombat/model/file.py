@@ -18,7 +18,8 @@ from time import strftime, gmtime
 from pylons import config
 
 image_exts = ['.png', '.jpg', '.gif', '.bmp', '.tiff']
-model_exts = ['.md3', '.blend']
+model_exts = ['.md3', '.blend', '.cal', '.caf', '.mesh', '.xml', '.wrl',
+        '.skeleton', '.max', '.3ds']
 sound_exts = ['.wav', '.mp3', '.ogg']
 text_exts = ['.txt', '.html']
 
