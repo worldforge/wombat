@@ -44,6 +44,9 @@ class File:
     def getPath(self):
         return self.path
 
+    def getFullPath(self):
+        return self.fullpath
+
     def getName(self):
         return basename(self.path)
 
