@@ -35,7 +35,6 @@ wombat/public/favicon.ico
 wombat/public/stylesheet.css
 wombat/public/images/admin.gif
 wombat/public/images/archive.gif
-wombat/public/images/audio.gif
 wombat/public/images/code.gif
 wombat/public/images/compressed.gif
 wombat/public/images/dir.gif
@@ -45,15 +44,17 @@ wombat/public/images/flash.gif
 wombat/public/images/headerlogo.png
 wombat/public/images/image.gif
 wombat/public/images/logo.gif
+wombat/public/images/model.gif
 wombat/public/images/na.gif
+wombat/public/images/other.gif
 wombat/public/images/para.gif
 wombat/public/images/pdf.gif
 wombat/public/images/ps.gif
 wombat/public/images/quicktime.gif
 wombat/public/images/realplayer.gif
+wombat/public/images/sound.gif
 wombat/public/images/stream.gif
 wombat/public/images/text.gif
-wombat/public/images/unknown.gif
 wombat/public/images/video.gif
 wombat/public/images/winmedia.gif
 wombat/public/images/word.gif
