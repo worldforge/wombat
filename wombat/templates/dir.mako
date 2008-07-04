@@ -14,8 +14,4 @@
 <%include file="dirlist.mako"/>
 <%include file="filelist.mako"/>
 
-        <div class="options">
-            Do we need a "Download zipped dir" option?
-        </div>
-
     </div>
