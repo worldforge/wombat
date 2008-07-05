@@ -83,3 +83,25 @@ class RootDir(Dir):
 
     def getLatestAdditions(self, num=5):
         return self.latest[:num]
+
+    def search(self, needle):
+        dirs = []
+        files = []
+
+        if needle == "":
+            return ([], [])
+
+        for key in self.all_dirs.keys():
+            d_name = os.path.basename(key)
+            if d_name.find(needle) < 0:
+                continue
+            dirs.append(self.all_dirs[key])
+
+        for key in self.all_files.keys():
+            f_name = os.path.basename(key)
+            if f_name.find(needle) < 0:
+                continue
+            files.append(self.all_files[key])
+
+        return (dirs, files)
+
