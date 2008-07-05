@@ -10,6 +10,5 @@
 
 <%include file="details.mako"/>
 <%include file="pagination.mako"/>
-<%include file="comments.mako"/>
 
     </div>
