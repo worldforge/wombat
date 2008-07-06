@@ -1,9 +1,12 @@
-            <div class="heading">Navigation</div>
+                        <div id="breadcrumb">
+                            <h3>Navigation</h3>
 %if c.obj != '' and c.root_dir != '':
+                            <ul>
 %for entry in h.getBreadcrumbTrail(c.root_dir, c.obj):
-            <a href="/dir?path=${entry.getPath()}"><img src="/images/dir.gif"
-            border="0" alt="*" />&nbsp;${entry.getName()}</a>
+                                <li><a href="/dir?path=${entry.getPath()}"><img src="/images/dir.gif" border="0" alt="*" />&nbsp;${entry.getName()}</a>
 %endfor
+                            </ul>
 %else:
-            Directory data not loaded.
+        Directory data not loaded.
 %endif
+                        </div>
