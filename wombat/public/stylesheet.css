@@ -244,6 +244,25 @@ td.cell
     border-right:1px solid #ddd;
 }
 
+table.details
+{
+    padding:5px;
+    border:1px solid #ccc;
+    width:100%;
+    background-color:#eee;
+    margin-top:10px;
+    -moz-border-radius: 12px 12px 12px 12px;
+}
+table.details td
+{
+    border-bottom:1px solid #ddd;
+}
+
+#pagination
+{
+    margin-top:10px;
+}
+
 #footer
 {
     display:block;
