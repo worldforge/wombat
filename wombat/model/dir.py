@@ -13,6 +13,7 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
+from os.path import basename
 from pylons import config
 
 class Dir:
@@ -59,7 +60,7 @@ class Dir:
         return self.path
 
     def getName(self):
-        return self.path
+        return basename(self.path)
 
     def getType(self):
         return "dir"
