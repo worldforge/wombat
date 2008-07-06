@@ -10,6 +10,8 @@ import string
 
 def getBreadcrumbTrail(rootdir, obj):
     trail = []
+    if rootdir == obj:
+        return []
     dir_str = os.path.dirname(obj.getPath())
     dir_trail = string.split(dir_str, os.path.sep)
     entry_str = ""

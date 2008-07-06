@@ -114,10 +114,11 @@ a{ color:#369; }
 #search
 {
     display:block;
-    float:left;
+    float:right;
     clear:none;
     overflow:hidden;
     width:25%;
+    margin-top:5px;
 }
 #search form
 {
