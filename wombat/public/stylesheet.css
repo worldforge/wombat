@@ -98,7 +98,18 @@ a{ color:#369; }
     float:left;
     clear:none;
     overflow:hidden;
-    width:70%;
+    width:20%;
+}
+#logo-text
+{
+    display:block;
+    float:left;
+    clear:none;
+    overflow:hidden;
+    width:50%;
+    padding-top:65px;
+    font-size: 32px;
+    text-decoration:bold;
 }
 #search
 {

@@ -14,6 +14,7 @@
                     <img src="/images/headerlogo.png" border="0" title="${c.name}" />
                 </a>
             </div>
+            <div id="logo-text">${c.name}</div>
             <div id="search">
 <%include file="searchbox.mako"/>
 	    </div>
