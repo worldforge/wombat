@@ -37,12 +37,12 @@ def createScanLock():
 
 def createTextPreview(file):
     open_tags = """\
-            <div id="media">
-                <pre>
+                        <div id="media">
+                            <pre>
 """
     close_tags = """\
-                </pre>
-            </div>
+                            </pre>
+                        </div>
 """
     f = open(file.getFullPath(), 'r')
     try:
@@ -57,26 +57,26 @@ def createTextPreview(file):
 
 def createImagePreview(file):
     open_tags = """\
-            <div id="media">
+                        <div id="media">
 """
     content = """\
-                <img src="/media/%s" alt="%s" />
+                            <img src="/media/%s" alt="%s" />
 """ % (file.getPath(), file.getName())
     close_tags = """\
-            </div>
+                        </div>
 """
     return (open_tags, content, close_tags)
 
 def createSoundPreview(file):
     open_tags = """\
-            <div id="media">
+                        <div id="media">
 """
     content = """\
-                <embed src="/media/%s" controller="true" autoplay="false"
-                autostart="false" height="40" width="250" loop="false" />
+                            <embed src="/media/%s" controller="true" autoplay="false"
+                            autostart="false" height="40" width="250" loop="false" />
 """ % file.getPath()
     close_tags = """\
-            </div>
+                        </div>
 """
     return (open_tags, content, close_tags)
 
