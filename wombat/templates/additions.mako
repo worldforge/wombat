@@ -4,7 +4,9 @@
 %for file in c.root_dir.getLatestAdditions():
 	            <li>
                         <a href="/file?path=${file.getPath()}">
-                            <img src="/images/${file.getType()}.gif" alt="*" border="0"/>
+                            <img src="/images/${file.getType()}.gif"
+                            	 alt="${file.getName()}"
+                            	 border="0" />
                             ${file.getName()}
                         </a>
                     </li>
