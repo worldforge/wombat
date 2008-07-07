@@ -12,7 +12,8 @@
 %if c.obj.getType() == "dir" and c.obj.getSubdirs():
 %for dir in c.obj.getSubdirs():
                     <li class="tab">
-                        <a href="/dir?path=${dir.getPath()}">
+                        <a href="/dir?path=${dir.getPath()}"
+                           title="Browse To: ${dir.getPath()}">
                             <img src="/images/dir.gif" border="0" alt="->" />
                             ${dir.getName()}
                         </a>
