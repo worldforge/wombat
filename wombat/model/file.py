@@ -25,6 +25,10 @@ text_exts = ['.txt', '.html']
 
 class File:
     def __init__(self, path):
+        """__init__(path) -> File object
+        Called while the RootDir object is scanning the repository.
+        All time-consuming operations should happen here.
+        """
         self.path = path
         self.fullpath = join(config['app_conf']['media_dir'], path)
         self.size = getsize(self.fullpath)
@@ -43,18 +47,35 @@ class File:
             self.type = "other"
 
     def getPath(self):
+        """getPath() -> string
+        Get the file's path within the media dir
+        """
         return self.path
 
     def getFullPath(self):
+        """getFullPath() -> string
+        Get the file's file full file system path
+        """
         return self.fullpath
 
     def getName(self):
+        """getName() -> string
+        Get the file's name
+        """
         return basename(self.path)
 
     def getSize(self):
+        """getSize() -> int
+        Get the file's size in bytes
+        """
         return self.size
 
     def getPrettySize(self):
+        """getPrettySize() -> string
+        Get the file's size as nice string with the byte count converted to the
+        correct magnitude.
+        i.e. 1024 byte will be 1 kB.
+        """
         size = self.size
         i = 0
         size_name = ['B', 'kB', 'MB', 'GB']
@@ -64,11 +85,20 @@ class File:
         return "%.2f %s" % (size, size_name[i])
 
     def getType(self):
+        """getType() -> string
+        Get the file's type
+        """
         return self.type
 
     def getMtime(self):
+        """getMtime() -> int
+        Get the file's last modification time in secons from epoch.
+        """
         return self.mtime
 
     def getLastChanged(self):
+        """getLastChanged() -> string
+        Get a pretty string-formatted version of the file's mtime
+        """
         return strftime("%Y-%m-%d %H:%M:%S %Z", gmtime(self.mtime))
 

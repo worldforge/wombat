@@ -22,6 +22,11 @@ from wombat.model.file import File
 from wombat.model.dir import Dir
 
 def cmpLatest(file_x, file_y):
+    """cmpLatest(x,y) -> -1,0,1
+    Compare mtime of x with the mtime of y.
+    If x is newer than y, return -1.
+    Used as argument for sort, this will make the latest files go first.
+    """
     x = file_x.getMtime()
     y = file_y.getMtime()
     if x > y:
@@ -32,7 +37,15 @@ def cmpLatest(file_x, file_y):
         return 1
 
 class RootDir(Dir):
+    """RootDir
+    A special Dir object living at the root of the media repository.
+    It takes care of keeping lists of all files and directories, scanning the
+    repository, etc.
+    """
     def __init__(self, path):
+        """__init__(path) -> RootDir object
+        Initialize the root dir
+        """
         Dir.__init__(self, path)
         self.path = ""
         self.all_dirs = {}
@@ -41,21 +54,43 @@ class RootDir(Dir):
         self.latest = []
 
     def getName(self):
+        """getName() -> string
+        Always returns "/"
+        """
         return "/"
 
     def addDir(self, dir):
+        """addDir(dir) -> None
+        Add a Dir object to the list of all directories
+        """
         self.all_dirs[dir.path] = dir
 
     def getDir(self, path):
+        """getDir(path) -> Dir
+        Get the directory at "path"
+        Raises KeyError if the directory doesn't exist.
+        """
         return self.all_dirs[path]
 
     def addGlobalFile(self, file):
+        """addGlobalFile(file) -> None
+        Add a File object to the list of all files
+        """
         self.all_files[file.path] = file
 
     def getFile(self, path):
+        """getFile(path) -> File
+        Get the file at "path"
+        Raises KeyError if the file doesn't exist.
+        """
         return self.all_files[path]
 
     def scan(self):
+        """scan() -> None
+        Scan the media repository for files and directories, adding them to the
+        respective data structures as we go.
+        This can take a long time
+        """
         # First, add self to the all_dirs dict
         self.addDir(self)
 
@@ -82,9 +117,16 @@ class RootDir(Dir):
         self.latest.sort(cmp=cmpLatest)
 
     def getLatestAdditions(self, num=5):
+        """getLatestAdditions(num=5) -> [files]
+        Get the num files most recently added/changed.
+        """
         return self.latest[:num]
 
     def search(self, needle):
+        """search(needle) -> ([dirs],[files])
+        Search for files and directories containing the string in needle in
+        their name. Returns a tuple with a list of directory and file matches.
+        """
         dirs = []
         files = []
 
