@@ -52,6 +52,7 @@ class RootDir(Dir):
         self.all_files = {}
         self.scanpath = path
         self.latest = []
+        self.setSvnInfo()
 
     def getName(self):
         """getName() -> string

@@ -16,6 +16,7 @@
 from os.path import getsize, join, basename, getmtime, splitext
 from time import strftime, gmtime
 from pylons import config
+from wombat.lib.svnwrap import getSvnInfo, SvnInfo
 
 image_exts = ['.png', '.jpg', '.gif', '.bmp', '.tiff']
 model_exts = ['.md3', '.blend', '.cal', '.caf', '.mesh', '.xml', '.wrl',
@@ -33,18 +34,8 @@ class File:
         self.fullpath = join(config['app_conf']['media_dir'], path)
         self.size = getsize(self.fullpath)
         self.mtime = getmtime(self.fullpath)
-        name,ext = splitext(basename(path))
-        ext = ext.lower()
-        if ext in image_exts:
-            self.type = "image"
-        elif ext in model_exts:
-            self.type = "model"
-        elif ext in sound_exts:
-            self.type = "sound"
-        elif ext in text_exts:
-            self.type = "text"
-        else:
-            self.type = "other"
+        self.setType()
+        self.setSvnInfo()
 
     def getPath(self):
         """getPath() -> string
@@ -84,6 +75,23 @@ class File:
             i += 1
         return "%.2f %s" % (size, size_name[i])
 
+    def setType(self):
+        """setType() -> None
+        Set the file's type
+        """
+        name,ext = splitext(basename(self.path))
+        ext = ext.lower()
+        if ext in image_exts:
+            self.type = "image"
+        elif ext in model_exts:
+            self.type = "model"
+        elif ext in sound_exts:
+            self.type = "sound"
+        elif ext in text_exts:
+            self.type = "text"
+        else:
+            self.type = "other"
+
     def getType(self):
         """getType() -> string
         Get the file's type
@@ -96,9 +104,33 @@ class File:
         """
         return self.mtime
 
-    def getLastChanged(self):
-        """getLastChanged() -> string
-        Get a pretty string-formatted version of the file's mtime
+    def setSvnInfo(self):
+        """setSvnInfo() -> None
+        Set the Svn Info from the repository
         """
-        return strftime("%Y-%m-%d %H:%M:%S %Z", gmtime(self.mtime))
+        self.svn_info = getSvnInfo(self.path)
+
+    def getRev(self):
+        """getRev() -> int
+        Get the svn revision of the file
+        """
+        return self.svn_info.getRev()
+
+    def getLastChangedAuthor(self):
+        """getLastChangedAuthor(self) -> string
+        Get the author of the last change
+        """
+        return self.svn_info.getLastChangeAuthor()
+
+    def getLastChangedRev(self):
+        """getLastChangedRev(self) -> string
+        Get the revision of the last change.
+        """
+        return self.svn_info.getLastChangeRev()
+
+    def getLastChangedDate(self):
+        """getLastChanged() -> string
+        Get the date/time of the last change
+        """
+        return self.svn_info.getLastChangeDate()
 

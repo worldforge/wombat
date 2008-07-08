@@ -4,5 +4,7 @@
 
         <div class="description">In some later version, this page will show some
         status information.<br />
-        For now, just proceed to the <a href="/dir">directory view</a> page.</div>
+        For now, just proceed to the <a href="/dir">directory view</a> page.<br />
+        Rev: ${h.getSvnRev()}
+        </div>
     </div>

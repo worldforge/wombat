@@ -15,6 +15,7 @@
 
 from os.path import basename, join
 from pylons import config
+from wombat.lib.svnwrap import getSvnInfo, SvnInfo
 
 class Dir:
     """A Directory abstraction
@@ -30,6 +31,7 @@ class Dir:
         self.files = []
         self.path = path
         self.full_path = join(config['app_conf']['media_dir'], path)
+        self.setSvnInfo()
 
     def addSubdir(self, dir):
         """addSubdir(dir) -> None
@@ -104,4 +106,34 @@ class Dir:
         Get the object's type
         """
         return "dir"
+
+    def setSvnInfo(self):
+        """setSvnInfo() -> None
+        Set the Svn Info from the repository
+        """
+        self.svn_info = getSvnInfo(self.path)
+
+    def getRev(self):
+        """getRev() -> int
+        Get the svn revision of the file
+        """
+        return self.svn_info.getRev()
+
+    def getLastChangedAuthor(self):
+        """getLastChangedAuthor(self) -> string
+        Get the author of the last change
+        """
+        return self.svn_info.getLastChangeAuthor()
+
+    def getLastChangedRev(self):
+        """getLastChangedRev(self) -> string
+        Get the revision of the last change.
+        """
+        return self.svn_info.getLastChangeRev()
+
+    def getLastChangedDate(self):
+        """getLastChanged() -> string
+        Get the date/time of the last change
+        """
+        return self.svn_info.getLastChangeDate()
 
