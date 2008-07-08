@@ -135,6 +135,7 @@ def runSvnInfo(path):
     os.chdir(config['app_conf']['media_dir'])
     if path == "":
         path = "."
+    path = path.replace("(", "\(").replace(")","\)")
     cli_in, cli_out = os.popen2("svn info %s 2> /dev/null" % path)
     cli_in.close()
     try:
