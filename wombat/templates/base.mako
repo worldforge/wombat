@@ -6,6 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="/stylesheet.css" />
     <link rel="shortcut icon" href="/favicon.ico" />
+    <script language="javascript" type="text/javascript" src="/scriptaculous/prototype.js" />
+    <script language="javascript" type="text/javascript" src="/scriptaculous/scriptaculous.js?load=effects" />
 </head>
 <body>
     <div id="root">
