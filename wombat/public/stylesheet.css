@@ -138,7 +138,7 @@ a{ color:#369; }
     padding:2px;
     margin:0px 0px 5px 0px;
 }
-#breadcrumb
+div.breadcrumb
 {
     display:block;
     clear:both;
@@ -146,20 +146,21 @@ a{ color:#369; }
     border:1px solid #333;
     background-color:#9bd;
     padding:2px;
+    margin-bottom:5px;
 }
-#breadcrumb ul
+div.breadcrumb ul
 {
     padding:0px;
     margin:0px;
 }
-#breadcrumb ul li
+div.breadcrumb ul li
 {
     display:block;
     float:left;
     clear:none;
     padding-right:8px;
 }
-#breadcrumb ul li a
+div.breadcrumb ul li a
 {
     display:block;
     clear:both;
@@ -177,14 +178,12 @@ a{ color:#369; }
 div.group
 {
     color:#222;
-    background-color:#8ac;
+    background-color:#9bd;
     border:1px solid #333;
-    padding-left:5px;
-    padding-right:5px;
+	padding:0px 5px 5px 5px;
     -moz-border-radius: 8px 8px 0 0;
     font-weight:bold;
-    border-bottom:0px;
-    margin-top:10px;
+    margin-bottom:5px;
 }
 table.group
 {

@@ -1,4 +1,4 @@
-                        <div id="breadcrumb">
+                        <div class="breadcrumb block">
                             <h3>Navigation</h3>
 %if c.obj != '' and c.root_dir != '':
                             <ul>
