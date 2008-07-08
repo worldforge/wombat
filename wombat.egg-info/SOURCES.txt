@@ -27,6 +27,7 @@ wombat/lib/__init__.py
 wombat/lib/app_globals.py
 wombat/lib/base.py
 wombat/lib/helpers.py
+wombat/lib/svnwrap.py
 wombat/model/__init__.py
 wombat/model/dir.py
 wombat/model/file.py
@@ -64,6 +65,7 @@ wombat/templates/base.mako
 wombat/templates/comments.mako
 wombat/templates/details.mako
 wombat/templates/dir.mako
+wombat/templates/dirdetails.mako
 wombat/templates/dirlist.mako
 wombat/templates/file.mako
 wombat/templates/filelist.mako
