@@ -7,8 +7,6 @@ from webhelpers import *
 from pylons import config
 import os.path
 import string
-import svn.core
-import svn.client
 from svnwrap import *
 
 def getBreadcrumbTrail(rootdir, obj):
