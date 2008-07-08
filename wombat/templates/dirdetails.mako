@@ -1,4 +1,20 @@
-					<h2>Revision Details</h2>
+					<script language="javascript" type="text/javascript">
+					<![CDATA[
+						var revDetailsDelimited = false;
+						function revealDetails()
+						{
+							if(revDetailsDelimited)
+							{
+								Effect.Fade('revDetails');
+							}
+							else
+							{
+								Effect.Appear('revDetails');
+							}
+						}
+					]]>
+					</script>
+					<h2 onclick="revealDetails();">Revision Details</h2>
 					<div id="revDetails"
 						 style="display:none;">
 						<table class="details">
