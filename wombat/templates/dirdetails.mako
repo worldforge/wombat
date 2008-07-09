@@ -4,17 +4,17 @@
 						{
 							if(revDetailsDisclosed)
 							{
-								Effect.Fade('revDetails');
+								Effect.SwitchOff('revDetails');
 								revDetailsDisclosed = false;
 							}
 							else
 							{
-								Effect.Appear('revDetails');
+								Effect.BlindDown('revDetails');
 								revDetailsDisclosed = true;
 							}
 						}
 					</script>
-					<div class="breadcrumb block">
+					<div class="breadcrumb block group action">
 						<h3 onclick="revealDetails();">Revision Details</h3>
 						<div id="revDetails"
 							 style="display:none;">

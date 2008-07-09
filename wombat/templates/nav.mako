@@ -1,5 +1,5 @@
-                        <div class="breadcrumb block">
-                            <h3>Navigation</h3>
+                        <div class="breadcrumb block group">
+                            <h3 class="lfloat">Navigation&nbsp;</h3>
 %if c.obj != '' and c.root_dir != '':
                             <ul>
 %for entry in h.getBreadcrumbTrail(c.root_dir, c.obj):
