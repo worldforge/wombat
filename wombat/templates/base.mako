@@ -6,8 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="/stylesheet.css" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <script language="javascript" type="text/javascript" src="/scriptaculous/prototype.js" />
-    <script language="javascript" type="text/javascript" src="/scriptaculous/scriptaculous.js?load=effects" />
+    <script language="javascript" type="text/javascript" src="/scriptaculous/prototype.js"></script>
+    <script language="javascript" type="text/javascript" src="/scriptaculous/scriptaculous.js?load=effects"></script>
+    <script language="javascript" type="text/javascript" src="/wombat.js"></script>
 </head>
 <body>
     <div id="root">
@@ -40,6 +41,9 @@ ${next.body()}
         ${g.version}</a> &copy; 2008  Kai Blin<br />
         The copyrights of the contents of this page are held by the respective creators.
     </div>
+    <script language="javascript" type="text/javascript">
+    init();
+    </script>
 </body>
 </html>
 

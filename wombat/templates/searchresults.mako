@@ -1,8 +1,6 @@
 <%inherit file="base.mako"/>
-    <div id="main">
-        <div class="subtitle">Found ${len(c.found_dirs)} directories and
-        ${len(c.found_files)} files containing "${c.needle | h}".</div>
-        <br />
+    <div class="clr group">
+    	<em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle | h}".</em>
 %if c.found_dirs != []:
         <table border="0" class="dirs">
           <tr>
@@ -25,7 +23,7 @@
         </table>
 %endif
 %if c.found_files != []:
-        <div class="group">Found Files</div>
+		<h3>Found Files</h3>
         <table border="0" class="group">
           <tr>
           <% i = 0 %>

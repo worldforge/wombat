@@ -1,19 +1,3 @@
-					<script language="javascript" type="text/javascript">
-						var revDetailsDisclosed = false;
-						function revealDetails()
-						{
-							if(revDetailsDisclosed)
-							{
-								Effect.SwitchOff('revDetails');
-								revDetailsDisclosed = false;
-							}
-							else
-							{
-								Effect.BlindDown('revDetails');
-								revDetailsDisclosed = true;
-							}
-						}
-					</script>
 					<div class="breadcrumb block group action">
 						<h3 onclick="revealDetails();">Revision Details</h3>
 						<div id="revDetails"
@@ -26,7 +10,7 @@
 							  <tr>
 								<td>Last changed by:</td>
 								<td>${c.obj.getLastChangedAuthor()}</td>
-							  </td>
+							  </tr>
 							  <tr>
 								<td>Last changed at revision:</td>
 								<td>${c.obj.getLastChangedRev()}</td>
