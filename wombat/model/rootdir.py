@@ -88,18 +88,21 @@ class RootDir(Dir):
         """
         self.all_dirs[dir.path] = dir
 
-    def addAuthor(self, file):
+    def addAuthor(self, obj):
         """File -> None
         Add file to the files by author dict
         """
-        author = file.getAuthor()
+        author = obj.getAuthor()
         if not self.authors.has_key(author):
-            self.authors[author] = []
+            self.authors[author] = ([], [])
 
-        self.authors[author].append(file)
+        if obj.type == "dir":
+            self.authors[author][0].append(obj)
+        else:
+            self.authors[author][1].append(obj)
 
     def getAuthorDict(self):
-        """None -> {string:File}
+        """None -> {string:([Dir], [File])}
         Get a dict containing authors and the files they changed.
         """
         return self.authors
@@ -168,8 +171,8 @@ class RootDir(Dir):
         """
         return self.latest[:num]
 
-    def search(self, needle):
-        """search(needle) -> ([dirs],[files])
+    def search(self, needle, author):
+        """search(needle, author) -> ([dirs],[files])
         Search for files and directories containing the string in needle in
         their name. Returns a tuple with a list of directory and file matches.
         """
@@ -177,19 +180,24 @@ class RootDir(Dir):
         files = []
 
         if needle == "":
-            return ([], [])
+            author_dict = self.getAuthorDict()
+            if author == "" or not author_dict.has_key(author):
+                return ([], [])
+            return author_dict[author]
 
         for key in self.all_dirs.keys():
             d_name = os.path.basename(key)
             if d_name.find(needle) < 0:
                 continue
-            dirs.append(self.all_dirs[key])
+            if author == "" or author == self.all_dirs[key].getAuthor():
+                dirs.append(self.all_dirs[key])
 
         for key in self.all_files.keys():
             f_name = os.path.basename(key)
             if f_name.find(needle) < 0:
                 continue
-            files.append(self.all_files[key])
+            if author == "" or author == self.all_files[key].getAuthor():
+                files.append(self.all_files[key])
 
         return (dirs, files)
 

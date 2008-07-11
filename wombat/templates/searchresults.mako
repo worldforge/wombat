@@ -1,7 +1,7 @@
 <%inherit file="base.mako"/>
     <div class="clr group">
     	<em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle | h}".</em>
-		
+
 <%
 	authors = c.root_dir.getAuthors()
 	selectedAuthor = "None loaded";

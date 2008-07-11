@@ -46,7 +46,12 @@ class ShowController(BaseController):
         except KeyError:
             c.needle = ""
 
-        c.found_dirs, c.found_files = c.root_dir.search(c.needle)
-		
+        try:
+            c.match_author = request.params['author']
+        except KeyError:
+            c.match_author = ""
+
+        c.found_dirs, c.found_files = c.root_dir.search(c.needle, c.match_author)
+
         return render('/searchresults.mako')
 
