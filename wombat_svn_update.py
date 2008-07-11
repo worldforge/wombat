@@ -73,8 +73,7 @@ def create_rev_file(path, meta_dir):
     stringlist = []
     if path == "":
         path = "."
-    path = path.replace("(", "\(").replace(")","\)")
-    cli_in, cli_out = os.popen2("svn info %s 2> /dev/null" % path)
+    cli_in, cli_out = os.popen2("svn info '%s' 2> /dev/null" % path)
     cli_in.close()
     try:
         stringlist = cli_out.readlines()
