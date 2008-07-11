@@ -1,5 +1,12 @@
 var revDetailsDisclosed = false;
 
+/**
+  * wombat::init
+  * Prepares the default state of the document including any settings stored in cookies.
+  * @return	[nil]
+  * @author	Thomas Ingham
+  * @created	7/11/08 5:22 PM
+ */
 function init()
 {
 	var openByDefault = uncook('openRevDetails');
@@ -9,6 +16,13 @@ function init()
 	}
 }
 
+/**
+  * wombat::revealDetails
+  * Toggles the display of the details panel for revisions.
+  * @return	[nil]
+  * @author	Thomas Ingham
+  * @created	7/11/08 5:23 PM
+ */
 function revealDetails(speed)
 {
 	if( typeof(speed) == "undefined" ){ speed = 0.25; }
@@ -26,6 +40,28 @@ function revealDetails(speed)
 	}
 }
 
+/**
+  * wombat::filterSearchResults
+  * Extends the default search parameters by adding additional arguments.
+  * Redirects the browser to the search results page.
+  * @return	[nil]
+  * @author		Thomas Ingham
+  * @created	7/11/08 5:24 PM
+ */
+function filterSearchResults( query, author, dateIn, dateOut )
+{
+	//build new querystring and redirect the user.
+	var url = "/show/search?match="+query+"&author="+author[author.selectedIndex].value+"&dateIn="+dateIn+"&dateOut="+dateOut;
+	document.location.href = url;
+}
+
+/**
+  * wombat::cook
+  * Pickles a key value pair into the document cookie.
+  * @return	[nil]
+  * @author	Thomas Ingham
+  * @created	7/11/08 5:23 PM
+ */
 function cook(name,value,days)
 {
 	if(days)
@@ -38,6 +74,13 @@ function cook(name,value,days)
 	document.cookie = name+"="+value+expires+"; path=/";
 }
 
+/**
+  * wombat::uncook
+  * Retrieves a value from the document cookie by name.
+  * @return	[String] The value for the matching key.
+  * @author	Thomas Ingham
+  * @created	7/11/08 5:24 PM
+ */
 function uncook(name)
 {
 	var nameIs = name + "=";

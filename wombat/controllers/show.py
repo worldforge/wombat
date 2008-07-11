@@ -47,6 +47,6 @@ class ShowController(BaseController):
             c.needle = ""
 
         c.found_dirs, c.found_files = c.root_dir.search(c.needle)
-
+		
         return render('/searchresults.mako')
 
