@@ -8,20 +8,20 @@
                         <td>${c.obj.getPrettySize()}</td>
                       </tr>
                       <tr>
-                        <td>Revision:</td>
-                        <td>${c.obj.getRev()}</td>
-                      </tr>
-                      <tr>
                         <td>Last changed by:</td>
-                        <td>${c.obj.getLastChangedAuthor()}</td>
+                        <td>${c.obj.getAuthor()}</td>
                       </td>
                       <tr>
                         <td>Last changed at revision:</td>
-                        <td>${c.obj.getLastChangedRev()}</td>
+                        <td>${c.obj.getRevision()}</td>
                       </tr>
                       <tr>
                         <td>Last changed on:</td>
-                        <td>${c.obj.getLastChangedDate()}</td>
+                        <td>${c.obj.getDate()}</td>
+                      </tr>
+                      <tr>
+                        <td>Last log message:</td>
+                        <td>${c.obj.getLog()}</td>
                       </tr>
                       <tr>
                         <td>Direct Link:</td>

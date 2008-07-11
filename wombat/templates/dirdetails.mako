@@ -4,21 +4,21 @@
 							 style="display:none;">
 							<table class="details">
 							  <tr>
-								<td width="25%">Revision:</td>
-								<td>${c.obj.getRev()}</td>
-							  </tr>
-							  <tr>
 								<td>Last changed by:</td>
-								<td>${c.obj.getLastChangedAuthor()}</td>
+								<td>${c.obj.getAuthor()}</td>
 							  </tr>
 							  <tr>
 								<td>Last changed at revision:</td>
-								<td>${c.obj.getLastChangedRev()}</td>
+								<td>${c.obj.getRevision()}</td>
 							  </tr>
 							  <tr>
 								<td>Last changed on:</td>
-								<td>${c.obj.getLastChangedDate()}</td>
+								<td>${c.obj.getDate()}</td>
 							  </tr>
+                                                          <tr>
+                                                                <td>Last log message:</td>
+                                                                <td>${c.obj.getLog()}</td>
+                                                          </tr>
 							</table>
 						</div>
 					</div>

@@ -2,6 +2,7 @@ MANIFEST.in
 README.txt
 setup.cfg
 setup.py
+wombat_svn_update.py
 wombat/__init__.py
 wombat/websetup.py
 wombat.egg-info/PKG-INFO
@@ -27,6 +28,8 @@ wombat/lib/__init__.py
 wombat/lib/app_globals.py
 wombat/lib/base.py
 wombat/lib/helpers.py
+wombat/lib/node_info.py
+wombat/lib/rev_info.py
 wombat/lib/svnwrap.py
 wombat/model/__init__.py
 wombat/model/dir.py

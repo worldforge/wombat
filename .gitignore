@@ -1,7 +1,9 @@
 build/*
 data/*
 dist/*
+media
 media/*
+media.old/*
 *.pyc
 *.swp
 production.ini

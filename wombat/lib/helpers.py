@@ -7,7 +7,7 @@ from webhelpers import *
 from pylons import config
 import os.path
 import string
-from svnwrap import *
+from rev_info import Info
 
 def getBreadcrumbTrail(rootdir, obj):
     trail = []
@@ -94,6 +94,14 @@ def createPreview(file):
     else:
         return ("", "Sorry, no preview for %s files available" % type, "")
 
-def getSvnRev():
-    info = getSvnInfo("")
-    return info.getRev()
+def getInfo(path):
+    """string -> Info
+    Get an Info object for path
+    """
+    info = Info()
+    info.load(path)
+    return info
+
+def getRevision():
+    info = getInfo("")
+    return info.getRevision()

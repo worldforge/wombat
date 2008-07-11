@@ -15,7 +15,7 @@
 
 from os.path import basename, join
 from pylons import config
-from wombat.lib.svnwrap import getSvnInfo, SvnInfo
+from wombat.lib.helpers import getInfo
 
 class Dir:
     """A Directory abstraction
@@ -31,7 +31,7 @@ class Dir:
         self.files = []
         self.path = path
         self.full_path = join(config['app_conf']['media_dir'], path)
-        self.setSvnInfo()
+        self.setInfo()
 
     def addSubdir(self, dir):
         """addSubdir(dir) -> None
@@ -107,33 +107,32 @@ class Dir:
         """
         return "dir"
 
-    def setSvnInfo(self):
+    def setInfo(self):
         """setSvnInfo() -> None
-        Set the Svn Info from the repository
+        Initialize the NodeInfo for the directory
         """
-        self.svn_info = getSvnInfo(self.path)
+        self.info = getInfo(self.path)
 
-    def getRev(self):
-        """getRev() -> int
-        Get the svn revision of the file
+    def getRevision(self):
+        """None -> string
+        Get the revision of the file
         """
-        return self.svn_info.getRev()
+        return self.info.getRevision()
 
-    def getLastChangedAuthor(self):
-        """getLastChangedAuthor(self) -> string
+    def getAuthor(self):
+        """None -> string
         Get the author of the last change
         """
-        return self.svn_info.getLastChangeAuthor()
+        return self.info.getAuthor()
 
-    def getLastChangedRev(self):
-        """getLastChangedRev(self) -> string
-        Get the revision of the last change.
-        """
-        return self.svn_info.getLastChangeRev()
-
-    def getLastChangedDate(self):
-        """getLastChanged() -> string
+    def getDate(self):
+        """None -> string
         Get the date/time of the last change
         """
-        return self.svn_info.getLastChangeDate()
+        return self.info.getDate()
 
+    def getLog(self):
+        """None -> string
+        Get the log message of the last change
+        """
+        return self.info.getLog()

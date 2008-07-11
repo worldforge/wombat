@@ -16,7 +16,7 @@
 from os.path import getsize, join, basename, getmtime, splitext
 from time import strftime, gmtime
 from pylons import config
-from wombat.lib.svnwrap import getSvnInfo, SvnInfo
+from wombat.lib.helpers import getInfo
 
 image_exts = ['.png', '.jpg', '.gif', '.bmp', '.tiff']
 model_exts = ['.md3', '.blend', '.cal', '.caf', '.mesh', '.xml', '.wrl',
@@ -35,7 +35,7 @@ class File:
         self.size = getsize(self.fullpath)
         self.mtime = getmtime(self.fullpath)
         self.setType()
-        self.setSvnInfo()
+        self.setInfo()
 
     def getPath(self):
         """getPath() -> string
@@ -104,33 +104,32 @@ class File:
         """
         return self.mtime
 
-    def setSvnInfo(self):
+    def setInfo(self):
         """setSvnInfo() -> None
-        Set the Svn Info from the repository
+        Set the NodeInfo for the file
         """
-        self.svn_info = getSvnInfo(self.path)
+        self.info = getInfo(self.path)
 
-    def getRev(self):
-        """getRev() -> int
-        Get the svn revision of the file
+    def getRevision(self):
+        """None -> string
+        Get the revision of the file
         """
-        return self.svn_info.getRev()
+        return self.info.getRevision()
 
-    def getLastChangedAuthor(self):
-        """getLastChangedAuthor(self) -> string
+    def getAuthor(self):
+        """None -> string
         Get the author of the last change
         """
-        return self.svn_info.getLastChangeAuthor()
+        return self.info.getAuthor()
 
-    def getLastChangedRev(self):
-        """getLastChangedRev(self) -> string
-        Get the revision of the last change.
-        """
-        return self.svn_info.getLastChangeRev()
-
-    def getLastChangedDate(self):
-        """getLastChanged() -> string
+    def getDate(self):
+        """None -> string
         Get the date/time of the last change
         """
-        return self.svn_info.getLastChangeDate()
+        return self.info.getDate()
 
+    def getLog(self):
+        """None -> string
+        Get the log message of the last change
+        """
+        return self.info.getLog()
