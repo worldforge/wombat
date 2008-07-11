@@ -21,6 +21,27 @@ from pylons import config
 from wombat.model.file import File
 from wombat.model.dir import Dir
 
+def cmpRev(file_x, file_y):
+    """cmpRev(x,y) -> -1,0,1
+    Compare the revision of x with the revision of y.
+    If x is newer than y, return -1.
+    Used as argument for sort, this will make the most recently updated files go first.
+    """
+    try:
+        x = int(file_x.getRevision())
+    except ValueError:
+        x = 0
+    try:
+        y = int(file_y.getRevision())
+    except ValueError:
+        y = 0
+    if x > y:
+        return -1
+    elif x == y:
+        return 0
+    else:
+        return 1
+
 def cmpLatest(file_x, file_y):
     """cmpLatest(x,y) -> -1,0,1
     Compare mtime of x with the mtime of y.
@@ -52,6 +73,7 @@ class RootDir(Dir):
         self.all_files = {}
         self.scanpath = path
         self.latest = []
+        self.authors = {}
         self.setInfo()
 
     def getName(self):
@@ -65,6 +87,28 @@ class RootDir(Dir):
         Add a Dir object to the list of all directories
         """
         self.all_dirs[dir.path] = dir
+
+    def addAuthor(self, file):
+        """File -> None
+        Add file to the files by author dict
+        """
+        author = file.getAuthor()
+        if not self.authors.has_key(author):
+            self.authors[author] = []
+
+        self.authors[author].append(file)
+
+    def getAuthorDict(self):
+        """None -> {string:File}
+        Get a dict containing authors and the files they changed.
+        """
+        return self.authors
+
+    def getAuthors(self):
+        """None -> [string]
+        Get a list of authors.
+        """
+        return self.authors.keys()
 
     def getDir(self, path):
         """getDir(path) -> Dir
@@ -103,6 +147,7 @@ class RootDir(Dir):
                 file_obj = File(file_path)
                 parent_dir.addFile(file_obj)
                 self.addGlobalFile(file_obj)
+                self.addAuthor(file_obj)
 
             #TODO: This should probably be done nicer.
             if ".svn" in dirs:
@@ -115,7 +160,7 @@ class RootDir(Dir):
                 self.addDir(dir_obj)
 
         self.latest = self.all_files.values()
-        self.latest.sort(cmp=cmpLatest)
+        self.latest.sort(cmp=cmpRev)
 
     def getLatestAdditions(self, num=5):
         """getLatestAdditions(num=5) -> [files]
