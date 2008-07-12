@@ -176,28 +176,39 @@ class RootDir(Dir):
         Search for files and directories containing the string in needle in
         their name. Returns a tuple with a list of directory and file matches.
         """
-        dirs = []
-        files = []
+        author_dirs = []
+        author_files = []
 
-        if needle == "":
-            author_dict = self.getAuthorDict()
-            if author == "" or not author_dict.has_key(author):
-                return ([], [])
-            return author_dict[author]
+        author_dict = self.getAuthorDict()
+        if not author == "" and author_dict.has_key(author):
+            author_dirs, author_files = author_dict[author]
+        else:
+            author_dirs = self.all_dirs.values()
+            author_files = self.all_files.values()
+
+        author_dirs = set(author_dirs)
+        author_files = set(author_files)
+
+        needle_dirs = []
+        needle_files = []
 
         for key in self.all_dirs.keys():
             d_name = os.path.basename(key)
             if d_name.find(needle) < 0:
                 continue
-            if author == "" or author == self.all_dirs[key].getAuthor():
-                dirs.append(self.all_dirs[key])
+            needle_dirs.append(self.all_dirs[key])
 
         for key in self.all_files.keys():
             f_name = os.path.basename(key)
             if f_name.find(needle) < 0:
                 continue
-            if author == "" or author == self.all_files[key].getAuthor():
-                files.append(self.all_files[key])
+            needle_files.append(self.all_files[key])
+
+        needle_dirs = set(needle_dirs)
+        needle_files = set(needle_files)
+
+        dirs = author_dirs.intersection(needle_dirs)
+        files = author_files.intersection(needle_files)
 
         return (dirs, files)
 
