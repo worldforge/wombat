@@ -75,6 +75,7 @@ class RootDir(Dir):
         self.scanpath = path
         self.latest = []
         self.authors = {}
+        self.extensions = {}
         self.setInfo()
 
     def getName(self):
@@ -121,6 +122,13 @@ class RootDir(Dir):
         """
         return self.all_dirs[path]
 
+    def addExtension(self, file):
+        ext = file.getExtension()
+        if not self.extensions.has_key(ext):
+            self.extensions[ext] = []
+
+        self.extensions[ext].append(file)
+
     def addGlobalFile(self, file):
         """addGlobalFile(file) -> None
         Add a File object to the list of all files
@@ -152,6 +160,7 @@ class RootDir(Dir):
                 parent_dir.addFile(file_obj)
                 self.addGlobalFile(file_obj)
                 self.addAuthor(file_obj)
+                self.addExtension(file_obj)
 
             #TODO: This should probably be done nicer.
             if ".svn" in dirs:
@@ -172,17 +181,22 @@ class RootDir(Dir):
         """
         return self.latest[:num]
 
-    def search(self, needle, author, date_in=0, date_out=0):
-        """search(needle, author) -> ([dirs],[files])
+    def search(self, needle, author, extension, date_in=0, date_out=0):
+        """search(needle, author, extension, date_in, date_out) -> ([dirs],[files])
         Search for files and directories containing the string in needle in
-        their name. Returns a tuple with a list of directory and file matches.
+        their name, were last edited by author, have the extension or were
+        changed between date_in and date out.
+        Returns a tuple with a list of directory and file matches.
         """
         author_dirs = []
         author_files = []
 
         author_dict = self.getAuthorDict()
-        if not author == "" and author_dict.has_key(author):
-            author_dirs, author_files = author_dict[author]
+        if not author == "":
+            try:
+                author_dirs, author_files = author_dict[author]
+            except KeyError:
+                author_dirs, author_files = ([], [])
         else:
             author_dirs = self.all_dirs.values()
             author_files = self.all_files.values()
@@ -239,8 +253,20 @@ class RootDir(Dir):
 
         date_files = set(date_files[begin:end])
 
+        if not extension == "":
+            try:
+                ext_files = self.extensions[extension]
+            except KeyError:
+                ext_files = []
+        else:
+            ext_files = self.all_files.values()
+
+        ext_files = set(ext_files)
+
         dirs = author_dirs.intersection(needle_dirs).intersection(date_dirs)
-        files = author_files.intersection(needle_files).intersection(date_files)
+        files = author_files.intersection(needle_files)
+        files = files.intersection(date_files)
+        files = files.intersection(ext_files)
 
         return (dirs, files)
 

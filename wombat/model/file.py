@@ -17,12 +17,17 @@ from os.path import getsize, join, basename, splitext
 from time import strptime, mktime
 from pylons import config
 from wombat.lib.helpers import getInfo
+import mimetypes
 
-image_exts = ['.png', '.jpg', '.gif', '.bmp', '.tiff']
-model_exts = ['.md3', '.blend', '.cal', '.caf', '.mesh', '.xml', '.wrl',
-        '.skeleton', '.max', '.3ds']
-sound_exts = ['.wav', '.mp3', '.ogg']
-text_exts = ['.txt', '.html']
+image_exts = ['.bmp', '.gif', '.ico', '.jpg', '.png', '.psd', '.psp',
+        '.pspimage', '.psptube', '.raw', '.svg', '.tga', '.tif', '.xcf']
+model_exts = ['.3dc', '.3ds', '.blend', '.caf', '.cal', '.crf', '.csf', '.dxf',
+        '.emdl', '.lwo', '.max', '.md3', '.mdl', '.mesh', '.mtl', '.ndo',
+        '.obj', '.skeleton', '.srf', '.texture', '.wings', '.wrl', '.xaf',
+        '.xmf', '.xrl', '.xsf', '.xsi']
+sound_exts = ['.mid', '.mp3', '.ogg', '.wav']
+text_exts = ['.asm', '.bat', '.cfg', '.cg', '.conf', '.glsl', '.hlsl',
+        '.htm', '.html', '.ini', '.material', '.txt', '.url', '.xml']
 
 class File:
     def __init__(self, path):
@@ -80,6 +85,7 @@ class File:
         """
         name,ext = splitext(basename(self.path))
         ext = ext.lower()
+        self.extension = ext
         if ext in image_exts:
             self.type = "image"
         elif ext in model_exts:
@@ -96,6 +102,12 @@ class File:
         Get the file's type
         """
         return self.type
+
+    def getExtension(self):
+        """None -> string
+        Get the file's extension
+        """
+        return self.extension
 
     def getMtime(self):
         """getMtime() -> int

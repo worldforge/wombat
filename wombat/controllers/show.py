@@ -51,10 +51,17 @@ class ShowController(BaseController):
         except KeyError:
             c.match_author = ""
 
+
+        try:
+            c.match_ext = request.params['extension']
+        except KeyError:
+            c.match_ext = ""
+
         # We need some helper to handle date range parameter to secs since epoch
         # conversion.
 
-        c.found_dirs, c.found_files = c.root_dir.search(c.needle, c.match_author)
+        c.found_dirs, c.found_files = c.root_dir.search(c.needle,
+                c.match_author, c.match_ext)
 
         return render('/searchresults.mako')
 
