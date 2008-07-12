@@ -181,7 +181,7 @@ div.group
     color:#222;
     background-color:#9bd;
     border:1px solid #333;
-	padding:5px 5px 5px 5px;
+    padding:5px 5px 5px 5px;
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     margin-bottom:5px;
@@ -209,7 +209,8 @@ table.details
     width:100%;
     background-color:#eee;
     margin-top:10px;
-    -moz-border-radius: 12px 12px 12px 12px;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
 }
 table.details td
 {

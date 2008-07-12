@@ -30,6 +30,7 @@ class NodeInfo:
         self.date = ""
         self.creation_date = ""
         self.log = ""
+        self.repo_url = ""
 
     def load(self, path):
         """string -> None
@@ -60,4 +61,10 @@ class NodeInfo:
         Get the log message for the last change of this node
         """
         return self.log
+
+    def getRepoUrl(self):
+        """None -> string
+        Get the URL to the repository being displayed
+        """
+        return self.repo_url
 

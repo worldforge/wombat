@@ -55,8 +55,11 @@ class Info(NodeInfo):
                     self.date = data
                 elif key == "Log":
                     self.log = data
+                elif key == "URL":
+                    self.repo_url = data
         else:
             self.author = "None loaded"
             self.revision = "None loaded"
             self.date = "None loaded"
             self.log = "File '%s' missing" % file
+            self.repo_url = "None loaded"

@@ -181,3 +181,9 @@ class Dir:
         Get the log message of the last change
         """
         return self.info.getLog()
+
+    def getRepoUrl(self):
+        """None -> string
+        Get the URL of the parent repository
+        """
+        return self.info.getRepoUrl()

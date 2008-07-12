@@ -113,3 +113,10 @@ def getInfo(path):
 def getRevision():
     info = getInfo("")
     return info.getRevision()
+
+def getMostPopularFile(root_dir):
+    """RootDir -> string
+    Get the most popular file ext and count from the root dir and format to a
+    nice string output
+    """
+    return "%s (%s)" % root_dir.getMostPopularFile()

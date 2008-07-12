@@ -75,6 +75,8 @@ class RootDir(Dir):
         self.scanpath = path
         self.latest = []
         self.authors = {}
+        self.scantime = 0
+        self.total_size = 0
         self.extensions = {}
         self.setInfo()
 
@@ -142,6 +144,68 @@ class RootDir(Dir):
         """
         return self.all_files[path]
 
+    def getScanTime(self):
+        """getScanTime() -> float
+        Get time of the last scan() call in seconds since epoch.
+        """
+        return self.scantime
+
+    def getPrettyScanTime(self):
+        """getPrettyScanTime() -> string
+        Get time of the last scan() as a string.
+        """
+        time_str= time.strftime("%Y-%m-%d %H:%M:%S",
+                time.gmtime(self.scantime))
+        return "%s +0000" % time_str
+
+    def getPrettySize(self, size):
+        """getPrettySize(int) -> string
+        Takes a size in bytes and returns a pretty size string
+        """
+        i = 0
+        size_name = ['B', 'kB', 'MB', 'GB']
+        while size > 1024 and i < len(size_name):
+            size /= 1024.0
+            i += 1
+        return "%.2f %s" % (size, size_name[i])
+
+    def getTotalSize(self):
+        """getTotalSize() -> int
+        Get the total size of the repository in bytes.
+        """
+        return self.total_size
+
+    def getPrettyTotalSize(self):
+        """getPrettyTotalSize() -> string
+        Get the total size of the repository as a pretty string
+        """
+        return self.getPrettySize(self.total_size)
+
+    def getAvgFileSize(self):
+        """getAvgFileSize() -> int
+        Get the average file size in bytes
+        """
+        return round(float(self.total_size) / len(self.all_files.keys()))
+
+    def getPrettyAvgFileSize(self):
+        """getPrettyAvgFileSize() -> string
+        Get the average file size as a pretty string
+        """
+        return self.getPrettySize(self.getAvgFileSize())
+
+    def getMostPopularFile(self):
+        """getMostPopularFileExt() -> (string, int)
+        Get the most popular extension string and count
+        """
+        max = 0
+        max_key = ""
+        for key in self.extensions.keys():
+            if len(self.extensions[key]) > max:
+                max = len(self.extensions[key])
+                max_key = key
+
+        return (max_key, max)
+
     def scan(self):
         """scan() -> None
         Scan the media repository for files and directories, adding them to the
@@ -161,6 +225,7 @@ class RootDir(Dir):
                 self.addGlobalFile(file_obj)
                 self.addAuthor(file_obj)
                 self.addExtension(file_obj)
+                self.total_size += file_obj.getSize()
 
             #TODO: This should probably be done nicer.
             if ".svn" in dirs:
@@ -174,6 +239,7 @@ class RootDir(Dir):
 
         self.latest = self.all_files.values()
         self.latest.sort(cmp=cmpRev)
+        self.scantime = time.time()
 
     def getLatestAdditions(self, num=5):
         """getLatestAdditions(num=5) -> [files]
