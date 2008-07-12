@@ -34,3 +34,32 @@ class FileController(BaseController):
             c.obj = c.root_dir
             return render('/dir.mako')
         return render('/file.mako')
+
+    def panel(self):
+        c.name = config['app_conf']['site_name']
+        c.title = 'File view'
+        if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
+            c.messages.append("Failed to locate cached data.")
+            return ""
+
+        f = open(config.get('app_conf').get('rootdir_cache'), 'r')
+        try:
+            c.root_dir = cPickle.load(f)
+        finally:
+            f.close()
+        try:
+            req_path = request.params['path']
+        except KeyError:
+            req_path = ""
+        c.req_path = req_path
+        try:
+            c.obj = c.root_dir.getFile(req_path)
+        except KeyError:
+            c.messages.append("Failed to locate file '%s'." % req_path)
+            c.obj = c.root_dir
+            return ""
+
+        panel = render('/details.mako')
+        panel += render('/pagination.mako')
+        return panel
+
