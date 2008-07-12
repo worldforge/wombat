@@ -9,6 +9,8 @@ import os.path
 import string
 from rev_info import Info
 
+img_inline = ['.gif', '.jpg', '.png']
+
 def getBreadcrumbTrail(rootdir, obj):
     trail = []
     if rootdir == obj:
@@ -62,9 +64,15 @@ def createImagePreview(file):
     open_tags = """\
                         <div id="media">
 """
-    content = """\
+    ext = file.getExtension()
+    if ext in img_inline:
+        content = """\
                             <img src="/media/%s" alt="%s" />
 """ % (file.getPath(), file.getName())
+    else:
+        content = """\
+                            Sorry, but %s files cannot be rendered inline.
+""" % ext
     close_tags = """\
                         </div>
 """
