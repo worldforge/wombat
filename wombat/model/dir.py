@@ -16,6 +16,7 @@
 from os.path import basename, join
 from pylons import config
 from wombat.lib.helpers import getInfo
+from time import strptime, mktime
 
 class Dir:
     """A Directory abstraction
@@ -113,6 +114,44 @@ class Dir:
         """
         self.info = getInfo(self.path)
 
+        format = "%Y-%m-%d %H:%M:%S"
+        time_list = self.info.date.split(" ")
+        if len(time_list) < 2:
+            self.mtime = 0
+            return
+
+        time_str = " ".join(time_list[:2])
+        try:
+            time_ofs = time_list[2]
+        except IndexError:
+            time_ofs = "+0000"
+
+        try:
+            tm = strptime(time_str, format)
+        except ValueError:
+            self.mtime = 0
+            return
+        self.mtime = mktime(tm)
+
+        if len(time_ofs) < 5:
+            time_ofs = "+0000"
+
+        try:
+            ofs_hours = int(time_ofs[1:3])
+        except ValueError:
+            ofs_hours = 0
+        try:
+            ofs_minutes = int(time_ofs[3:5])
+        except ValueError:
+            ofs_minutes = 0
+
+        ofs_seconds = ((ofs_hours * 60) + ofs_minutes) * 60
+
+        if time_ofs[0] == "+":
+            self.mtime += ofs_seconds
+        else:
+            self.mtime -= ofs_seconds
+
     def getRevision(self):
         """None -> string
         Get the revision of the file
@@ -130,6 +169,12 @@ class Dir:
         Get the date/time of the last change
         """
         return self.info.getDate()
+
+    def getMtime(self):
+        """None -> float
+        Get the seconds since epoch of the last change
+        """
+        return self.mtime
 
     def getLog(self):
         """None -> string

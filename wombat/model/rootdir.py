@@ -15,6 +15,7 @@
 
 import os
 import os.path
+import time
 
 from pylons import config
 
@@ -171,7 +172,7 @@ class RootDir(Dir):
         """
         return self.latest[:num]
 
-    def search(self, needle, author):
+    def search(self, needle, author, date_in=0, date_out=0):
         """search(needle, author) -> ([dirs],[files])
         Search for files and directories containing the string in needle in
         their name. Returns a tuple with a list of directory and file matches.
@@ -207,8 +208,39 @@ class RootDir(Dir):
         needle_dirs = set(needle_dirs)
         needle_files = set(needle_files)
 
-        dirs = author_dirs.intersection(needle_dirs)
-        files = author_files.intersection(needle_files)
+        date_dirs = self.all_dirs.values()
+        date_files = self.all_files.values()
+
+        date_dirs.sort(cmp=cmpLatest)
+        date_files.sort(cmp=cmpLatest)
+
+        if date_out == 0:
+            date_out = time.time()
+
+        begin = 0
+        end = len(date_dirs) -1
+
+        while begin < len(date_dirs) and date_dirs[begin].getMtime() > date_out:
+            begin += 1
+
+        while end > 0 and date_dirs[end].getMtime() < date_in:
+            end -= 1
+
+        date_dirs = set(date_dirs[begin:end])
+
+        begin = 0
+        end = len(date_files) -1
+
+        while begin < len(date_files) and date_files[begin].getMtime() > date_out:
+            begin += 1
+
+        while end > 0 and date_files[end].getMtime() < date_in:
+            end -= 1
+
+        date_files = set(date_files[begin:end])
+
+        dirs = author_dirs.intersection(needle_dirs).intersection(date_dirs)
+        files = author_files.intersection(needle_files).intersection(date_files)
 
         return (dirs, files)
 
