@@ -258,12 +258,17 @@ class RootDir(Dir):
                 ext_files = self.extensions[extension]
             except KeyError:
                 ext_files = []
+            ext_dirs = []
         else:
+            ext_dirs = self.all_dirs.values()
             ext_files = self.all_files.values()
 
+        ext_dirs = set(ext_dirs)
         ext_files = set(ext_files)
 
-        dirs = author_dirs.intersection(needle_dirs).intersection(date_dirs)
+        dirs = author_dirs.intersection(needle_dirs)
+        dirs = dirs.intersection(date_dirs)
+        dirs = dirs.intersection(ext_dirs)
         files = author_files.intersection(needle_files)
         files = files.intersection(date_files)
         files = files.intersection(ext_files)
