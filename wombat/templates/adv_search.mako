@@ -4,11 +4,15 @@
 	<label>Author</label>
 	<select name="author">
 		<option value=></option>
-		${h.rails.options_for_select(c.root_dir.getAuthors())} 
+		%if c.root_dir != "":
+			${h.rails.options_for_select(c.root_dir.getAuthors())} 
+		%endif
 	</select>
 	<label>Extension</label>
 	<select name="extension">
-		${h.rails.options_for_select(c.root_dir.getExtensions())}
+		%if c.root_dir != "":
+			${h.rails.options_for_select(c.root_dir.getExtensions())}
+		%endif
 	</select>
 	<input type="submit" name="submit" value="Advanced Search"/>
 </form>
