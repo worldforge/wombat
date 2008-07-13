@@ -32,6 +32,7 @@ Possible options are:
 --help        -h       Display this help text.
 --debug       -d       Print debugging output.
 --version     -V       Print the version.
+--update      -u       Update the media repo.
 """ % name
 
 def update(media_dir):
@@ -103,9 +104,10 @@ def generate_rev_data(media_dir, meta_dir):
 
 def main(argv):
     global debug
+    run_update = False
     try:
-        opts, args = getopt.getopt(argv[1:], "hdV",
-            ["help","debug","version"])
+        opts, args = getopt.getopt(argv[1:], "hdVu",
+            ["help","debug","version", "update"])
     except getopt.GetoptError:
         usage(argv[0])
         sys.exit(2)
@@ -119,6 +121,8 @@ def main(argv):
         elif opt in ("-V", "--version"):
             print "%s %s" % (argv[0], VERSION)
             sys.exit(0)
+        elif opt in ("-u", "--update"):
+            run_update = True
 
     if len(args) < 2:
         usage(argv[0])
@@ -130,8 +134,10 @@ def main(argv):
     if debug:
         print "Media repository: %s" % media_dir
         print "Metadata directory: %s" % meta_dir
+        print "Run update: %s" % run_update
 
-    update(media_dir)
+    if run_update:
+        update(media_dir)
     clear_meta_dir(meta_dir)
     generate_rev_data(media_dir, meta_dir)
 
