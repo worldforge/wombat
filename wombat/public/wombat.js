@@ -1,4 +1,5 @@
 var revDetailsDisclosed = false;
+var revAdvancedSearchDisclosed = false;
 
 /**
   * wombat::init
@@ -37,6 +38,29 @@ function revealDetails(speed)
 		Effect.BlindDown('revDetails',{duration:speed});
 		revDetailsDisclosed = true;
 		cook('openRevDetails','YES',10);
+	}
+}
+
+/**
+  * wombat::revealAdvancedSearch
+  * Toggles the display of the advanced search options
+  * (copied from revealDetails with no cookies)
+  * @return	[nil]
+  * @author	Richard Flaherty
+  * @created	7/13/08 2:27 PM
+ */
+function revealAdvancedSearch(speed)
+{
+	if( typeof(speed) == "undefined" ){ speed = 0.25; }
+	if(revAdvancedSearchDisclosed)
+	{
+		Effect.SwitchOff('revAdvancedSearch',{duration:speed});
+		revAdvancedSearchDisclosed = false;
+	}
+	else
+	{
+		Effect.BlindDown('revAdvancedSearch',{duration:speed});
+		revAdvancedSearchDisclosed = true;
 	}
 }
 

@@ -117,6 +117,12 @@ class RootDir(Dir):
         """
         return self.authors.keys()
 
+    def getExtensions(self):
+	"""None -> [string]
+	Get a list of extensions.
+	"""
+	return self.extensions.keys()
+
     def getDir(self, path):
         """getDir(path) -> Dir
         Get the directory at "path"

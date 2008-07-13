@@ -23,7 +23,13 @@
             <div id="logo-text">${c.name}</div>
             <div id="search">
 <%include file="searchbox.mako"/>
+                <div class="action">
+                    <h3 onclick="revealAdvancedSearch();">Advanced Search Options</h3>
+                </div>
 	    </div>
+            <div id="revAdvancedSearch" style="display:none;">
+<%include file="adv_search.mako"/>
+            </div>
         </div>
         <div id="middle">
             <div id="menu">
