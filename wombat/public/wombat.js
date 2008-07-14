@@ -2,6 +2,7 @@ var revDetailsDisclosed = false;
 var revAdvancedSearchDisclosed = false;
 var picker_date_in;
 var picker_date_out;
+var itemDetails = new Array();
 
 /**
   * wombat::init
@@ -24,8 +25,42 @@ function init()
 	}
 	picker_date_in = new Control.DatePicker('date_in', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
 	picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
+	
+	initItemDetails();
 }
 
+/**
+  * wombat::initItemDetails
+  * Setups up item details in the page to disclose.
+  * @return	[nil]
+  * @author		Thomas Ingham
+  * @created	7/14/08 6:33 PM
+ */
+function initItemDetails( )
+{
+	var elements = document.getElementsByTagName("div");
+	for(var i=0;i<elements.length;i++)
+	{
+		var item = elements[i];
+		if( item.getAttribute("type") != null )
+		{
+			if( item.getAttribute("type").indexOf("itemDetail") > -1 )
+			{
+				item.onclick = function(evt)
+				{
+					
+				}
+				var newItem = {
+								domNode: item,
+								fetchPath: item.getAttribute("rel")
+								visible: false
+							  };
+				itemDetails[itemDetails.length] = {domNode: item};
+			}
+		}
+	}
+	
+}
 /**
   * wombat::revealDetails
   * Toggles the display of the details panel for revisions.
