@@ -22,8 +22,8 @@ function init()
 	{
 		revealAdvancedSearch(0.1);
 	}
-	picker_date_in = new Control.DatePicker('date_in', {icon: '/datepicker/calendar.png'});
-	picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png'});
+	picker_date_in = new Control.DatePicker('date_in', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
+	picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
 }
 
 /**
