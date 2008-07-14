@@ -55,7 +55,9 @@ def make_app(global_conf, full_stack=True, **app_conf):
     javascripts_app = StaticJavascripts()
     static_app = StaticURLParser(config['pylons.paths']['static_files'])
     media_app = StaticURLParser(config['app_conf']['media_dir'])
+    thumb_app = StaticURLParser(config['app_conf']['thumb_dir'])
     urlmap = URLMap()
     urlmap['/media'] = media_app
+    urlmap['/thumb'] = thumb_app
     app = Cascade([urlmap, static_app, javascripts_app, app])
     return app

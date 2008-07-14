@@ -8,6 +8,7 @@ from pylons import config
 import os.path
 import string
 from rev_info import Info
+from preview import getThumbnail
 
 img_inline = ['.gif', '.jpg', '.png']
 
@@ -67,8 +68,8 @@ def createImagePreview(file):
     ext = file.getExtension()
     if ext in img_inline:
         content = """\
-                            <img src="/media/%s" alt="%s" />
-""" % (file.getPath(), file.getName())
+                            <img src="%s" alt="%s" />
+""" % (getThumbnail(file), file.getName())
     else:
         content = """\
                             Sorry, but %s files cannot be rendered inline.
