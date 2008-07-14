@@ -128,6 +128,7 @@ def dateStrToEpoch(date_str):
     Convert an iso date string to seconds since epoch
     Returns seconds since epoch or 0 on error.
     """
+
     try:
         tm = strptime(date_str, "%Y-%m-%d")
         time = mktime(tm)
@@ -139,3 +140,8 @@ def dateStrToEpoch(date_str):
             time = 0
     return time
 
+def sorted_options_for_select(container, selected=None):
+    """container(list, tuple, dict), string -> string
+    Sorted version of the builtin function
+    """
+    return rails.options_for_select(sorted(container), selected)

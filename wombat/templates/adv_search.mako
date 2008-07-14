@@ -14,7 +14,7 @@
 				<optgroup label="Authors">
 					<option value="">Anyone</option>
 				%if c.root_dir != "":
-					${h.rails.options_for_select(c.root_dir.getAuthors(), c.match_author)} 
+					${h.sorted_options_for_select(c.root_dir.getAuthors(), c.match_author)} 
 				%endif
 				</optgroup>
 			</select>
@@ -25,7 +25,7 @@
 				<optgroup label="Media Types">
 					<option value="">Any Type</option>
 				%if c.root_dir != "":
-					${h.rails.options_for_select(c.root_dir.getExtensions(), c.match_ext)}
+					${h.sorted_options_for_select(c.root_dir.getExtensions(), c.match_ext)}
 				%endif
 				</optgroup>
 			</select>
