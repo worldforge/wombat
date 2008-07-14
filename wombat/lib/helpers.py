@@ -7,6 +7,7 @@ from webhelpers import *
 from pylons import config
 import os.path
 import string
+from time import strptime, mktime
 from rev_info import Info
 from preview import getThumbnail
 
@@ -121,3 +122,20 @@ def getMostPopularFile(root_dir):
     nice string output
     """
     return "%s (%s)" % root_dir.getMostPopularFile()
+
+def dateStrToEpoch(date_str):
+    """dateStrToEpoch(string) -> float
+    Convert an iso date string to seconds since epoch
+    Returns seconds since epoch or 0 on error.
+    """
+    try:
+        tm = strptime(date_str, "%Y-%m-%d")
+        time = mktime(tm)
+    except ValueError:
+        try:
+            tm = strptime(date_str, "%Y-%m-%d %H:%M:%S")
+            time = mktime(tm)
+        except ValueError:
+            time = 0
+    return time
+

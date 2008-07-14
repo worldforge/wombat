@@ -68,11 +68,11 @@ class ShowController(BaseController):
         except KeyError:
             c.match_date_out = ""
 
-        # We need some helper to handle date range parameter to secs since epoch
-        # conversion.
+        date_in = h.dateStrToEpoch(c.match_date_in)
+        date_out = h.dateStrToEpoch(c.match_date_out)
 
         c.found_dirs, c.found_files = c.root_dir.search(c.needle,
-                c.match_author, c.match_ext, c.match_date_in, c.match_date_out )
+                c.match_author, c.match_ext, date_in, date_out )
 
         return render('/searchresults.mako')
 
