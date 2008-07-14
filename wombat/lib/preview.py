@@ -49,7 +49,7 @@ def createThumbnail(file):
 
     temp_image = Image.open(file.getFullPath())
     temp_image.thumbnail(size, Image.ANTIALIAS)
-    thumb_image = Image.new("RGB", size, (255,255,255))
+    thumb_image = Image.new("RGBA", size, (255,255,255,0))
     offset = (int((size[0] - temp_image.size[0]) / 2.0) ,
             int((size[1] - temp_image.size[1]) / 2.0))
     thumb_image.paste(temp_image, offset)

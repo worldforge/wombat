@@ -68,8 +68,8 @@ def createImagePreview(file):
     ext = file.getExtension()
     if ext in img_inline:
         content = """\
-                            <img src="%s" alt="%s" />
-""" % (getThumbnail(file), file.getName())
+                            <a href="/media/%s"><img src="%s" alt="%s" border="0"/></a>
+""" % (file.getPath(), getThumbnail(file), file.getName())
     else:
         content = """\
                             Sorry, but %s files cannot be rendered inline.
