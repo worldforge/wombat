@@ -1,6 +1,7 @@
 import logging
 import os.path
 import cPickle
+import time
 
 from wombat.lib.base import *
 from pylons import config
@@ -57,11 +58,21 @@ class ShowController(BaseController):
         except KeyError:
             c.match_ext = ""
 
+        try:
+            c.match_date_in = request.params['date_in']
+        except KeyError:
+            c.match_date_in = ""
+
+        try:
+            c.match_date_out = request.params['date_out']
+        except KeyError:
+            c.match_date_out = ""
+
         # We need some helper to handle date range parameter to secs since epoch
         # conversion.
 
         c.found_dirs, c.found_files = c.root_dir.search(c.needle,
-                c.match_author, c.match_ext)
+                c.match_author, c.match_ext, c.match_date_in, c.match_date_out )
 
         return render('/searchresults.mako')
 

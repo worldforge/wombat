@@ -10,7 +10,7 @@
                       <tr>
                         <td>Last changed by:</td>
                         <td>${c.obj.getAuthor()}</td>
-                      </td>
+                      </tr>
                       <tr>
                         <td>Last changed at revision:</td>
                         <td>${c.obj.getRevision()}</td>

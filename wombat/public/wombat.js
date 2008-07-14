@@ -1,5 +1,7 @@
 var revDetailsDisclosed = false;
 var revAdvancedSearchDisclosed = false;
+var picker_date_in;
+var picker_date_out;
 
 /**
   * wombat::init
@@ -20,6 +22,8 @@ function init()
 	{
 		revealAdvancedSearch(0.1);
 	}
+	picker_date_in = new Control.DatePicker('date_in', {icon: '/datepicker/calendar.png'});
+	picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png'});
 }
 
 /**
@@ -56,34 +60,43 @@ function revealDetails(speed)
  */
 function revealAdvancedSearch(speed)
 {
+	var label = $("advSearchActivator");
 	if( typeof(speed) == "undefined" ){ speed = 0.25; }
 	if(revAdvancedSearchDisclosed)
 	{
 		Effect.SwitchOff('revAdvancedSearch',{duration:speed});
+		Effect.Appear('searchbox',{duration:0.1});
 		revAdvancedSearchDisclosed = false;
+		label.innerText = "Advanced Search Options";
 		cook('openSearch','NO',10);
 	}
 	else
 	{
 		Effect.BlindDown('revAdvancedSearch',{duration:speed});
+		Effect.Fade('searchbox',{duration:0.1});
 		revAdvancedSearchDisclosed = true;
+		label.innerText = "<< Simple Search";
 		cook('openSearch','YES',10);
 	}
 }
 
 /**
-  * wombat::filterSearchResults
-  * Extends the default search parameters by adding additional arguments.
-  * Redirects the browser to the search results page.
-  * @return	[nil]
-  * @author		Thomas Ingham
-  * @created	7/11/08 5:24 PM
+ * wombat::clearAdvancedSearchForm
+ * @return	[nil]
+ * @author	tingham@coalmarch.com
+ * @created	7/13/08 11:34 PM
  */
-function filterSearchResults( query, author, dateIn, dateOut )
+function clearAdvancedSearchForm()
 {
-	//build new querystring and redirect the user.
-	var url = "/show/search?match="+query+"&author="+author[author.selectedIndex].value+"&dateIn="+dateIn+"&dateOut="+dateOut;
-	document.location.href = url;
+	var form = $('advancedSearch');
+	if( typeof(form) != "undefined" )
+	{
+		form.match.value = '';
+		form.author.selectedIndex = 0;
+		form.extension.selectedIndex = 0;
+		form.date_in.value = '';
+		form.date_out.value = '';
+	}
 }
 
 /**

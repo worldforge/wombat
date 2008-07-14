@@ -245,3 +245,53 @@ table.details td
 .lfloat{ display:block;float:left;clear:none;overflow:hidden; }
 .rfloat{ display:block;float:right;clear:none;overflow:hidden; }
 .clr{ display:block;clear:both;overflow:hidden; }
+
+/* -- Form element wrappers --*/
+div.f /* form field */
+{
+	display:block;
+	float:left;
+	clear:none;
+	overflow:hidden;
+}
+div.f input, div.f select, div.f textarea
+{
+	width:145px;
+	font-size:11px;
+	line-height:18px;
+}
+div.f label
+{
+	display:block;
+	float:left;
+	clear:none;
+	overflow:hidden;
+	width:55px;
+	padding:0px 2px 0px 0px;
+	text-align:right;
+	font-size:12px;
+	line-height:22px;
+}
+div.r /* form row */
+{
+	display:block;
+	clear:both;
+	overflow:hidden;
+}
+form#advancedSearch
+{
+	display:block;
+	clear:both;
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+}
+div#searchboxWrapper
+{
+	display:block;
+	clear:both;
+	overflow:hidden;
+	margin:0px;
+	padding:0px;
+	height:22px;
+}

@@ -5,9 +5,13 @@
     <title>${c.name} - ${c.title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="/stylesheet.css" />
+    <link rel="stylesheet" type="text/css" href="/datepicker/datepicker.css" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <script language="javascript" type="text/javascript" src="/scriptaculous/prototype.js"></script>
     <script language="javascript" type="text/javascript" src="/scriptaculous/scriptaculous.js?load=effects"></script>
+    <script language="javascript" type="text/javascript" src="/datepicker/prototype-base-extensions.js"></script>
+    <script language="javascript" type="text/javascript" src="/datepicker/prototype-date-extensions.js"></script>
+    <script language="javascript" type="text/javascript" src="/datepicker/datepicker.js"></script>
     <script language="javascript" type="text/javascript" src="/wombat.js"></script>
 </head>
 <body>
@@ -24,12 +28,12 @@
             <div id="search">
 <%include file="searchbox.mako"/>
                 <div class="action">
-                    <h3 onclick="revealAdvancedSearch();">Advanced Search Options</h3>
+                    <h3 onclick="revealAdvancedSearch();" id="advSearchActivator">Advanced Search Options</h3>
                 </div>
-	    </div>
-            <div id="revAdvancedSearch" style="display:none;">
+	            <div id="revAdvancedSearch" style="display:none;">
 <%include file="adv_search.mako"/>
-            </div>
+    	        </div>
+	    </div>
         </div>
         <div id="middle">
             <div id="menu">

@@ -1,4 +1,6 @@
-                <form method="get" action="/show/search">
+                <div id="searchboxWrapper">
+                <form id="searchbox" method="get" action="/show/search">
                     <input type="text" size="19" name="match" value="${c.needle}" />
                     <input type="submit" name="submit" value="Search" />
                 </form>
+                </div>
