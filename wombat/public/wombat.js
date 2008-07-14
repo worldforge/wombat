@@ -15,6 +15,11 @@ function init()
 	{
 		revealDetails(0.1);
 	}
+	openByDefault = uncook('openSearch');
+	if( openByDefault == "YES" )
+	{
+		revealAdvancedSearch(0.1);
+	}
 }
 
 /**
@@ -56,11 +61,13 @@ function revealAdvancedSearch(speed)
 	{
 		Effect.SwitchOff('revAdvancedSearch',{duration:speed});
 		revAdvancedSearchDisclosed = false;
+		cook('openSearch','NO',10);
 	}
 	else
 	{
 		Effect.BlindDown('revAdvancedSearch',{duration:speed});
 		revAdvancedSearchDisclosed = true;
+		cook('openSearch','YES',10);
 	}
 }
 
