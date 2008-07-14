@@ -15,7 +15,6 @@
 
 import md5
 import os.path
-from PIL import Image
 from pylons import config
 
 size = (128, 128)
@@ -47,15 +46,20 @@ def createThumbnail(file):
         except OSError:
             return None
 
-    temp_image = Image.open(file.getFullPath())
-    temp_image.thumbnail(size, Image.ANTIALIAS)
-    thumb_image = Image.new("RGBA", size, (255,255,255,0))
-    offset = (int((size[0] - temp_image.size[0]) / 2.0) ,
-            int((size[1] - temp_image.size[1]) / 2.0))
-    thumb_image.paste(temp_image, offset)
-    thumb_image.save(thumb_path)
+    try:
+        from PIL import Image
 
-    return thumb_name
+        temp_image = Image.open(file.getFullPath())
+        temp_image.thumbnail(size, Image.ANTIALIAS)
+        thumb_image = Image.new("RGBA", size, (255,255,255,0))
+        offset = (int((size[0] - temp_image.size[0]) / 2.0) ,
+                int((size[1] - temp_image.size[1]) / 2.0))
+        thumb_image.paste(temp_image, offset)
+        thumb_image.save(thumb_path)
+
+        return thumb_name
+    except ImportError:
+        return None
 
 def getThumbnail(file):
     """getThumbnail(File) -> string
