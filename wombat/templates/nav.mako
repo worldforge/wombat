@@ -3,9 +3,9 @@
 %if c.obj != '' and c.root_dir != '':
                             <ul>
 %for entry in h.getBreadcrumbTrail(c.root_dir, c.obj):
-                                <li><a href="/dir?path=${entry.getPath()}"><img src="/images/dir.gif" border="0" alt="*" />&nbsp;${entry.getName()}</a>
+                                <li><a href="/dir?path=${entry.getPath()}"><img src="/images/dir.gif" border="0" alt="*" />&nbsp;${entry.getName(12)}</a>
 %endfor
-                                <li><img src="/images/${c.obj.getType()}.gif" border="0" alt="*" />&nbsp;${c.obj.getName()}</li>
+                                <li><img src="/images/${c.obj.getType()}.gif" border="0" alt="*" />&nbsp;${c.obj.getName(12)}</li>
                             </ul>
 %else:
         Directory data not loaded.

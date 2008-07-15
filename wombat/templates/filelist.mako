@@ -13,9 +13,8 @@
 								   type="text/itemDetail"
 								   rel="/file/panel?path=${file.getPath()}">
 									<img class="fade" src="/images/${file.getType()}.gif" border="0" alt="" />
-									${file.getName()}<span class="meta">(${file.getPrettySize()})</span>
+									${file.getName(12)}<span class="meta">(${file.getPrettySize()})</span>
 								</a>
-								<!-- <small>(${file.getPrettySize()})</small> -->
 								<div id="exp_item_${g}_${i}" class="exp"></div>
 							</div>
 <% i = i+1 %>

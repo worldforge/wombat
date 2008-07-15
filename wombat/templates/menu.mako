@@ -15,7 +15,7 @@
                         <a href="/dir?path=${dir.getPath()}"
                            title="Browse To: ${dir.getPath()}">
                             <img src="/images/dir.gif" border="0" alt="->" />
-                            ${dir.getName()}
+                            ${dir.getName(20)}
                         </a>
                     </li>
 %endfor

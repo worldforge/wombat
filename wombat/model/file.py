@@ -53,11 +53,17 @@ class File:
         """
         return self.fullpath
 
-    def getName(self):
-        """getName() -> string
+    def getName(self, max_len=0):
+        """getName(int) -> string
         Get the file's name
         """
-        return basename(self.path)
+        name = basename(self.path)
+        if max_len == 0 or len(name) < max_len:
+            return name
+
+        trunc_len = (max_len-3)/2
+        trunc_name = "%s...%s" % (name[:trunc_len], name[-trunc_len:])
+        return trunc_name
 
     def getSize(self):
         """getSize() -> int

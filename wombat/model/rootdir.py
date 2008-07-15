@@ -80,7 +80,7 @@ class RootDir(Dir):
         self.extensions = {}
         self.setInfo()
 
-    def getName(self):
+    def getName(self, max_len=0):
         """getName() -> string
         Always returns "/"
         """

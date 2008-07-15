@@ -9,7 +9,7 @@
             <td class="cell" valign="top" width="50%">
                 <a href="/dir?path=${dir.getPath()}" title="${dir.getName()}">
                   <img class="fade" src="/images/dir.gif" border="0" alt="*" />
-                  &nbsp;${dir.getName()}&nbsp;<small>(${len(dir.getSubdirs())} subdirs &nbsp;
+                  &nbsp;${dir.getName(20)}&nbsp;<small>(${len(dir.getSubdirs())} subdirs &nbsp;
                   ${len(dir.getFiles())} files)</small><br />
                 </a>
             </td>
@@ -35,7 +35,7 @@
                 </a>
                 &nbsp;
                 <a href="/file/?path=${file.getPath()}" title="File details: ${file.getName()}">
-                  ${file.getName()}
+                  ${file.getName(20)}
                 </a>
                 <small>(${file.getPrettySize()})</small>
             </td>

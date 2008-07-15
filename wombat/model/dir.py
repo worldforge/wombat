@@ -96,11 +96,17 @@ class Dir:
         """
         return self.full_path
 
-    def getName(self):
-        """getName() -> string
+    def getName(self, max_len=0):
+        """getName(int) -> string
         Get the name of the directory
         """
-        return basename(self.path)
+        name = basename(self.path)
+        if max_len == 0 or len(name) < max_len:
+            return name
+
+        trunc_len = (max_len-3)/2
+        trunc_name = "%s...%s" % (name[:trunc_len], name[-trunc_len:])
+        return trunc_name
 
     def getType(self):
         """getType() -> string
