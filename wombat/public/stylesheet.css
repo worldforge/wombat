@@ -240,6 +240,49 @@ table.details td
     text-align:center;
 }
 
+div.set
+{
+}
+div.set div.item
+{
+	min-height:32px;
+	width:30%;
+	padding:1%;
+	max-width:180px;
+}
+div.set div.item:hover
+{
+	background-color:#79b;
+}
+div.set div.item.full
+{
+	width:98%;
+	max-width:98%;
+}
+div.set div.item div.abbrev
+{
+	height:32px;
+}
+div.set div.item div.exp
+{
+}
+div.set div.item a
+{
+	text-decoration:none;
+	line-height:32px;
+}
+div.set div.item a img
+{
+	vertical-align:middle;
+	line-height:32px;
+}
+div.set div.item a span.meta
+{
+	font-size:11px;
+	color:#333;
+	padding:0px 0px 0px 4px;
+	line-height:32px;
+}
 
 /* -- General Purpose Hacks -- */
 .lfloat{ display:block;float:left;clear:none;overflow:hidden; }

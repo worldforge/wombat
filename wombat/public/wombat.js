@@ -3,6 +3,7 @@ var revAdvancedSearchDisclosed = false;
 var picker_date_in;
 var picker_date_out;
 var itemDetails = new Array();
+var fileDetailsSpeed = 0.5;
 
 /**
   * wombat::init
@@ -38,29 +39,93 @@ function init()
  */
 function initItemDetails( )
 {
-	var elements = document.getElementsByTagName("div");
+	var elements = document.getElementsByTagName("a");
 	for(var i=0;i<elements.length;i++)
 	{
 		var item = elements[i];
+		window.console.log("evaluating: "+item.id);
 		if( item.getAttribute("type") != null )
 		{
 			if( item.getAttribute("type").indexOf("itemDetail") > -1 )
 			{
+				window.console.log("preparing: "+item.id);
 				item.onclick = function(evt)
 				{
-					
-				}
+					var itemDetail = fetchItemDetail( this.getAttribute("rel") );
+					var domId = itemDetail.domNode.id;
+					if( itemDetail != null )
+					{
+						window.console.log("clicked: "+domId);
+						var subItem = "exp_"+domId.replace("act_","item_");
+						var supItem = domId.replace("act_","item_");
+						window.console.log("supItem: "+supItem);
+						if( itemDetail.visible )
+						{
+							Effect.BlindUp(subItem, {duration:fileDetailsSpeed/2, afterFinish: function(){
+								$(supItem).className = $(supItem).className.replace("clr full","lfloat");
+								$(subItem).innerHTML = "";
+							}
+							});
+							itemDetail.visible = false;
+							$(supItem).onclick = null;
+						}
+						else
+						{
+							var fetch = new Ajax.Request(
+								itemDetail.fetchPath,
+								{
+									method:"get",
+									onSuccess: function(transport)
+									{
+										var response = transport.responseText || "No Response.";							
+										$(supItem).className = $(supItem).className.replace("lfloat","clr full");
+										$(subItem).innerHTML = response;
+										Effect.BlindDown(subItem, {duration:fileDetailsSpeed});
+										itemDetail.visible = true;
+										$(supItem).onclick = function(){ $(domId).onclick(); }
+									},
+									onFailure: function(){ alert("Failure Fetching File Details."); }
+								}
+							);
+						}
+					}
+					return false;
+				};
+				
+				var path = item.getAttribute("rel");
+				item.setAttribute("href","javascript:void(0);");
 				var newItem = {
 								domNode: item,
-								fetchPath: item.getAttribute("rel")
+								fetchPath: path,
 								visible: false
 							  };
-				itemDetails[itemDetails.length] = {domNode: item};
+				itemDetails[itemDetails.length] = newItem;
 			}
 		}
 	}
 	
 }
+
+/**
+ * wombat::fetchItemDetail
+ * @return	[itemDetail] The item detail whose fetchPath matches the requested path.
+ * @author	tingham@coalmarch.com
+ * @created	7/14/08 9:32 PM
+ */
+function fetchItemDetail( path )
+{
+	var i;
+	for(i=0;i<itemDetails.length;i++)
+	{
+		window.console.log("Item "+i+" Path: "+itemDetails[i].fetchPath);
+		if( itemDetails[i].fetchPath == path )
+		{
+			return itemDetails[i];
+		}
+	}
+	return null;
+}
+
 /**
   * wombat::revealDetails
   * Toggles the display of the details panel for revisions.
