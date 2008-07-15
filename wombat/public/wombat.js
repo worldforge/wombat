@@ -53,6 +53,7 @@ function initItemDetails( )
 				{
 					var itemDetail = fetchItemDetail( this.getAttribute("rel") );
 					var domId = itemDetail.domNode.id;
+					window.console.log("itemDetail "+itemDetail);
 					if( itemDetail != null )
 					{
 						window.console.log("clicked: "+domId);
