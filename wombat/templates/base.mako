@@ -19,7 +19,7 @@
         <div id="header">
             <div id="logo">
                 <a href="/" title="${c.name}">
-                    <img src="/images/headerlogo.png"
+                    <img src="/images/wombat-72.png"
                     	 border="0"
                     	 alt="${c.name}" />
                 </a>
