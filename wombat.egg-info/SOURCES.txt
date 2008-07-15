@@ -68,6 +68,8 @@ wombat/public/images/text.gif
 wombat/public/images/up.gif
 wombat/public/images/video.gif
 wombat/public/images/winmedia.gif
+wombat/public/images/wombat-144.png
+wombat/public/images/wombat-72.png
 wombat/public/images/word.gif
 wombat/public/images/zipdir.gif
 wombat/public/scriptaculous/builder.js
