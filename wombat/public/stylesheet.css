@@ -44,7 +44,7 @@ a{ color:#369; }
     float:left;
     clear:none;
     overflow:hidden;
-    width:20%;
+    width:10%;
 }
 #logo-text
 {
@@ -63,7 +63,7 @@ a{ color:#369; }
     float:right;
     clear:none;
     overflow:hidden;
-    width:25%;
+    width:30%;
     margin-top:5px;
 }
 #search form
