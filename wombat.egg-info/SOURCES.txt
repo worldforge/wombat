@@ -29,6 +29,7 @@ wombat/lib/app_globals.py
 wombat/lib/base.py
 wombat/lib/helpers.py
 wombat/lib/node_info.py
+wombat/lib/preview.py
 wombat/lib/rev_info.py
 wombat/lib/svnwrap.py
 wombat/model/__init__.py
@@ -38,6 +39,11 @@ wombat/model/rootdir.py
 wombat/public/favicon.ico
 wombat/public/stylesheet.css
 wombat/public/wombat.js
+wombat/public/datepicker/calendar.png
+wombat/public/datepicker/datepicker.css
+wombat/public/datepicker/datepicker.js
+wombat/public/datepicker/prototype-base-extensions.js
+wombat/public/datepicker/prototype-date-extensions.js
 wombat/public/images/admin.gif
 wombat/public/images/archive.gif
 wombat/public/images/code.gif
@@ -74,6 +80,7 @@ wombat/public/scriptaculous/slider.js
 wombat/public/scriptaculous/sound.js
 wombat/public/scriptaculous/unittest.js
 wombat/templates/additions.mako
+wombat/templates/adv_search.mako
 wombat/templates/base.mako
 wombat/templates/comments.mako
 wombat/templates/details.mako

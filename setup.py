@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='wombat',
-    version="0.1.3",
+    version="0.1.4",
     description='WorldForge Open Media Browser/Archive Tool',
     author='Kai Blin',
     author_email='kai.blin@gmail.com',
