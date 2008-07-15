@@ -249,6 +249,7 @@ div.set div.item
 	width:30%;
 	padding:1%;
 	max-width:180px;
+	height:70px;
 }
 div.set div.item:hover
 {
@@ -258,6 +259,7 @@ div.set div.item.full
 {
 	width:98%;
 	max-width:98%;
+	height:inherit;
 }
 div.set div.item div.abbrev
 {
@@ -268,6 +270,7 @@ div.set div.item div.exp
 }
 div.set div.item a
 {
+	font-size:12px;
 	text-decoration:none;
 	line-height:32px;
 }
