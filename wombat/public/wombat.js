@@ -43,23 +43,23 @@ function initItemDetails( )
 	for(var i=0;i<elements.length;i++)
 	{
 		var item = elements[i];
-		window.console.log("evaluating: "+item.id);
+		//window.console.log("evaluating: "+item.id);
 		if( item.getAttribute("type") != null )
 		{
 			if( item.getAttribute("type").indexOf("itemDetail") > -1 )
 			{
-				window.console.log("preparing: "+item.id);
+				//window.console.log("preparing: "+item.id);
 				item.onclick = function(evt)
 				{
 					var itemDetail = fetchItemDetail( this.getAttribute("rel") );
 					var domId = itemDetail.domNode.id;
-					window.console.log("itemDetail "+itemDetail);
+					//window.console.log("itemDetail "+itemDetail);
 					if( itemDetail != null )
 					{
-						window.console.log("clicked: "+domId);
+						//window.console.log("clicked: "+domId);
 						var subItem = "exp_"+domId.replace("act_","item_");
 						var supItem = domId.replace("act_","item_");
-						window.console.log("supItem: "+supItem);
+						//window.console.log("supItem: "+supItem);
 						if( itemDetail.visible )
 						{
 							Effect.BlindUp(subItem, {duration:fileDetailsSpeed/2, afterFinish: function(){
@@ -118,7 +118,7 @@ function fetchItemDetail( path )
 	var i;
 	for(i=0;i<itemDetails.length;i++)
 	{
-		window.console.log("Item "+i+" Path: "+itemDetails[i].fetchPath);
+		//window.console.log("Item "+i+" Path: "+itemDetails[i].fetchPath);
 		if( itemDetails[i].fetchPath == path )
 		{
 			return itemDetails[i];
