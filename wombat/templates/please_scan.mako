@@ -4,7 +4,7 @@
                     <div class="subtitle">Data not ready.</div>
 
                     <div class="description">
-                        Please visit the <a href="/scan">scan</a> page for mor information on scanning.
+                        <a href="/scan/scan">Please scan</a> to update the system.
                     </div>
 
                 </div>
