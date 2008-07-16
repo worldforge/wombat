@@ -44,7 +44,7 @@ def createScanLock():
 
 def createTextPreview(file):
     open_tags = """\
-                        <div id="media">
+                        <div id="textmedia">
                             <pre>
 """
     close_tags = """\
