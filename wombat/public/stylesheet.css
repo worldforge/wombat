@@ -250,11 +250,18 @@ div.set div.item
 	width:30%;
 	padding:1%;
 	max-width:180px;
+	min-width:100px;
 	height:70px;
+	background-color:#ace;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
+    margin:4px;
 }
 div.set div.item:hover
 {
 	background-color:#79b;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
 }
 div.set div.item.full
 {
@@ -271,7 +278,7 @@ div.set div.item div.exp
 }
 div.set div.item a
 {
-	font-size:12px;
+	font-size:11px;
 	text-decoration:none;
 	line-height:32px;
 }
@@ -284,7 +291,7 @@ div.set div.item a span.meta
 {
 	font-size:11px;
 	color:#333;
-	padding:0px 0px 0px 4px;
+	padding:0px;
 	line-height:32px;
 }
 

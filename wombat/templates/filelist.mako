@@ -11,9 +11,18 @@
 								   id="act_${g}_${i}"
 								   title="View Details for: &ldquo;${file.getName()}&rdquo;"
 								   type="text/itemDetail"
-								   rel="/file/panel?path=${file.getPath()}">
-									<img class="fade" src="/images/${file.getType()}.gif" border="0" alt="" />
-									${file.getName(12)}<span class="meta">(${file.getPrettySize()})</span>
+								   rel="/file/panel?path=${file.getPath()}"
+								   class="clr">
+									<div class="lfloat">
+										<img class="fade" src="/images/${file.getType()}.gif"
+											 height="32" width="32" vspace="1" hspace="1" border="0" alt="" />
+									</div>
+									<div class="lfloat">
+										${file.getName(26)}<br />
+										<span class="meta">
+											(${file.getPrettySize()})
+										</span>
+									</div>
 								</a>
 								<div id="exp_item_${g}_${i}" class="exp"></div>
 							</div>
