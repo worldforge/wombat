@@ -39,6 +39,7 @@
             <div id="menu">
 <%include file="menu.mako"/>
 <%include file="additions.mako"/>
+                <h2><a class="menulink" href="/show">Server Status</a></h2>
 	    </div>
 	    <div id="content">
 <%include file="messages.mako"/>

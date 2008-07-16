@@ -349,3 +349,8 @@ div#searchboxWrapper
 	padding:0px;
 	height:22px;
 }
+a.menulink
+{
+	color: black;
+	text-decoration: none;
+}

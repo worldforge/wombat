@@ -1,4 +1,4 @@
-                <h2>Directories</h2>
+                <h2><a class="menulink" href="/dir">Directories</a></h2>
                 <ul id="tabmenu">
 %if c.obj != '':
 %if c.obj != c.root_dir:
