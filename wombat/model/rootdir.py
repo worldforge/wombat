@@ -150,6 +150,17 @@ class RootDir(Dir):
         """
         return self.all_files[path]
 
+    def getSubFiles(self, path):
+        """getSubFiles(string) -> [File]
+        Get all files starting with path.
+        """
+        all_keys = self.all_files.keys()
+        filter_keys = [key for key in all_keys if key.startswith(path)]
+        filter_files = []
+        for key in filter_keys:
+            filter_files.append(self.all_files[key])
+        return filter_files
+
     def getScanTime(self):
         """getScanTime() -> float
         Get time of the last scan() call in seconds since epoch.

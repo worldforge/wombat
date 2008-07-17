@@ -58,7 +58,7 @@ class Dir:
         """
         return self.files
 
-    def getFilesByType(self):
+    def getFilesByType(self, file_list=[]):
         """getFilesByType() -> (images, models, sounds, texts, others)
         Get a tuple containing a list of image, model, sound, text and other
         files, in this order.
@@ -69,7 +69,10 @@ class Dir:
         text_files = []
         other_files = []
 
-        for file in self.files:
+        if file_list == []:
+            file_list = self.files
+
+        for file in file_list:
             type = file.getType()
             if type == "image":
                 image_files.append(file)

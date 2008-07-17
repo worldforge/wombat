@@ -1,5 +1,5 @@
 <% g = 0 %>
-%for group in  c.obj.getFilesByType():
+%for group in  c.obj.getFilesByType(c.root_dir.getSubFiles(c.obj.getPath())):
 %if group != []:
                     <div class="group">
                     	<h3>${group[0].getType().capitalize()} Files</h3>
