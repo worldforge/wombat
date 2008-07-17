@@ -60,6 +60,8 @@ def createThumbnail(file):
         return thumb_name
     except ImportError:
         return None
+    except IOError:
+        return None
 
 def getThumbnail(file):
     """getThumbnail(File) -> string
