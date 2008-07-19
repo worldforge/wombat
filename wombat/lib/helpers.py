@@ -10,6 +10,7 @@ import string
 from time import strptime, mktime
 from rev_info import Info
 from preview import getThumbnail
+from json import assetToJson, assetListToJson
 
 img_inline = ['.gif', '.jpg', '.png']
 
@@ -145,3 +146,10 @@ def sorted_options_for_select(container, selected=None):
     Sorted version of the builtin function
     """
     return rails.options_for_select(sorted(container), selected)
+
+def search(root_dir, needle, author, extension, date_in=0, date_out=0):
+    """search
+    """
+    dirs, files = root_dir.search(needle, author, extension, date_in, date_out)
+    return "{dirs: %s, files: %s}" % (assetListToJson(dirs), assetListToJson(files))
+

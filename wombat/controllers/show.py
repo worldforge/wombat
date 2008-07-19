@@ -71,7 +71,7 @@ class ShowController(BaseController):
         date_in = h.dateStrToEpoch(c.match_date_in)
         date_out = h.dateStrToEpoch(c.match_date_out)
 
-        c.found_dirs, c.found_files = c.root_dir.search(c.needle,
+        c.results = h.search(c.root_dir, c.needle,
                 c.match_author, c.match_ext, date_in, date_out )
 
         return render('/searchresults.mako')

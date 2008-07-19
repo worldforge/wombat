@@ -58,6 +58,17 @@ class Dir:
         """
         return self.files
 
+    def getSize(self):
+        """getSize() -> int
+        Get the size of files directly in this directory in bytes
+        """
+        sum = 0
+        for file in self.files:
+            sum += file.getSize()
+
+        return sum
+
+
     def getFilesByType(self, file_list=[]):
         """getFilesByType() -> (images, models, sounds, texts, others)
         Get a tuple containing a list of image, model, sound, text and other
