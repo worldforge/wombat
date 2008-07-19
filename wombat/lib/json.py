@@ -28,6 +28,6 @@ def assetListToJson(asset_list):
     for asset in asset_list:
         json += assetToJson(asset)
         json += ","
-    json.rstrip(",")
+    json = json.rstrip(",")
     json += "]"
     return json
