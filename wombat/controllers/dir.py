@@ -16,7 +16,7 @@ class DirController(BaseController):
         c.messages = []
         if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
             c.messages.append("Failed to locate cached data.")
-            return render('/please_scan.mako')
+            return render('/derived/show/please_scan.html')
 
         f = open(config.get('app_conf').get('rootdir_cache'), 'r')
         try:
@@ -32,5 +32,5 @@ class DirController(BaseController):
             c.obj = c.root_dir.getDir(req_path)
         except KeyError:
             c.obj = c.root_dir
-        return render('/dir.mako')
+        return render('/derived/dir/dir.html')
 

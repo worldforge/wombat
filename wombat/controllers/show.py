@@ -17,7 +17,7 @@ class ShowController(BaseController):
 
         if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
             c.messages.append("Failed to locate cached data.")
-            return render('/please_scan.mako')
+            return render('/derived/show/please_scan.html')
 
         f = open(config.get('app_conf').get('rootdir_cache'), 'r')
         try:
@@ -25,7 +25,7 @@ class ShowController(BaseController):
         finally:
             f.close()
 
-        return render('/index.mako')
+        return render('/derived/show/index.html')
 
     def search(self):
         c.name = config['app_conf']['site_name']
@@ -34,7 +34,7 @@ class ShowController(BaseController):
 
         if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
             c.messages.append("Failed to locate cached data.")
-            return render('/please_scan.mako')
+            return render('/derived/show/please_scan.html')
 
         f = open(config.get('app_conf').get('rootdir_cache'), 'r')
         try:
@@ -74,5 +74,5 @@ class ShowController(BaseController):
         c.results = h.search(c.root_dir, c.needle,
                 c.match_author, c.match_ext, date_in, date_out )
 
-        return render('/searchresults.mako')
+        return render('/derived/show/searchresults.html')
 

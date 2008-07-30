@@ -1,10 +1,10 @@
-<%inherit file="base.mako"/>
+<%inherit file="/base/index.html"/>
                 <div id="main">
 
                     <div class="subtitle">Data not ready.</div>
 
                     <div class="description">
-                        <a href="/scan/scan">Please scan</a> to update the system.
+                        <a href="${h.url_for(controller="scan", action="scan")}">Please scan</a> to update the system.
                     </div>
 
                 </div>

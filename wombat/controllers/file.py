@@ -15,7 +15,7 @@ class FileController(BaseController):
         c.messages = []
         if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
             c.messages.append("Failed to locate cached data.")
-            return render('/please_scan.mako')
+            return render('/derived/show/please_scan.html')
 
         f = open(config.get('app_conf').get('rootdir_cache'), 'r')
         try:
@@ -32,8 +32,8 @@ class FileController(BaseController):
         except KeyError:
             c.messages.append("Failed to locate file '%s'." % req_path)
             c.obj = c.root_dir
-            return render('/dir.mako')
-        return render('/file.mako')
+            return render('/derived/dir/dir.html')
+        return render('/derived/file/file.html')
 
     def panel(self):
         c.name = config['app_conf']['site_name']
@@ -59,7 +59,7 @@ class FileController(BaseController):
             c.obj = c.root_dir
             return ""
 
-        panel = render('/details.mako')
-        panel += render('/pagination.mako')
+        panel = render('/derived/file/details.html')
+        panel += render('/derived/file/pagination.html')
         return panel
 

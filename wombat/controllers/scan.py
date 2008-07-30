@@ -13,7 +13,7 @@ class ScanController(BaseController):
         c.name = config['app_conf']['site_name']
         c.title = 'Scan mode'
         c.messages = []
-        return render('/scan.mako')
+        return render('/derived/scan/scan.html')
 
     def scan(self):
         from wombat.model.rootdir import RootDir
@@ -39,5 +39,5 @@ class ScanController(BaseController):
         c.name = config['app_conf']['site_name']
         c.title = 'Scan complete'
         c.messages = []
-        return render('/scan_complete.mako')
+        return render('/derived/scan/scan_complete.html')
 

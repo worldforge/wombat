@@ -1,0 +1,11 @@
+<%inherit file="/base/index.html"/>
+                <div id="main">
+
+                    <div class="description">
+%if h.canScan():
+                        <a href="${h.url_for(controller="scan", action="scan")}">Scan</a> the repository. This can take quite some time.
+%else:
+                        Scanning the repository is not necessary. Proceed to <a href="${h.url_for(controller="dir")}">directory view</a>.
+%endif
+                    </div>
+                </div>
