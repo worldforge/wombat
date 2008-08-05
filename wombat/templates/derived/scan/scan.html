@@ -5,7 +5,10 @@
 %if h.canScan():
                         <a href="${h.url_for(controller="scan", action="scan")}">Scan</a> the repository. This can take quite some time.
 %else:
-                        Scanning the repository is not necessary. Proceed to <a href="${h.url_for(controller="dir")}">directory view</a>.
+                        Scanning the repository is not necessary.  Proceed to
+                        <a href="${h.url_for(controller="file", action="unassigned")}">unassigned file view</a>
+                        to see a list of files not assigned to assets yet.
+
 %endif
                     </div>
                 </div>
