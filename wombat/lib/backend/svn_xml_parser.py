@@ -24,6 +24,7 @@ class Svn(object):
         self.date = ''
         self.root = u''
         self.msg = u'No commit message.'
+        self.changed_paths = []
 
 class SvnParser(object):
     def __init__(self):
@@ -94,6 +95,15 @@ class SvnParser(object):
 
     def do_msg(self, node):
         self.svn.msg = node.childNodes[0].nodeValue.strip()
+
+    def do_paths(self, node):
+        self.parseChildNodes(node)
+
+    def do_path(self, node):
+        action = node.attributes['action'].value
+        path = node.childNodes[0].nodeValue
+        path = path.replace(u'/trunk/', u'')
+        self.svn.changed_paths.append((action, path))
 
 def parse_svn(xml_text):
     xml_stream = StringIO(xml_text)

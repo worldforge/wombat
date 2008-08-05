@@ -1,7 +1,7 @@
 import logging
 
 from wombat.lib.base import *
-from wombat.lib.backend import scan
+from wombat.lib.backend import scan, update
 
 log = logging.getLogger(__name__)
 
@@ -30,4 +30,13 @@ class ScanController(BaseController):
         c.title = 'Scan complete'
         c.messages = []
         return render('/derived/scan/scan_complete.html')
+
+    def update(self):
+        # if we never scanned before, do so now.
+        if h.canScan():
+            redirect_to(action="scan")
+
+        session = Session()
+        update(session)
+        redirect_to(action="result")
 
