@@ -1,27 +1,6 @@
 <%inherit file="/base/index.html"/>
     <div class="clr group">
     	<em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle | h}".</em>
-%if c.found_dirs != []:
-        <table border="0" class="group">
-          <tr>
-          <% i = 0 %>
-%for dir in c.found_dirs:
-            <td class="cell" valign="top" width="50%">
-                <a href="${h.url_for(controller="dir")}?path=${dir.getPath()}" title="${dir.getName()}">
-                  <img class="fade" src="/images/dir.gif" border="0" alt="*" />
-                  &nbsp;${dir.getName(20)}&nbsp;<small>(${len(dir.getSubdirs())} subdirs &nbsp;
-                  ${len(dir.getFiles())} files)</small><br />
-                </a>
-            </td>
-            <% i += 1%>
-%if i%2 == 0:
-          </tr>
-          <tr>
-%endif
-%endfor
-          </tr>
-        </table>
-%endif
 
 %if c.found_files != []:
 		<h3>Found Files</h3>
@@ -30,14 +9,14 @@
           <% i = 0 %>
 %for file in c.found_files:
             <td class="cell" valign="top" width="50%">
-                <a href="${h.url_for(controller="file")}?path=${file.getPath()}" title="Download ${file.getName()}">
-                  <img class="fade" src="/images/${file.getType()}.gif" border="0" alt="*" />
+                <a href="${h.url_for(controller="file")}?path=${file.path}" title="Download ${file.name}">
+                  <img class="fade" src="/images/${h.getType(file.name)}.gif" border="0" alt="*" />
                 </a>
                 &nbsp;
-                <a href="${h.url_for(controller="file")}?path=${file.getPath()}" title="File details: ${file.getName()}">
-                  ${file.getName(20)}
+                <a href="${h.url_for(controller="file")}?path=${file.path}" title="File details: ${file.name}">
+                  ${file.name}
                 </a>
-                <small>(${file.getPrettySize()})</small>
+                <small>(${h.sizeToStr(file.size)})</small>
             </td>
 <%i+=1%>
 %if i%2 == 0:

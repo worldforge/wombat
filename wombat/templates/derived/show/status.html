@@ -9,23 +9,23 @@
             		</td>
                 <tr>
                     <td width="25%">Repository URL:</td>
-                    <td><a href="${c.root_dir.getRepoUrl()}">${c.root_dir.getRepoUrl()}</a></td>
+                    <td><a href="${c.repo_url}">${c.repo_url}</a></td>
                 </tr>
                 <tr>
-                    <td>Scan last performed:</td>
-                    <td>${c.root_dir.getPrettyScanTime()}</td>
+                    <td>Current Revision:</td>
+                    <td>${c.revision}</td>
                 </tr>
                 <tr>
                     <td>Total size of the repository:</td>
-                    <td>${c.root_dir.getPrettyTotalSize()}</td>
+                    <td>${h.sizeToStr(c.total_size)}</td>
                 </tr>
                 <tr>
                     <td>Average file size:</td>
-                    <td>${c.root_dir.getPrettyAvgFileSize()}</td>
+                    <td>${h.sizeToStr(int(round(c.avg_size)))}</td>
                 </tr>
                 <tr>
                     <td>Most popular file type</td>
-                    <td>${h.getMostPopularFile(c.root_dir)}</td>
+                    <td>Not implemented for new data model.</td>
                 </tr>
             </table>
         </div>

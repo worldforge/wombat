@@ -5,6 +5,7 @@ import time
 
 from wombat.lib.base import *
 from pylons import config
+from wombat.model import Revision, File
 
 log = logging.getLogger(__name__)
 
@@ -15,15 +16,20 @@ class ShowController(BaseController):
         c.title = 'Welcome'
         c.messages = []
 
-        if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
-            c.messages.append("Failed to locate cached data.")
+        session = Session()
+
+        file_q = session.query(File)
+
+        first_file = file_q.first()
+
+        if first_file is None:
             return render('/derived/show/please_scan.html')
 
-        f = open(config.get('app_conf').get('rootdir_cache'), 'r')
-        try:
-            c.root_dir = cPickle.load(f)
-        finally:
-            f.close()
+        c.repo_url = first_file.root
+        c.total_size = file_q.sum(File.size)
+        c.avg_size = file_q.avg(File.size)
+
+        c.revision = session.query(Revision).max(Revision.id)
 
         return render('/derived/show/index.html')
 
@@ -31,16 +37,6 @@ class ShowController(BaseController):
         c.name = config['app_conf']['site_name']
         c.title = 'Search results'
         c.messages = []
-
-        if not os.path.exists(config.get('app_conf').get('rootdir_cache')):
-            c.messages.append("Failed to locate cached data.")
-            return render('/derived/show/please_scan.html')
-
-        f = open(config.get('app_conf').get('rootdir_cache'), 'r')
-        try:
-            c.root_dir = cPickle.load(f)
-        finally:
-            f.close()
 
         try:
             c.needle = request.params['match']
@@ -51,7 +47,6 @@ class ShowController(BaseController):
             c.match_author = request.params['author']
         except KeyError:
             c.match_author = ""
-
 
         try:
             c.match_ext = request.params['extension']
@@ -68,11 +63,24 @@ class ShowController(BaseController):
         except KeyError:
             c.match_date_out = ""
 
-        date_in = h.dateStrToEpoch(c.match_date_in)
-        date_out = h.dateStrToEpoch(c.match_date_out)
+        session = Session()
+        file_q = session.query(File)
 
-        c.results = h.search(c.root_dir, c.needle,
-                c.match_author, c.match_ext, date_in, date_out )
+        if c.needle != "":
+            from sqlalchemy import or_
+            file_q = file_q.filter(or_(File.name.like("%%%s%%" % c.needle),
+                File.path.like("%%%s%%" % c.needle)))
+
+        if c.match_author != "":
+            file_q = file_q.filter(Revision.author == c.match_author)
+
+        if c.match_date_in != "":
+            file_q = file_q.filter(Revision.date > c.match_date_in)
+
+        if c.match_date_out != "":
+            file_q = file_q.filter(Revision.date < c.match_date_out)
+
+        c.found_files = file_q.all()
 
         return render('/derived/show/searchresults.html')
 
