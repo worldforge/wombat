@@ -1,6 +1,6 @@
                 <h2><a class="menulink" href="/dir">Directories</a></h2>
                 <ul id="tabmenu">
-%if c.obj != '':
+%if c.obj != '' and c.root_dir != '':
 %if c.obj != c.root_dir:
                     <li>
                         <a href="/dir?path=${h.getBreadcrumbTrail(c.root_dir,c.obj)[-1].getPath()}">

@@ -6,6 +6,7 @@ from pylons import config
 import wombat.lib.app_globals as app_globals
 import wombat.lib.helpers
 from wombat.config.routing import make_map
+from sqlalchemy import engine_from_config
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config``
@@ -31,3 +32,5 @@ def load_environment(global_conf, app_conf):
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
+    config['pylons.g'].sa_engine = engine_from_config(config, 'sqlalchemy.default.')
+

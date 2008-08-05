@@ -1,0 +1,30 @@
+from pylons import config
+from sqlalchemy import Column, MetaData, Table, types, schema
+from sqlalchemy.orm import mapper, relation
+from sqlalchemy.orm import scoped_session, sessionmaker
+
+Session = scoped_session(sessionmaker(autoflush=True, transactional=True,
+                                      bind=config['pylons.g'].sa_engine))
+
+metadata = MetaData()
+
+from revision import Revision, init_rev_table
+rev_table = init_rev_table(metadata)
+
+from file import File, init_files_table
+files_table = init_files_table(metadata)
+
+from asset import Asset, init_assets_table
+assets_table = init_assets_table(metadata)
+
+from collection import Collection, init_collections_table
+collections_table = init_collections_table(metadata)
+
+mapper(File, files_table)
+mapper(Revision, rev_table, properties={
+    "files":relation(File, backref="revision")})
+mapper(Asset, assets_table, properties={
+    "files":relation(File, backref="asset")})
+mapper(Collection, collections_table, properties={
+    "assets":relation(Asset, backref="collection")})
+

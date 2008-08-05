@@ -16,27 +16,16 @@
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy import types, schema
 
-def init_files_table(metadata):
-    return Table('files', metadata,
-        Column('path', types.Unicode(255), primary_key=True),
-        Column('name', types.Unicode(255)),
-        Column('size', types.Integer),
-        Column('root', types.Unicode(255)),
-        Column('rev_id', types.Integer, schema.ForeignKey('revisions.id')),
-        Column('used_by', types.Integer, schema.ForeignKey('assets.id'))
+def init_assets_table(metadata):
+    return Table('assets', metadata,
+        Column('id', types.Integer, primary_key=True),
+        Column('name', types.Unicode(255), default=u'Unnamed Asset'),
+        Column('keywords', types.Unicode(255)),
+        Column('used_by', types.Integer, schema.ForeignKey('collections.id'))
     )
 
-class File(object):
-    def __init__(self, path, name, size, root):
-        self.path = path
+class Asset(object):
+    def __init__(self, name, keywords):
         self.name = name
-        self.size = size
-        self.root = root
-
-    def getPath(self):
-        return self.path
-
-    def getType(self):
-        return "other"
-
+        self.keywords = keywords
 

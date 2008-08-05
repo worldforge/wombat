@@ -13,30 +13,24 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
+from sqlalchemy import Table, Column, MetaData, ForeignKey
 from sqlalchemy import types, schema
 
-def init_files_table(metadata):
-    return Table('files', metadata,
-        Column('path', types.Unicode(255), primary_key=True),
-        Column('name', types.Unicode(255)),
-        Column('size', types.Integer),
-        Column('root', types.Unicode(255)),
-        Column('rev_id', types.Integer, schema.ForeignKey('revisions.id')),
-        Column('used_by', types.Integer, schema.ForeignKey('assets.id'))
+def init_rev_table(metadata):
+    return Table('revisions', metadata,
+        Column('id', types.Integer, primary_key=True),
+        Column('name', types.Unicode(255), default=''),
+        Column('log', types.Text(), default=u'No log message'),
+        Column('author', types.Unicode(255), default=u'Unknown Author'),
+        Column('date', types.DateTime())
     )
 
-class File(object):
-    def __init__(self, path, name, size, root):
-        self.path = path
+class Revision(object):
+    def __init__(self, id, name, log, author, date):
+        self.id = id
         self.name = name
-        self.size = size
-        self.root = root
-
-    def getPath(self):
-        return self.path
-
-    def getType(self):
-        return "other"
+        self.log = log
+        self.author = author
+        self.date = date
 
 

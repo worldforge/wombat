@@ -39,6 +39,7 @@ app_instance_uuid = ${app_instance_uuid}
 # execute malicious code after an exception is raised.
 set debug = false
 
+sqlalchemy.default.url = sqlite:///%(here)s/data/repository.db
 
 # Logging configuration
 [loggers]

@@ -16,7 +16,7 @@ img_inline = ['.gif', '.jpg', '.png']
 
 def getBreadcrumbTrail(rootdir, obj):
     trail = []
-    if rootdir == obj:
+    if rootdir == obj or rootdir is None:
         return []
     dir_str = os.path.dirname(obj.getPath())
     dir_trail = string.split(dir_str, os.path.sep)
