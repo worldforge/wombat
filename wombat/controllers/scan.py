@@ -11,16 +11,15 @@ class ScanController(BaseController):
         c.name = config['app_conf']['site_name']
         c.title = 'Scan mode'
         c.messages = []
+        c.session = Session()
         return render('/derived/scan/scan.html')
 
     def scan(self):
         if not h.canScan():
             redirect_to(action="index")
 
-        session = Session()
-
-        scan(session)
-
+        c.session = Session()
+        scan(c.session)
         h.createScanLock()
 
         redirect_to(action="result")
@@ -29,6 +28,7 @@ class ScanController(BaseController):
         c.name = config['app_conf']['site_name']
         c.title = 'Scan complete'
         c.messages = []
+        c.session = Session()
         return render('/derived/scan/scan_complete.html')
 
     def update(self):
@@ -36,7 +36,7 @@ class ScanController(BaseController):
         if h.canScan():
             redirect_to(action="scan")
 
-        session = Session()
-        update(session)
+        c.session = Session()
+        update(c.session)
         redirect_to(action="result")
 

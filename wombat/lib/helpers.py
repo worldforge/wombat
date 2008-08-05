@@ -111,17 +111,12 @@ def createPreview(file):
     else:
         return ("", "Sorry, no preview for %s files available" % type, "")
 
-def getInfo(path):
-    """string -> Info
-    Get an Info object for path
-    """
-    info = Info()
-    info.load(path)
-    return info
-
-def getRevision():
-    info = getInfo("")
-    return info.getRevision()
+def getLatestAdditions(session, num=5):
+    from wombat.model import Revision
+    rev = session.query(Revision).from_statement("SELECT * FROM revisions WHERE id = (SELECT MAX(revisions.id) FROM revisions)").first()
+    if rev is None:
+        return []
+    return rev.files[:num]
 
 def getType(name):
     """

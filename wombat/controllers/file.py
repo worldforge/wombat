@@ -13,28 +13,28 @@ class FileController(BaseController):
         c.title = 'File view'
         c.messages = []
 
-        session = Session()
+        c.session = Session()
 
         try:
             req_path = request.params['path']
         except KeyError:
             req_path = ""
 
-        c.file = session.query(File).filter_by(path=req_path).first()
+        c.file = c.session.query(File).filter_by(path=req_path).first()
         if c.file is None:
             abort(404)
 
         return render('/derived/file/file.html')
 
     def panel(self):
-        session = Session()
+        c.session = Session()
 
         try:
             req_path = request.params['path']
         except KeyError:
             req_path = ""
 
-        c.file = session.query(File).filter_by(path=req_path).first()
+        c.file = c.session.query(File).filter_by(path=req_path).first()
         if c.file is None:
             abort(404)
 
@@ -47,7 +47,7 @@ class FileController(BaseController):
         c.title = 'Unassigned files'
         c.messages = []
 
-        session = Session()
-        c.unassigned = session.query(File).filter_by(used_by=None).all()
+        c.session = Session()
+        c.unassigned = c.session.query(File).filter_by(used_by=None).all()
         return render('/derived/file/unassigned.html')
 

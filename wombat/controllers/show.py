@@ -16,9 +16,9 @@ class ShowController(BaseController):
         c.title = 'Welcome'
         c.messages = []
 
-        session = Session()
+        c.session = Session()
 
-        file_q = session.query(File)
+        file_q = c.session.query(File)
 
         first_file = file_q.first()
 
@@ -29,7 +29,7 @@ class ShowController(BaseController):
         c.total_size = file_q.sum(File.size)
         c.avg_size = file_q.avg(File.size)
 
-        c.revision = session.query(Revision).max(Revision.id)
+        c.revision = c.session.query(Revision).max(Revision.id)
 
         return render('/derived/show/index.html')
 
@@ -63,8 +63,8 @@ class ShowController(BaseController):
         except KeyError:
             c.match_date_out = ""
 
-        session = Session()
-        file_q = session.query(File)
+        c.session = Session()
+        file_q = c.session.query(File)
 
         if c.needle != "":
             from sqlalchemy import or_
