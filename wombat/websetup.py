@@ -13,6 +13,12 @@ def setup_config(command, filename, section, vars):
     conf = appconfig('config:' + filename)
     load_environment(conf.global_conf, conf.local_conf)
 
+    # Create cache dir, if it doesn't exist yet
+    import os
+    import os.path
+    if not os.path.exists(config['app_conf']['cache_dir']):
+        os.makedirs(config['app_conf']['cache_dir'])
+
     # Populate the DB on 'paster setup-app'
     import wombat.model as model
 
