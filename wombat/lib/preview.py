@@ -24,8 +24,9 @@ def loadThumbnail(file):
     Load a thumbnail from thumb_dir.
     Returns the path to the thumbnail file or None if the file doesn't exist.
     """
-    hash = md5.new(file.getPath())
-    thumb_name = "%s_thumb%s" % (hash.hexdigest(), file.getExtension())
+    hash = md5.new(file.path)
+    base, ext = os.path.splitext(file.name)
+    thumb_name = "%s_thumb%s" % (hash.hexdigest(), ext)
     thumb_path = os.path.join(config['app_conf']['thumb_dir'], thumb_name)
     if not os.path.exists(thumb_path):
         return None
@@ -38,7 +39,8 @@ def createThumbnail(file):
     Return the thumbnail file name or None on error.
     """
     hash = md5.new(file.getPath())
-    thumb_name = "%s_thumb%s" % (hash.hexdigest(), file.getExtension())
+    base, ext = os.path.splitext(file.name)
+    thumb_name = "%s_thumb%s" % (hash.hexdigest(), ext)
     thumb_path = os.path.join(config['app_conf']['thumb_dir'], thumb_name)
     if not os.path.exists(config['app_conf']['thumb_dir']):
         try:
@@ -49,7 +51,7 @@ def createThumbnail(file):
     try:
         from PIL import Image
 
-        temp_image = Image.open(file.getFullPath())
+        temp_image = Image.open(os.path.join(config['app_conf']['media_dir'], file.path))
         temp_image.thumbnail(size, Image.ANTIALIAS)
         thumb_image = Image.new("RGBA", size, (255,255,255,0))
         offset = (int((size[0] - temp_image.size[0]) / 2.0) ,
@@ -72,6 +74,6 @@ def getThumbnail(file):
     if thumb_name == None:
         thumb_name = createThumbnail(file)
         if thumb_name == None:
-            return "/media/%s" % file.getPath()
+            return "/media/%s" % file.path
 
     return "/thumb/%s" % thumb_name

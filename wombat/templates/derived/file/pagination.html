@@ -1,7 +1,7 @@
                     <div id="pagination">
-<%open_tags, content, close_tags = h.createPreview(c.obj)%>
+<%open_tags, content, close_tags = h.createPreview(c.file)%>
 ${open_tags}
-%if c.obj.getType() == "text":
+%if h.getType(c.file.name) == "text":
 ${content | h}
 %else:
 ${content}

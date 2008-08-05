@@ -13,6 +13,15 @@ from preview import getThumbnail
 from json import assetToJson, assetListToJson
 
 img_inline = ['.gif', '.jpg', '.png']
+image_exts = ['.bmp', '.gif', '.ico', '.jpg', '.png', '.psd',
+        '.psp','.pspimage', '.psptube', '.raw', '.svg', '.tga', '.tif', '.xcf']
+model_exts = ['.3dc', '.3ds', '.blend', '.caf', '.cal', '.cmf', '.crf', '.csf',
+        '.dxf', '.emdl', '.lwo', '.max', '.md3', '.mdl', '.mesh', '.mtl',
+        '.ndo', '.obj', '.skeleton', '.srf', '.texture', '.wings', '.wrl',
+        '.xaf', '.xmf', '.xrl', '.xsf', '.xsi']
+sound_exts = ['.mid', '.mp3', '.ogg', '.wav']
+text_exts = ['.asm', '.bat', '.cfg', '.cg', '.conf', '.glsl', '.hlsl','.htm',
+        '.html', '.ini', '.material', '.txt', '.url', '.xml']
 
 def getBreadcrumbTrail(rootdir, obj):
     trail = []
@@ -32,9 +41,6 @@ def getBreadcrumbTrail(rootdir, obj):
     return trail
 
 def canScan():
-    if not os.path.exists(config['app_conf']['rootdir_cache']):
-        return True
-
     if os.path.exists(config['app_conf']['scan_lock']):
         return False
     return True
@@ -52,7 +58,7 @@ def createTextPreview(file):
                             </pre>
                         </div>
 """
-    f = open(file.getFullPath(), 'r')
+    f = open(os.path.join(config['app_conf']['media_dir'], file.path), 'r')
     try:
         content = u"".join(f.readlines())
     except UnicodeDecodeError:
@@ -67,11 +73,11 @@ def createImagePreview(file):
     open_tags = """\
                         <div id="media">
 """
-    ext = file.getExtension()
+    base, ext = os.path.splitext(file.name)
     if ext in img_inline:
         content = """\
                             <a href="/media/%s"><img src="%s" alt="%s" border="0"/></a>
-""" % (file.getPath(), getThumbnail(file), file.getName())
+""" % (file.path, getThumbnail(file), file.name)
     else:
         content = """\
                             Sorry, but %s files cannot be rendered inline.
@@ -88,14 +94,14 @@ def createSoundPreview(file):
     content = """\
                             <embed src="/media/%s" controller="true" autoplay="false"
                             autostart="false" height="40" width="250" loop="false" />
-""" % file.getPath()
+""" % file.path
     close_tags = """\
                         </div>
 """
     return (open_tags, content, close_tags)
 
 def createPreview(file):
-    type = file.getType()
+    type = getType(file.name)
     if type == "text":
         return createTextPreview(file)
     elif type == "image":
@@ -116,6 +122,25 @@ def getInfo(path):
 def getRevision():
     info = getInfo("")
     return info.getRevision()
+
+def getType(name):
+    """
+    """
+    base, ext = os.path.splitext(name)
+    ext = ext.lower()
+
+    if ext in image_exts:
+        type = "image"
+    elif ext in model_exts:
+        type = "model"
+    elif ext in sound_exts:
+        type = "sound"
+    elif ext in text_exts:
+        type = "text"
+    else:
+        type = "other"
+
+    return type
 
 def getMostPopularFile(root_dir):
     """RootDir -> string
@@ -152,4 +177,15 @@ def search(root_dir, needle, author, extension, date_in=0, date_out=0):
     """
     dirs, files = root_dir.search(needle, author, extension, date_in, date_out)
     return "{dirs: %s, files: %s}" % (assetListToJson(dirs), assetListToJson(files))
+
+def sizeToStr(size):
+    """int -> string
+    Create a human readable size string from byte size
+    """
+    size_name = ['B', 'kB', 'MB', 'GB']
+    i = 0
+    while size > 1024 and i < len(size_name):
+        size /= 1024.0
+        i += 1
+    return "%.2f %s" % (size, size_name[i])
 
