@@ -94,7 +94,8 @@ class SvnParser(object):
         self.parseChildNodes(node)
 
     def do_msg(self, node):
-        self.svn.msg = node.childNodes[0].nodeValue.strip()
+        if len(node.childNodes) > 0:
+            self.svn.msg = node.childNodes[0].nodeValue.strip()
 
     def do_paths(self, node):
         self.parseChildNodes(node)

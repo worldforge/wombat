@@ -40,11 +40,11 @@ def get_create_revision(path, session, rev_id):
     """string, Session, int -> Revision
     Fetch revision with id 'rev_id' from database or create a new entry.
     """
-    rev_q = session.query(Revision).filter_by(id=rev_id)
-    try:
-        revision = rev_q.one()
-    except InvalidRequestError:
+    revision = session.query(Revision).get(rev_id)
+    if revision is None:
         xml_string = call_svn_cmd(path, "log", "--incremental --xml -r %s" % rev_id)
+        if xml_string == "":
+            return None
         svn = parse_svn(xml_string)
         revision = Revision(svn.revision, u"r%s" % svn.revision, svn.msg, svn.author, svn.date)
         session.save(revision)
@@ -56,12 +56,21 @@ def create_rev_entry(rev_path, session):
     Generate a database entry.
     """
     xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml")
+    if xml_string == "":
+        # file does not exist anymore
+        return
+
     svn = parse_svn(xml_string)
     revision = get_create_revision(rev_path, session, svn.revision)
 
-    old_file = session.query(File).filter_by(path=unicode(rev_path)).first()
+    old_file = session.query(File).get(rev_path)
     if old_file is not None:
         session.delete(old_file)
+
+    if revision is None:
+        #something is wrong with this file, probably a non-updated reposiory.
+        #skip (re-)adding it.
+        return
 
     new_file = File(svn.path, os.path.basename(svn.path),
             os.path.getsize(svn.path), svn.root)
@@ -90,7 +99,7 @@ def delete_file_entry(rev_path, session):
     """string, Session -> None
     Delete a file entry
     """
-    del_file = session.query(File).filter_by(path=rev_path).first()
+    del_file = session.query(File).get(rev_path)
     if del_file is not None:
         session.delete(del_file)
 
