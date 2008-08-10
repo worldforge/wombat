@@ -137,13 +137,6 @@ def getType(name):
 
     return type
 
-def getMostPopularFile(root_dir):
-    """RootDir -> string
-    Get the most popular file ext and count from the root dir and format to a
-    nice string output
-    """
-    return "%s (%s)" % root_dir.getMostPopularFile()
-
 def dateStrToEpoch(date_str):
     """dateStrToEpoch(string) -> float
     Convert an iso date string to seconds since epoch

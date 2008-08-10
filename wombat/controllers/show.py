@@ -29,6 +29,19 @@ class ShowController(BaseController):
         c.total_size = file_q.sum(File.size)
         c.avg_size = file_q.avg(File.size)
 
+        # This is not pretty, but I didn't find any better way to do this from
+        # the sqlalchemy.orm.query
+        ext_file, count = file_q.add_column("ext_count").from_statement(\
+            "SELECT files.path AS files_path, files.name AS files_name,\
+            files.size AS files_size, files.root AS files_root, files.ext AS\
+            files_ext, files.as_thumbnail AS files_as_thumbnail, files.rev_id\
+            AS files_rev_id, files.used_by AS files_used_by, count(files.ext)\
+            as ext_count FROM files GROUP BY files.ext ORDER BY\
+            count(files.ext) DESC").first()
+
+        c.ext_string = ext_file.ext
+        c.ext_count = count
+
         c.revision = c.session.query(Revision).max(Revision.id)
 
         return render('/derived/show/index.html')

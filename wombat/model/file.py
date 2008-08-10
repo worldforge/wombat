@@ -15,6 +15,7 @@
 
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy import types, schema
+from os.path import splitext
 
 def init_files_table(metadata):
     return Table('files', metadata,
@@ -22,6 +23,8 @@ def init_files_table(metadata):
         Column('name', types.Unicode(255)),
         Column('size', types.Integer),
         Column('root', types.Unicode(255)),
+        Column('ext', types.Unicode(20)),
+        Column('as_thumbnail', types.Boolean, default=False),
         Column('rev_id', types.Integer, schema.ForeignKey('revisions.id')),
         Column('used_by', types.Integer, schema.ForeignKey('assets.id'))
     )
@@ -32,6 +35,7 @@ class File(object):
         self.name = name
         self.size = size
         self.root = root
+        dummy, self.ext = splitext(name).lower()
 
     def getPath(self):
         return self.path
