@@ -38,7 +38,7 @@ def createThumbnail(file):
     Create a thumbnail file.
     Return the thumbnail file name or None on error.
     """
-    hash = md5.new(file.getPath())
+    hash = md5.new(file.path)
     base, ext = os.path.splitext(file.name)
     thumb_name = "%s_thumb%s" % (hash.hexdigest(), ext)
     thumb_path = os.path.join(config['app_conf']['thumb_dir'], thumb_name)

@@ -16,7 +16,7 @@
 import os
 import os.path
 from pylons import config
-from wombat.model import Revision, File
+from wombat.model import Revision, File, Dir
 from sqlalchemy.exceptions import InvalidRequestError
 from svn_xml_parser import parse_svn
 
@@ -63,19 +63,47 @@ def create_rev_entry(rev_path, session):
     svn = parse_svn(xml_string)
     revision = get_create_revision(rev_path, session, svn.revision)
 
-    old_file = session.query(File).get(rev_path)
-    if old_file is not None:
-        session.delete(old_file)
+    if svn.kind == u"file":
+        old_file = session.query(File).get(rev_path)
+        if old_file is not None:
+            session.delete(old_file)
 
-    if revision is None:
-        #something is wrong with this file, probably a non-updated reposiory.
-        #skip (re-)adding it.
-        return
+        if revision is None:
+            #something is wrong with this file, probably a non-updated reposiory.
+            #skip (re-)adding it.
+            return
 
-    new_file = File(svn.path, os.path.basename(svn.path),
-            os.path.getsize(svn.path), svn.root)
-    new_file.revision = revision
-    session.save(new_file)
+        new_file = File(svn.path, os.path.basename(svn.path),
+                os.path.getsize(svn.path), svn.root)
+        new_file.revision = revision
+
+        parent_path = os.path.dirname(svn.path)
+        if parent_path == u'':
+            parent_path = u'.'
+        parent_dir = session.query(Dir).get(parent_path)
+        if parent_dir is not None:
+            new_file.directory = parent_dir
+
+        session.save_or_update(new_file)
+    elif svn.kind == u"dir":
+        old_dir = session.query(Dir).get(rev_path)
+        if old_dir is not None:
+            session.delete(old_dir)
+
+        if revision is None:
+            # Something is wrong in the repository, skip (re-)adding the dir.
+            return
+
+        new_dir = Dir(svn.path, os.path.basename(svn.path), svn.root)
+        new_dir.revision = revision
+
+        parent_path = os.path.dirname(svn.path)
+        if parent_path == u'':
+            parent_path = u'.'
+        parent_dir = session.query(Dir).get(parent_path)
+        if parent_dir is not None and svn.path != u'.':
+            new_dir.parent = parent_dir
+        session.save_or_update(new_dir)
 
 def scan(session):
     """Session -> None
@@ -86,6 +114,7 @@ def scan(session):
     os.chdir(media_dir)
     for root, dirs, files in os.walk(media_dir):
         new_root = root.replace(media_dir,'').lstrip('/')
+        create_rev_entry(new_root, session)
         for file in files:
             file_path = os.path.join(new_root, file)
             create_rev_entry(file_path, session)

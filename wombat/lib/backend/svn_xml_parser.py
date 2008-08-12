@@ -19,6 +19,7 @@ from xml.dom import minidom
 class Svn(object):
     def __init__(self):
         self.path = u''
+        self.kind = u''
         self.author = u''
         self.revision = 0
         self.date = ''
@@ -56,6 +57,7 @@ class SvnParser(object):
 
     def do_entry(self, node):
         self.svn.path = node.attributes['path'].value
+        self.svn.kind = node.attributes['kind'].value
         self.parseChildNodes(node)
 
     def do_url(self, node):

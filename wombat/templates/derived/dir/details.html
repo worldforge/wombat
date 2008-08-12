@@ -4,19 +4,19 @@
                             <table class="details">
                                 <tr>
                                     <td>Last changed by:</td>
-                                    <td>${c.obj.getAuthor()}</td>
+                                    <td>${c.dir.revision.author}</td>
                                 </tr>
                                 <tr>
                                     <td>Last changed at revision:</td>
-                                    <td>${c.obj.getRevision()}</td>
+                                    <td>${c.dir.revision.id}</td>
                                 </tr>
                                 <tr>
                                     <td>Last changed on:</td>
-                                    <td>${c.obj.getDate()}</td>
+                                    <td>${c.dir.revision.date}</td>
                                 </tr>
                                 <tr>
                                     <td>Last log message:</td>
-                                    <td>${c.obj.getLog()}</td>
+                                    <td>${c.dir.revision.log | h}</td>
                                 </tr>
                             </table>
                         </div>

@@ -16,6 +16,7 @@
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy import types, schema
 from os.path import splitext
+from wombat.lib.helpers import getType
 
 def init_files_table(metadata):
     return Table('files', metadata,
@@ -24,7 +25,9 @@ def init_files_table(metadata):
         Column('size', types.Integer),
         Column('root', types.Unicode(255)),
         Column('ext', types.Unicode(20)),
+        Column('type', types.Unicode(20), default=u"other"),
         Column('as_thumbnail', types.Boolean, default=False),
+        Column('in_dir', types.Unicode(255), schema.ForeignKey('dirs.path')),
         Column('rev_id', types.Integer, schema.ForeignKey('revisions.id')),
         Column('used_by', types.Integer, schema.ForeignKey('assets.id'))
     )
@@ -35,12 +38,8 @@ class File(object):
         self.name = name
         self.size = size
         self.root = root
-        dummy, self.ext = splitext(name).lower()
-
-    def getPath(self):
-        return self.path
-
-    def getType(self):
-        return "other"
+        dummy, self.ext = splitext(name)
+        self.ext = self.ext.lower()
+        self.type = getType(name)
 
 

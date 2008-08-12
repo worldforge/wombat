@@ -1,26 +1,26 @@
 <% g = 0 %>
-%for group in  c.obj.getFilesByType(c.root_dir.getSubFiles(c.obj.getPath())):
-%if group != []:
+%for group in c.groups.keys():
+%if c.groups[group] != []:
                     <div class="group">
-                    	<h3>${group[0].getType().capitalize()} Files</h3>
+                    	<h3>${group.capitalize()} Files</h3>
 <% i = 0 %>
                     	<div class="clr set">
-%for file in group:
+%for file in c.groups[group]:
 							<div id="item_${g}_${i}" class="lfloat item">
-								<a href="/file?path=${file.getPath()}"
+                                <a href="${h.url_for(controller="file")}?path=${file.path}"
 								   id="act_${g}_${i}"
-								   title="View Details for: &ldquo;${file.getName()}&rdquo;"
+								   title="View Details for: &ldquo;${file.name}&rdquo;"
 								   type="text/itemDetail"
-								   rel="/file/panel?path=${file.getPath()}"
+                                   rel="${h.url_for(controller="file", action="panel")}?path=${file.path}"
 								   class="clr">
 									<div class="lfloat">
-										<img class="fade" src="/images/${file.getType()}.gif"
+										<img class="fade" src="/images/${file.type}.gif"
 											 height="32" width="32" vspace="1" hspace="1" border="0" alt="" />
 									</div>
 									<div class="lfloat">
-										${file.getName(26)}<br />
+										${h.truncStr(file.name, 20)}<br />
 										<span class="meta">
-											(${file.getPrettySize()})
+											(${h.sizeToStr(file.size)})
 										</span>
 									</div>
 								</a>

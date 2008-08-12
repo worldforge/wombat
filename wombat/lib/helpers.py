@@ -62,9 +62,9 @@ def createTextPreview(file):
     try:
         content = u"".join(f.readlines())
     except UnicodeDecodeError:
-        content = "Error converting %s to unicode" %file.getName()
+        content = "Error converting %s to unicode" %file.name
     except:
-        content = "Error reading %s" % file.getName()
+        content = "Error reading %s" % file.name
 
     f.close()
     return (open_tags, content, close_tags)
@@ -176,4 +176,15 @@ def sizeToStr(size):
         size /= 1024.0
         i += 1
     return "%.2f %s" % (size, size_name[i])
+
+def truncStr(orig_str, max_len):
+    """string, int -> string
+    Truncate a string to the given length, with middle ellipsis.
+    """
+    if max_len == 0 or len(orig_str) < max_len:
+        return orig_str
+
+    trunc_len = (max_len-3)/2
+    trunc_str = "%s...%s" % (orig_str[:trunc_len], orig_str[-trunc_len:])
+    return trunc_str
 
