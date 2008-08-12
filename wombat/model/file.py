@@ -40,6 +40,6 @@ class File(object):
         self.root = root
         dummy, self.ext = splitext(name)
         self.ext = self.ext.lower()
-        self.type = getType(name)
+        self.type = unicode(getType(name))
 
 

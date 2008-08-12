@@ -17,9 +17,9 @@ class DirController(BaseController):
         c.session = Session()
 
         try:
-            req_path = request.params['path']
+            req_path = unicode(request.params['path'])
         except KeyError:
-            req_path = "."
+            req_path = u"."
         c.req_path = req_path
 
         c.dir = c.session.query(Dir).get(req_path)

@@ -16,9 +16,9 @@ class FileController(BaseController):
         c.session = Session()
 
         try:
-            req_path = request.params['path']
+            req_path = unicode(request.params['path'])
         except KeyError:
-            req_path = ""
+            req_path = u""
 
         c.file = c.session.query(File).filter_by(path=req_path).first()
         if c.file is None:
@@ -34,9 +34,9 @@ class FileController(BaseController):
         c.session = Session()
 
         try:
-            req_path = request.params['path']
+            req_path = unicode(request.params['path'])
         except KeyError:
-            req_path = ""
+            req_path = u""
 
         c.file = c.session.query(File).filter_by(path=req_path).first()
         if c.file is None:

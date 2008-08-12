@@ -64,7 +64,7 @@ def create_rev_entry(rev_path, session):
     revision = get_create_revision(rev_path, session, svn.revision)
 
     if svn.kind == u"file":
-        old_file = session.query(File).get(rev_path)
+        old_file = session.query(File).get(unicode(rev_path))
         if old_file is not None:
             session.delete(old_file)
 
@@ -86,7 +86,7 @@ def create_rev_entry(rev_path, session):
 
         session.save_or_update(new_file)
     elif svn.kind == u"dir":
-        old_dir = session.query(Dir).get(rev_path)
+        old_dir = session.query(Dir).get(unicode(rev_path))
         if old_dir is not None:
             session.delete(old_dir)
 
