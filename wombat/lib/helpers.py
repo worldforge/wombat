@@ -23,21 +23,13 @@ sound_exts = ['.mid', '.mp3', '.ogg', '.wav']
 text_exts = ['.asm', '.bat', '.cfg', '.cg', '.conf', '.glsl', '.hlsl','.htm',
         '.html', '.ini', '.material', '.txt', '.url', '.xml']
 
-def getBreadcrumbTrail(rootdir, obj):
+def getBreadcrumbTrail(dir):
     trail = []
-    if rootdir == obj or rootdir is None:
-        return []
-    dir_str = os.path.dirname(obj.getPath())
-    dir_trail = string.split(dir_str, os.path.sep)
-    entry_str = ""
-    trail.append(rootdir)
-    for entry in dir_trail:
-        entry_str = os.path.join(entry_str, entry)
-        if entry_str == "":
-            continue
-        dir = rootdir.getDir(entry_str)
-        trail.append(dir)
+    while dir.parent is not None:
+        trail.append(dir.parent)
+        dir = dir.parent
 
+    trail.reverse()
     return trail
 
 def canScan():

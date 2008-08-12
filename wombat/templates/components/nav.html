@@ -1,13 +1,16 @@
                         <div class="breadcrumb block group">
                             <h3 class="lfloat">Navigation&nbsp;</h3>
-%if c.obj != '' and c.root_dir != '':
                             <ul>
-%for entry in h.getBreadcrumbTrail(c.root_dir, c.obj):
-                                <li><a href="/dir?path=${entry.getPath()}"><img src="/images/dir.gif" border="0" alt="*" />&nbsp;${entry.getName(12)}</a>
+%for entry in h.getBreadcrumbTrail(c.dir):
+                                <li><a href="${h.url_for(controller="dir")}?path=${entry.path}"><img src="/images/dir.gif" border="0" alt="*" />&nbsp;${h.truncStr(entry.name,12)}</a>
 %endfor
-                                <li><img src="/images/${c.obj.getType()}.gif" border="0" alt="*" />&nbsp;${c.obj.getName(12)}</li>
-                            </ul>
+%if c.file != "":
+                                <li><a href="${h.url_for(controller="dir")}?path=${c.dir.path}">
+                                        <img src="/images/dir.gif" border="0" alt="*" />&nbsp;${h.truncStr(c.dir.name, 12)}
+                                    </a>
+                                </li>
 %else:
-        Directory data not loaded.
+                                <li><img src="/images/dir.gif" border="0" alt="*" />&nbsp;${h.truncStr(c.dir.name, 12)}</li>
 %endif
+                            </ul>
                         </div>

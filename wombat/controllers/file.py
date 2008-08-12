@@ -24,6 +24,10 @@ class FileController(BaseController):
         if c.file is None:
             abort(404)
 
+        c.dir = c.file.directory
+        if c.dir is None:
+            c.dir = ""
+
         return render('/derived/file/file.html')
 
     def panel(self):
