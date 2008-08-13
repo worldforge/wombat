@@ -1,5 +1,6 @@
                 <h2>Latest Additions</h2>
                 <ul>
+%if c.session != '':
 %for file in h.getLatestAdditions(c.session):
 	            <li>
                         <a href="/file?path=${file.path}">
@@ -10,4 +11,5 @@
                         </a>
                     </li>
 %endfor
+%endif
                 </ul>
