@@ -15,12 +15,11 @@ class RevisionController(BaseController):
         if id is None:
             abort(404)
         c.session = Session()
-        revision = c.session.query(Revision).filter_by(id=int(id)).first()
+        revision = c.session.query(Revision).get(id)
         if revision is None:
             abort(404)
 
         c.revision = revision
-        c.session = session
 
         return render('/derived/revision/show.html')
 
@@ -28,7 +27,7 @@ class RevisionController(BaseController):
         if id is None:
             abort(404)
         c.session = Session()
-        revision = c.session.query(Revision).filter_by(id=int(id)).first()
+        revision = c.session.query(Revision).get(id)
         if revision is None:
             abort(404)
 
