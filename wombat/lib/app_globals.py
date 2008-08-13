@@ -11,4 +11,4 @@ class Globals(object):
         initialization and is available during requests via the 'g'
         variable
         """
-        self.version = "0.3.0alpha1"
+        self.version = "0.3.0alpha2"
