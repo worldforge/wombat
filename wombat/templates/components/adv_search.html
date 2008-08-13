@@ -13,8 +13,8 @@
 			<select name="author" id="author">
 				<optgroup label="Authors">
 					<option value="">Anyone</option>
-				%if c.root_dir != "":
-					${h.sorted_options_for_select(c.root_dir.getAuthors(), c.match_author)} 
+				%if c.session != "":
+					${h.sorted_options_for_select(h.getAuthors(c.session), c.match_author)}
 				%endif
 				</optgroup>
 			</select>
@@ -24,8 +24,8 @@
 			<select name="extension" id="extension">
 				<optgroup label="Media Types">
 					<option value="">Any Type</option>
-				%if c.root_dir != "":
-					${h.sorted_options_for_select(c.root_dir.getExtensions(), c.match_ext)}
+				%if c.session != "":
+					${h.sorted_options_for_select(h.getExtensions(c.session), c.match_ext)}
 				%endif
 				</optgroup>
 			</select>

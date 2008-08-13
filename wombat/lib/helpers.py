@@ -152,11 +152,36 @@ def sorted_options_for_select(container, selected=None):
     """
     return rails.options_for_select(sorted(container), selected)
 
-def search(root_dir, needle, author, extension, date_in=0, date_out=0):
-    """search
+def getAuthors(session):
+    """Session -> [string]
+    Get the list of authors
     """
-    dirs, files = root_dir.search(needle, author, extension, date_in, date_out)
-    return "{dirs: %s, files: %s}" % (assetListToJson(dirs), assetListToJson(files))
+    from sqlalchemy.sql import select
+    from wombat.model import Revision
+
+    authors = []
+    authors_s = session.execute(select([Revision.author], distinct=True)).fetchall()
+
+    for author in authors_s:
+        authors.append(author[0])
+
+    return authors
+
+def getExtensions(session):
+    """Session -> [string]
+    Get the list of extensions
+    """
+    from sqlalchemy.sql import select
+    from wombat.model import File
+
+    exts = []
+    exts_s = session.execute(select([File.ext], distinct=True)).fetchall()
+
+    for ext in exts_s:
+        exts.append(ext[0])
+
+    return exts
+
 
 def sizeToStr(size):
     """int -> string
