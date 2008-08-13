@@ -1,0 +1,14 @@
+<%inherit file="/base/index.html"/>
+                <div id="main">
+                    <ul>
+%for collection in c.collections:
+                        <li>Collection ${collection.id} name: "${collection.name}", keywords:
+                        "${collection.keywords}",
+                        <a href="${h.url_for(controller="collection", action="edit",
+                            id=collection.id)}">edit</a>, <a
+                            href="${h.url_for(controller="collection",
+                            action="delete", id=collection.id)}">delete</a>
+                        </li>
+%endfor
+                    </ul>
+                </div>

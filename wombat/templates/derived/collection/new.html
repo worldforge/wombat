@@ -1,0 +1,8 @@
+<%inherit file="/base/index.html"/>
+                <div id="main">
+                ${h.form(h.url(action="create"), method="post")}
+                Collection Name: ${h.text_field("collection_name")}<br />
+                Collection keywords: ${h.text_field("collection_keywords")}<br />
+                ${h.submit('Create')}
+                ${h.end_form()}
+                </div>
