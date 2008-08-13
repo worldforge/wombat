@@ -2,7 +2,7 @@
             <h3>Status</h3>
             <table class="details">
             	<tr>
-            		<td rowspan="6">
+            		<td rowspan="8">
             			<a href="http://wiki.worldforge.org/wiki/Wombat">
             				<img src="/images/wombat-144.png" alt="Wombat Media Repository Viewer" border="0" />
             			</a>
@@ -17,7 +17,7 @@
                 </tr>
                 <tr>
                     <td>Total size of the repository:</td>
-                    <td>${h.sizeToStr(c.total_size)}</td>
+                    <td>${h.sizeToStr(c.total_size)} (${c.file_count} files)</td>
                 </tr>
                 <tr>
                     <td>Average file size:</td>
@@ -26,6 +26,14 @@
                 <tr>
                     <td>Most popular file type:</td>
                     <td>${c.ext_string} (${c.ext_count} files)</td>
+                </tr>
+                <tr>
+                    <td>Asset count:</td>
+                    <td>${c.asset_count} assets</td>
+                </tr>
+                <tr>
+                    <td>Collection count:</td>
+                    <td>${c.collection_count} collections</td>
                 </tr>
             </table>
         </div>

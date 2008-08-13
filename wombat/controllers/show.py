@@ -5,7 +5,7 @@ import time
 
 from wombat.lib.base import *
 from pylons import config
-from wombat.model import Revision, File, Dir
+from wombat.model import Revision, File, Dir, Asset, Collection
 
 log = logging.getLogger(__name__)
 
@@ -27,22 +27,20 @@ class ShowController(BaseController):
 
         c.repo_url = first_file.root
         c.total_size = file_q.sum(File.size)
+        c.file_count = file_q.count()
         c.avg_size = file_q.avg(File.size)
 
-        # This is not pretty, but I didn't find any better way to do this from
-        # the sqlalchemy.orm.query
-        ext_file, count = file_q.add_column("ext_count").from_statement(\
-            "SELECT files.path AS files_path, files.name AS files_name,\
-            files.size AS files_size, files.root AS files_root, files.ext AS\
-            files_ext, files.as_thumbnail AS files_as_thumbnail, files.rev_id\
-            AS files_rev_id, files.used_by AS files_used_by, count(files.ext)\
-            as ext_count FROM files GROUP BY files.ext ORDER BY\
-            count(files.ext) DESC").first()
+        from sqlalchemy.sql import select, func
+        res = c.session.execute(select([File.ext,
+            func.count(File.ext)]).group_by(File.ext).order_by(func.count(File.ext).desc())).fetchone()
 
-        c.ext_string = ext_file.ext
-        c.ext_count = count
+        c.ext_string = res[0]
+        c.ext_count = res[1]
 
         c.revision = c.session.query(Revision).max(Revision.id)
+
+        c.asset_count = c.session.query(Asset).count()
+        c.collection_count = c.session.query(Collection).count()
 
         return render('/derived/show/index.html')
 
