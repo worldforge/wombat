@@ -20,7 +20,7 @@ def init_assets_table(metadata):
     return Table('assets', metadata,
         Column('id', types.Integer, primary_key=True),
         Column('name', types.Unicode(255), default=u'Unnamed Asset'),
-        Column('keywords', types.Unicode(255)),
+        Column('keywords', types.Unicode(255), default=u''),
         Column('used_by', types.Integer, schema.ForeignKey('collections.id'))
     )
 
