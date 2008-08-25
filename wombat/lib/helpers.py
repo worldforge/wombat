@@ -50,15 +50,15 @@ def createTextPreview(file):
                             </pre>
                         </div>
 """
-    f = open(os.path.join(config['app_conf']['media_dir'], file.path), 'r')
     try:
+        f = open(os.path.join(config['app_conf']['media_dir'], file.path), 'r')
         content = u"".join(f.readlines())
+        f.close()
     except UnicodeDecodeError:
         content = "Error converting %s to unicode" %file.name
+        f.close()
     except:
         content = "Error reading %s" % file.name
-
-    f.close()
     return (open_tags, content, close_tags)
 
 def createImagePreview(file):
