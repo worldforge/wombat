@@ -17,8 +17,10 @@ import paste.fixture
 import paste.script.appinstall
 from paste.deploy import loadapp
 from routes import url_for
+import wombat.model as model
+from pylons import config
 
-__all__ = ['url_for', 'TestController']
+__all__ = ['url_for', 'TestController', 'model']
 
 here_dir = os.path.dirname(os.path.abspath(__file__))
 conf_dir = os.path.dirname(os.path.dirname(here_dir))
@@ -37,4 +39,11 @@ class TestController(TestCase):
     def __init__(self, *args, **kwargs):
         wsgiapp = loadapp('config:test.ini', relative_to=conf_dir)
         self.app = paste.fixture.TestApp(wsgiapp)
+        self.engine = config['pylons.g'].sa_engine
         TestCase.__init__(self, *args, **kwargs)
+
+    def setUp(self):
+        model.metadata.create_all(bind=self.engine)
+
+    def tearDown(self):
+        model.metadata.drop_all(bind=self.engine)
