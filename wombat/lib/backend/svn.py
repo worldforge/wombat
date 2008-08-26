@@ -93,8 +93,11 @@ def create_rev_entry(rev_path, session):
         if revision is None:
             # Something is wrong in the repository, skip (re-)adding the dir.
             return
-
-        new_dir = Dir(svn.path, os.path.basename(svn.path), svn.root)
+        if svn.path != u'.':
+            dir_name = os.path.basename(svn.path)
+        else:
+            dir_name = u'/'
+        new_dir = Dir(svn.path, dir_name, svn.root)
         new_dir.revision = revision
 
         parent_path = os.path.dirname(svn.path)
