@@ -99,9 +99,13 @@ class ShowController(BaseController):
         if c.match_date_out != "":
             file_q = file_q.filter(Revision.date < c.match_date_out)
             dir_q = dir_q.filter(Revision.date < c.match_date_out)
-
-        c.found_files = file_q.all()
-        c.found_dirs = dir_q.all()
+        if c.needle == "" and c.match_author == "" and c.match_ext == "" and\
+                c.match_date_in == "" and c.match_date_out == "":
+            c.found_files = []
+            c.found_dirs = []
+        else:
+            c.found_files = file_q.all()
+            c.found_dirs = dir_q.all()
 
         return render('/derived/show/searchresults.html')
 

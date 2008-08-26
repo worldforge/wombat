@@ -2,6 +2,32 @@
     <div class="clr group">
     	<em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle | h}".</em>
 
+%if c.found_dirs != []:
+		<h3>Found Directories</h3>
+        <table border="0" class="group">
+          <tr>
+          <% i = 0 %>
+%for dir in c.found_dirs:
+            <td class="cell" valign="top" width="50%">
+                <a href="${h.url_for(controller="dir")}?path=${dir.path}" title="Open ${dir.name}">
+                  <img class="fade" src="/images/dir.gif" border="0" alt="*" />
+                </a>
+                &nbsp;
+                <a href="${h.url_for(controller="dir")}?path=${dir.path}" title="Directory details: ${dir.name}">
+                  ${dir.name}
+                </a>
+                <small>(${len(dir.subdirs)} subdirs, ${len(dir.files)} files.)</small>
+            </td>
+<%i+=1%>
+%if i%2 == 0:
+          </tr>
+          <tr>
+%endif
+%endfor
+          </tr>
+        </table>
+%endif
+
 %if c.found_files != []:
 		<h3>Found Files</h3>
         <table border="0" class="group">
