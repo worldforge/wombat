@@ -23,6 +23,9 @@ assets_table = init_assets_table(metadata)
 from collection import Collection, init_collections_table
 collections_table = init_collections_table(metadata)
 
+from user import User, init_users_table
+users_table = init_users_table(metadata)
+
 mapper(File, files_table)
 mapper(Dir, dirs_table, properties={
     "files":relation(File, backref="directory"),
@@ -34,4 +37,5 @@ mapper(Asset, assets_table, properties={
     "files":relation(File, backref="asset")})
 mapper(Collection, collections_table, properties={
     "assets":relation(Asset, backref="collection")})
+mapper(User, users_table)
 
