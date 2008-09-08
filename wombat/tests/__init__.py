@@ -40,10 +40,11 @@ class TestController(TestCase):
         wsgiapp = loadapp('config:test.ini', relative_to=conf_dir)
         self.app = paste.fixture.TestApp(wsgiapp)
         self.engine = config['pylons.g'].sa_engine
+        model.metadata.bind = self.engine
         TestCase.__init__(self, *args, **kwargs)
 
     def setUp(self):
-        model.metadata.create_all(bind=self.engine)
+        model.metadata.create_all()
 
     def tearDown(self):
-        model.metadata.drop_all(bind=self.engine)
+        model.metadata.drop_all()
