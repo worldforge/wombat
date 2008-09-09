@@ -1,8 +1,16 @@
 <%inherit file="/base/index.html"/>
-                <div id="main">
+                <div id="loginform">
                 ${h.form(h.url(action="submit"), method="post")}
-                Email: ${h.text_field("email")}<br />
-                Password: ${h.password_field("password")}<br />
-                ${h.submit('Login')}
+					<div class="f text">
+						<label for="email">Email:</label>
+						${h.text_field("email")}
+					</div>
+					<div class="f password">
+						<label for="password">Password:</label>
+						${h.password_field("password")}
+					</div>
+					<div class="f submit">
+						${h.submit('Login')}
+					</div>
                 ${h.end_form()}
                 </div>

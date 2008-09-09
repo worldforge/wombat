@@ -314,6 +314,12 @@ div.f input, div.f select, div.f textarea
 	font-size:11px;
 	line-height:18px;
 }
+div.f.text input,div.f.password input,div.f.select select,div.f.textarea textarea
+{
+	width:145px;
+	font-size:11px;
+	line-height:18px;
+}
 div.f label
 {
 	display:block;
