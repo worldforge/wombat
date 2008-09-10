@@ -16,6 +16,16 @@ import wombat.model as model
 from wombat.model import Session
 
 class BaseController(WSGIController):
+    needs_auth = []
+
+    def __before__(self, action):
+        # Check if authentication is reqired
+        if action in self.needs_auth and 'user' not in session:
+            # Remember original requested path
+            session['path_before_login'] = request.path_info
+            session.save()
+            return redirect_to(h.url_for(controller='login'))
+
 
     def __call__(self, environ, start_response):
         """Invoke the Controller"""
