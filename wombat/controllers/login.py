@@ -17,7 +17,7 @@ class LoginController(BaseController):
         if 'user' in session:
             redirect_to(action='logged_in')
 
-        return render('/derived/user/login.html')
+        return render('/derived/login/login.html')
 
     def submit(self, id):
         form_email = str(request.params.get('email'))
@@ -63,7 +63,7 @@ class LoginController(BaseController):
         if c.user is None:
             redirect_to(action='login')
 
-        return render('/derived/user/logged_in.html')
+        return render('/derived/login/logged_in.html')
 
     def logout(self, id):
         c.name = config['app_conf']['site_name']
@@ -78,7 +78,7 @@ class LoginController(BaseController):
         if id == "ajax":
             return "logged out"
 
-        return render('/derived/user/logout.html')
+        return render('/derived/login/logout.html')
 
     def register(self):
         c.name = config['app_conf']['site_name']
@@ -91,7 +91,7 @@ class LoginController(BaseController):
             del session['messages']
             session.save()
 
-        return render('/derived/user/register.html')
+        return render('/derived/login/register.html')
 
     def _is_email_valid(self, email):
         # does it contain exactly one '@'?
@@ -190,5 +190,5 @@ class LoginController(BaseController):
         c.messages = []
         c.session = Session()
 
-        return render('/derived/user/registered.html')
+        return render('/derived/login/registered.html')
 
