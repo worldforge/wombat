@@ -24,7 +24,7 @@ class BaseController(WSGIController):
             # Remember original requested path
             session['path_before_login'] = request.path_info
             session.save()
-            return redirect_to(h.url_for(controller='login'))
+            return redirect_to(h.url_for(controller='user', action='login'))
 
 
     def __call__(self, environ, start_response):
