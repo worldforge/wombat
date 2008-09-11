@@ -16,15 +16,20 @@
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy import types, schema
 
-def init_users_table(metadata):
-    return Table('users', metadata,
+def init_user_data_table(metadata):
+    return Table('user_data', metadata,
         Column('id', types.Integer, primary_key=True),
-        Column('email', types.Unicode(255)),
-        Column('password', types.Unicode(255)),
+        Column('name', types.Unicode(255)),
+        Column('nick', types.Unicode(255)),
+        Column('vcs_user', types.Unicode(255)),
+        Column('vcs_pass', types.Unicode(255)),
+        Column('user_id', types.Integer, schema.ForeignKey('users.id'))
     )
 
-class User(object):
-    def __init__(self, email, password):
-        self.email = email
-        self.password = password
+class UserData(object):
+    def __init__(self, name=None, nick=None, vcs_user=None, vcs_pass=None):
+        self.name = name
+        self.nick = nick
+        self.vcs_user = vcs_user
+        self.vcs_pass = vcs_pass
 
