@@ -42,5 +42,5 @@ mapper(Collection, collections_table, properties={
     "assets":relation(Asset, backref="collection")})
 mapper(User, users_table)
 mapper(UserData, user_data_table, properties={
-    "user":relation(User, backref="user_data", uselist=False)})
+    "user":relation(User, backref=backref("user_data", uselist=False))})
 
