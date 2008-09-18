@@ -17,6 +17,11 @@ class AuthController(BaseController):
         if 'user' in session:
             redirect_to(action='logged_in')
 
+        if 'messages' in session:
+            c.messages += session['messages']
+            del session['messages']
+            session.save()
+
         return render('/derived/auth/login.html')
 
     def submit(self, id):
@@ -28,11 +33,17 @@ class AuthController(BaseController):
         if user is None:
             if id == "ajax":
                 return "no such user"
+            session['messages'] = ["No such user"]
+            session.save()
+
             redirect_to(action='login')
 
         if user.password != md5.md5(form_password).hexdigest():
             if id == "ajax":
                 return "password mismatch"
+            session['messages'] = ["Password mismatch"]
+            session.save()
+
             redirect_to(action='login')
 
         session['user'] = form_email
@@ -46,12 +57,11 @@ class AuthController(BaseController):
             else:
                 redirect_to(action='logged_in')
 
-    def check(self, id):
-        if id is None:
-            if 'user' in session:
-                return "Logged in as %s" % session['user']
-            else:
-                return "Not logged in"
+    def check(self):
+        if 'user' in session:
+            return "Logged in as %s" % session['user']
+        else:
+            return "Not logged in"
 
     def logged_in(self):
         c.name = config['app_conf']['site_name']
