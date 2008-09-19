@@ -1,44 +1,56 @@
 <%inherit file="/base/index.html"/>
                 <div id="registerform">
                 ${h.form(h.url(action="signup"), method="post")}
-					<div class="f text">
-						<label for="user_email">Email*:</label>
-						${h.text_field("user_email")}
-                    </div>
-                    <div class="f text">
-                        <label for="user_email_confirm">Confirm email*:</label>
-                        ${h.text_field("user_email_confirm")}
-                    </div>
-					<div class="f password">
-						<label for="user_pass">Password*:</label>
-						${h.password_field("user_pass")}
-                    </div>
-					<div class="f password">
-						<label for="user_pass_confirm">Confirm password*:</label>
-						${h.password_field("user_pass_confirm")}
-                    </div>
-                    <div class="f text">
-                        <label for="user_name">User name:</label>
-                        ${h.text_field("user_name")}
-                    </div>
-                    <div class="f text">
-                        <label for="user_nick">User nickname:</label>
-                        ${h.text_field("user_nick")}
-                    </div>
-                    <div class="f text">
-                        <label for="user_vcs_user">VCS user name:</label>
-                        ${h.text_field("user_vcs_user")}
-                    </div>
-					<div class="f password">
-						<label for="user_vcs_pass">VCS password:</label>
-						${h.password_field("user_vcs_pass")}
-                    </div>
-					<div class="f password">
-						<label for="user_vcs_pass_confirm">Confirm vcs password:</label>
-						${h.password_field("user_vcs_pass_confirm")}
-                    </div>
-					<div class="f submit">
-						${h.submit('Register')}
+                	<div class="r">
+						<div class="f text">
+							<label for="user_email">Email*:</label>
+							${h.text_field("user_email")}
+						</div>
+						<div class="f text">
+							<label for="user_email_confirm">Confirm email*:</label>
+							${h.text_field("user_email_confirm")}
+						</div>
+					</div>
+					<div class="r">
+						<div class="f r text">
+							<label for="user_name">Your Name:</label>
+							${h.text_field("user_name")}
+						</div>
+						<div class="f r text">
+							<label for="user_nick">Your Nickname:</label>
+							${h.text_field("user_nick")}
+						</div>
+					</div>
+					<div class="r">
+						<div class="f password">
+							<label for="user_pass">Password*:</label>
+							${h.password_field("user_pass")}
+						</div>
+						<div class="f password">
+							<label for="user_pass_confirm">Confirm password*:</label>
+							${h.password_field("user_pass_confirm")}
+						</div>
+					</div>
+					<div class="r">
+						<div class="f text">
+							<label for="user_vcs_user">VCS user name:</label>
+							${h.text_field("user_vcs_user")}
+						</div>
+					</div>
+					<div class="r">
+						<div class="f password">
+							<label for="user_vcs_pass">VCS password:</label>
+							${h.password_field("user_vcs_pass")}
+						</div>
+						<div class="f password">
+							<label for="user_vcs_pass_confirm">Confirm vcs password:</label>
+							${h.password_field("user_vcs_pass_confirm")}
+						</div>
+					</div>
+					<div class="r">
+						<div class="f submit">
+							${h.submit('Register')}
+						</div>
 					</div>
                 ${h.end_form()}
                     <div id="explanation">Fields marked with * are mandatory.</div>
