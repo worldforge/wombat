@@ -124,9 +124,8 @@ class AccountController(BaseController):
         c.title = 'Account Index'
         c.messages = []
         c.session = Session()
-        # TODO: c.accounts = c.session.query(User).join(UserData)
-        c.accounts = c.session.query(User)
-        
+        c.accounts = c.session.query(User).all()
+
         return render('/derived/account/index.html')
 
     def edit(self, id):
@@ -138,10 +137,9 @@ class AccountController(BaseController):
         if id is None:
             abort(404)
 
-        # TODO: c.account = c.session.query(User).join(UserData)
-        c.account = c.session.query(User)
-        
+        c.account = c.session.query(User).get(id)
         if c.account is None:
             abort(404)
 
         return render('/derived/account/edit.html')
+

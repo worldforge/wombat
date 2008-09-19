@@ -10,21 +10,21 @@
                 	<div class="r">
 						<div class="f text req">
 							<label for="user_email">Email</label>
-							${h.text_field("user_email", value=c.email)}
+							${h.text_field("user_email", value=c.account.email)}
 						</div>
 						<div class="f text req">
 							<label for="user_email_confirm">Confirm</label>
-							${h.text_field("user_email_confirm", value=c.email)}
+							${h.text_field("user_email_confirm", value=c.account.email)}
 						</div>
 					</div>
 					<div class="r">
 						<div class="f r text req">
 							<label for="user_name">Your Name</label>
-							${h.text_field("user_name", value=c.name)}
+							${h.text_field("user_name", value=c.account.user_data.name)}
 						</div>
 						<div class="f r text req">
 							<label for="user_nick">Nickname</label>
-							${h.text_field("user_nick", value=c.nick)}
+							${h.text_field("user_nick", value=c.account.user_data.nick)}
 						</div>
 					</div>
 					<div class="r">
@@ -43,7 +43,7 @@
 					<div class="r">
 						<div class="f text req">
 							<label for="user_vcs_user">VCS Username</label>
-							${h.text_field("user_vcs_user", value=c.vcs_user)}
+							${h.text_field("user_vcs_user", value=c.account.user_data.vcs_user)}
 						</div>
 					</div>
 					<div class="r">
@@ -66,3 +66,4 @@
 					</div>
                 ${h.end_form()}
                 </div>
+
