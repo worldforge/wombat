@@ -62,7 +62,7 @@ class TestAccountController(TestController):
         new_res = form.submit()
 
         res = new_res.follow()
-        res.mustcontain("user registered successfully")
+        res.mustcontain("account registration has been received")
 
         s = model.Session()
         user = s.query(model.User).filter_by(email=u"test@localhost").first()

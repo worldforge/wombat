@@ -61,7 +61,7 @@ class TestAuthController(TestController):
     def test_logout(self):
         # This should work without user
         res = self.app.get(url_for(controller='auth', action='logout'))
-        res.mustcontain("Logged out successfully")
+        res.mustcontain("logged out")
 
         # and with user
         s = model.Session()
@@ -78,5 +78,5 @@ class TestAuthController(TestController):
 
         # This should work without user
         res = self.app.get(url_for(controller='auth', action='logout', id=None))
-        res.mustcontain("Logged out successfully")
+        res.mustcontain("logged out")
 
