@@ -29,6 +29,7 @@ function init()
 	
 	initItemDetails();
 	initMessageDisposal();
+	initRequiredFields();
 }
 
 /**
@@ -249,8 +250,79 @@ function uncook(name)
 function initMessageDisposal()
 {
 	var messageElement = $('message');
-	if( typeof(messageElement) != "undefined" )
+	if( messageElement )
 	{
 		Effect.Fade(messageElement,{duration:12.0,afterFinish:function(effect){ effect.element.remove(); }});
 	}
+}
+
+/**
+ * @function wombat:disclose
+ * Hides and shows something by ID.
+ * @author tingham
+ * @created 9/18/08 11:29 PM
+ **/
+function disclose( id )
+{
+	var item = $(id);
+	if( item )
+	{
+		if( item.style.display == "none" )
+		{
+			Effect.Appear(id);
+		}
+		else
+		{
+			Effect.Fade(id);
+		}
+	}
+}
+
+/**
+ * @function wombat:initRequiredFields
+ * Process required fields for proper hilighting.
+ * @author tingham
+ * @created 9/18/08 11:38 PM
+ **/
+function initRequiredFields()
+{
+	var elements = $$('div.req');
+	elements.each( function(item)
+		{
+			var subitems = item.descendants();
+			var input = subitems[1];
+			if( input )
+			{
+				$(input).observe('focus',hilightRequiredFieldset);
+				$(input).observe('blur',clearHilightRequiredFieldsets);
+			}
+		});
+}
+
+/**
+ * @function wombat:hilightRequiredFieldset
+ * @author tingham
+ * @created 9/18/08 11:45 PM
+ **/
+function hilightRequiredFieldset( event )
+{
+	var element = event.element();
+	clearHilightRequiredFieldsets();
+	element.up().removeClassName("req");
+	element.up().addClassName("reqd");
+}
+
+/**
+ * @function wombat:clearHilightRequiredFieldsets
+ * @author tingham
+ * @created 9/18/08 11:54 PM
+ **/
+function clearHilightRequiredFieldsets()
+{
+	var elements = $$('div.reqd');
+	elements.each( function(item)
+		{
+			item.removeClassName("reqd");
+			item.addClassName("req");
+		});
 }

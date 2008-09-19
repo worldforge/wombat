@@ -138,8 +138,10 @@ class AccountController(BaseController):
         if id is None:
             abort(404)
 
-        c.asset = c.session.query(UserData).get(id).join(UserData)
-        if c.asset is None:
+        # TODO: c.account = c.session.query(User).join(UserData)
+        c.account = c.session.query(User)
+        
+        if c.account is None:
             abort(404)
 
         return render('/derived/account/edit.html')

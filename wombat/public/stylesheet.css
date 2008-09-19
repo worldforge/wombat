@@ -340,6 +340,14 @@ div.r div.f
 {
 	padding:5px;
 }
+div.f.req
+{
+}
+div.f.reqd
+{
+	background-color:#f90;
+}
+
 form#advancedSearch
 {
 	display:block;

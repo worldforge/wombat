@@ -1,0 +1,68 @@
+<%inherit file="/base/index.html"/>
+                <div id="main">
+                ${h.form(h.url(action="change", id=c.id), method="post")}
+					<h1>Wombat Account Management</h1>
+                	<p>
+                		This is your "profile" in Wombat,
+                		fill it out, add the details that
+                		everyone needs to know.
+                	</p>
+                	<div class="r">
+						<div class="f text req">
+							<label for="user_email">Email</label>
+							${h.text_field("user_email", value=c.email)}
+						</div>
+						<div class="f text req">
+							<label for="user_email_confirm">Confirm</label>
+							${h.text_field("user_email_confirm", value=c.email)}
+						</div>
+					</div>
+					<div class="r">
+						<div class="f r text req">
+							<label for="user_name">Your Name</label>
+							${h.text_field("user_name", value=c.name)}
+						</div>
+						<div class="f r text req">
+							<label for="user_nick">Nickname</label>
+							${h.text_field("user_nick", value=c.nick)}
+						</div>
+					</div>
+					<div class="r">
+						<a href="javascript:disclose('password');void(0);">Edit Wombat Password</a>
+						<div id="password" style="display:none;">
+							<div class="f password req">
+								<label for="user_pass">Password</label>
+								${h.password_field("user_pass")}
+							</div>
+							<div class="f password req">
+								<label for="user_pass_confirm">Confirm</label>
+								${h.password_field("user_pass_confirm")}
+							</div>
+						</div>
+					</div>
+					<div class="r">
+						<div class="f text req">
+							<label for="user_vcs_user">VCS Username</label>
+							${h.text_field("user_vcs_user", value=c.vcs_user)}
+						</div>
+					</div>
+					<div class="r">
+						<a href="javascript:disclose('vcs_password');void(0);">Edit VCS Password</a>
+						<div id="vcs_password" style="display:none;">
+							<div class="f password req">
+								<label for="user_vcs_pass">VCS Password</label>
+								${h.password_field("user_vcs_pass")}
+							</div>
+							<div class="f password req">
+								<label for="user_vcs_pass_confirm">Confirm</label>
+								${h.password_field("user_vcs_pass_confirm")}
+							</div>
+						</div>
+					</div>
+					<div class="r">
+						<div class="f submit">
+							${h.submit('Register')}
+						</div>
+					</div>
+                ${h.end_form()}
+                </div>
