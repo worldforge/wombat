@@ -1,0 +1,33 @@
+<%inherit file="/base/index.html"/>
+                <div id="accountsearch">
+                    <table border="0">
+                    	<caption>${c.title}</caption>
+                        <tr>
+                            <th>Account Name</th>
+                            <th>Account Email</th>
+                            <th>Tools</th>
+                        </tr>
+%for user in c.accounts:
+                        <tr>
+                            <td>
+                            	${user.id}
+                            </td>
+                            <td>
+                                ${user.email}
+                            </td>
+                            <td>
+                            	<!-- TODO
+                            		Tools only appear when the mouse is over the row.
+                            		Tools are embedded in an overlay which shows when the main item
+                            		"manage" is clicked on. Contents should be drawn as such.. -->
+                            	<!-- if account disabled then -->
+                            	<a href="/account/disable?id=${user.id}">Disable</a>
+                            	<!-- else -->
+                            	<!--a href="/account/enable?id=${user.id}">Enable</a-->
+                            	<!--a href="/account/delete?id=${user.id}">Delete</a-->
+                            	<!-- endif -->
+                            </td>
+                        </tr>
+%endfor
+                    </table>
+                </div>
