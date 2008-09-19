@@ -269,7 +269,13 @@ function disclose( id )
 	{
 		if( item.style.display == "none" )
 		{
-			Effect.Appear(id);
+			Effect.Appear(id,{afterFinish:function(effect)
+				{
+					var element = effect.element;
+					var subitems = element.select('input');
+					subitems[0].focus();
+				}
+			});
 		}
 		else
 		{

@@ -342,10 +342,16 @@ div.r div.f
 }
 div.f.req
 {
+	background-image:url(/images/req-off.png);
+	background-position: right 5px;
+	background-repeat:no-repeat;
 }
 div.f.reqd
 {
-	background-color:#f90;
+	/*background-color:#f90;*/
+	background-image:url(/images/req-on.png);
+	background-position: right 5px;
+	background-repeat:no-repeat;
 }
 
 form#advancedSearch
