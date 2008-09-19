@@ -46,7 +46,7 @@ class AuthController(BaseController):
 
             redirect_to(action='login')
 
-        session['user'] = form_email
+        session['user'] = user
         session.save()
 
         if id == "ajax":
@@ -59,7 +59,7 @@ class AuthController(BaseController):
 
     def check(self):
         if 'user' in session:
-            return "Logged in as %s" % session['user']
+            return "Logged in as %s" % session['user'].email
         else:
             return "Not logged in"
 

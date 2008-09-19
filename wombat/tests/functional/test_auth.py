@@ -53,7 +53,7 @@ class TestAuthController(TestController):
                 params={'email':'test@localhost', 'password':'secret'})
         res.mustcontain("success")
 
-        self.assertEqual(res.session['user'], u'test@localhost')
+        self.assertEqual(res.session['user'].email, u'test@localhost')
 
         res = self.app.get(url_for(controller='auth', action='check'))
         res.mustcontain("Logged in as test@localhost")
