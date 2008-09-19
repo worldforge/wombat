@@ -28,6 +28,7 @@ function init()
 	picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
 	
 	initItemDetails();
+	initMessageDisposal();
 }
 
 /**
@@ -236,4 +237,20 @@ function uncook(name)
 		if (c.indexOf(nameIs) == 0) return c.substring(nameIs.length,c.length);
 	}
 	return null;
+}
+
+/**
+  * wombat::initMessageDisposal
+  * Fades the message box out after a time.
+  * @return	[nil]
+  * @author	Thomas Ingham
+  * @created 9/18/08 10:14 PM
+ */
+function initMessageDisposal()
+{
+	var messageElement = $('message');
+	if( typeof(messageElement) != "undefined" )
+	{
+		Effect.Fade(messageElement,{duration:12.0,afterFinish:function(effect){ effect.element.remove(); }});
+	}
 }

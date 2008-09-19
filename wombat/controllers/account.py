@@ -120,3 +120,26 @@ class AccountController(BaseController):
 
         return render('/derived/account/registered.html')
 
+    def index(self):
+        c.title = 'Account Index'
+        c.messages = []
+        c.session = Session()
+        # TODO: c.accounts = c.session.query(User).join(UserData)
+        c.accounts = c.session.query(User)
+        
+        return render('/derived/account/index.html')
+
+    def edit(self, id):
+        c.name = config['app_conf']['site_name']
+        c.title = 'Edit Account'
+        c.messages = []
+        c.session = Session()
+
+        if id is None:
+            abort(404)
+
+        c.asset = c.session.query(UserData).get(id).join(UserData)
+        if c.asset is None:
+            abort(404)
+
+        return render('/derived/account/edit.html')
