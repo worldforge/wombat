@@ -1,49 +1,51 @@
 <%inherit file="/base/index.html"/>
                 <div id="registerform">
                 ${h.form(h.url(action="signup"), method="post")}
+                	<h1>Register for a Wombat Account</h1>
+                	<p>Please fill out the form below to register for an account with Wombat. You will receive notification via email with your account information for future reference.</p>
                 	<div class="r">
 						<div class="f text">
-							<label for="user_email">Email*:</label>
+							<label for="user_email">Email</label>
 							${h.text_field("user_email")}
 						</div>
 						<div class="f text">
-							<label for="user_email_confirm">Confirm email*:</label>
+							<label for="user_email_confirm">Confirm</label>
 							${h.text_field("user_email_confirm")}
 						</div>
 					</div>
 					<div class="r">
 						<div class="f r text">
-							<label for="user_name">Your Name:</label>
+							<label for="user_name">Your Name</label>
 							${h.text_field("user_name")}
 						</div>
 						<div class="f r text">
-							<label for="user_nick">Your Nickname:</label>
+							<label for="user_nick">Nickname</label>
 							${h.text_field("user_nick")}
 						</div>
 					</div>
 					<div class="r">
 						<div class="f password">
-							<label for="user_pass">Password*:</label>
+							<label for="user_pass">Password</label>
 							${h.password_field("user_pass")}
 						</div>
 						<div class="f password">
-							<label for="user_pass_confirm">Confirm password*:</label>
+							<label for="user_pass_confirm">Confirm</label>
 							${h.password_field("user_pass_confirm")}
 						</div>
 					</div>
 					<div class="r">
 						<div class="f text">
-							<label for="user_vcs_user">VCS user name:</label>
+							<label for="user_vcs_user">VCS Username</label>
 							${h.text_field("user_vcs_user")}
 						</div>
 					</div>
 					<div class="r">
 						<div class="f password">
-							<label for="user_vcs_pass">VCS password:</label>
+							<label for="user_vcs_pass">VCS Password</label>
 							${h.password_field("user_vcs_pass")}
 						</div>
 						<div class="f password">
-							<label for="user_vcs_pass_confirm">Confirm vcs password:</label>
+							<label for="user_vcs_pass_confirm">Confirm</label>
 							${h.password_field("user_vcs_pass_confirm")}
 						</div>
 					</div>

@@ -323,12 +323,10 @@ div.f.text input,div.f.password input,div.f.select select,div.f.textarea textare
 div.f label
 {
 	display:block;
-	float:left;
-	clear:none;
+	clear:both;
 	overflow:hidden;
-	width:55px;
-	padding:0px 2px 0px 0px;
-	text-align:right;
+	width:145px;
+	text-align:left;
 	font-size:12px;
 	line-height:22px;
 }
@@ -337,6 +335,10 @@ div.r /* form row */
 	display:block;
 	clear:both;
 	overflow:hidden;
+}
+div.r div.f
+{
+	padding:5px;
 }
 form#advancedSearch
 {
