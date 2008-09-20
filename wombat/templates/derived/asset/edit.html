@@ -1,5 +1,5 @@
 <%inherit file="/base/index.html"/>
-                <div id="main">
+                <div id="editasset" class="edit">
                 ${h.form(h.url(action="change", id=c.id), method="post")}
                 Asset Name: ${h.text_field("asset_name", value=c.asset.name)}<br />
                 Asset keywords: ${h.text_field("asset_keywords", value=c.asset.keywords)}<br />

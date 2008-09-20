@@ -1,59 +1,71 @@
 <%inherit file="/base/index.html"/>
-                <div id="registerform">
-                ${h.form(h.url(action="signup"), method="post")}
+                <div id="registerform" class="edit">
                 	<h1>Wombat Account Registration</h1>
-                	<p>Please fill out the form below to register for an account with Wombat. You will receive notification via email with your account information for future reference.</p>
-                	<div class="r">
-						<div class="f text">
-							<label for="user_email">Email</label>
-							${h.text_field("user_email")}
+                	<p>
+                		Please fill out the form below to register
+                		for an account with Wombat. You will receive
+                		notification via email with your account
+                		information for future reference.
+                	</p>
+					${h.form(h.url(action="signup"), method="post")}
+						<div class="r">
+							<div class="f text req">
+								<label for="user_email">Email</label>
+								${h.text_field("user_email")}
+							</div>
+							<div class="f text req">
+								<label for="user_email_confirm">Confirm</label>
+								${h.text_field("user_email_confirm")}
+							</div>
 						</div>
-						<div class="f text">
-							<label for="user_email_confirm">Confirm</label>
-							${h.text_field("user_email_confirm")}
+						<div class="r">
+							<div class="f text req">
+								<label for="user_name">Your Name</label>
+								${h.text_field("user_name")}
+							</div>
+							<div class="f text req">
+								<label for="user_nick">Nickname</label>
+								${h.text_field("user_nick")}
+							</div>
 						</div>
-					</div>
-					<div class="r">
-						<div class="f r text">
-							<label for="user_name">Your Name</label>
-							${h.text_field("user_name")}
+						<div class="r">
+							<div class="f password req">
+								<label for="user_pass">Password</label>
+								${h.password_field("user_pass")}
+							</div>
+							<div class="f password req">
+								<label for="user_pass_confirm">Confirm</label>
+								${h.password_field("user_pass_confirm")}
+							</div>
 						</div>
-						<div class="f r text">
-							<label for="user_nick">Nickname</label>
-							${h.text_field("user_nick")}
+						<span class="note">
+							<strong>Optional Information</strong><br />
+							<p>
+								The following information is for integration
+								with the version control system. You won't need
+								it until you start contributing to a project.
+							</p>
+						</span>
+						<div class="r">
+							<div class="f text">
+								<label for="user_vcs_user">VCS Username</label>
+								${h.text_field("user_vcs_user")}
+							</div>
 						</div>
-					</div>
-					<div class="r">
-						<div class="f password">
-							<label for="user_pass">Password</label>
-							${h.password_field("user_pass")}
+						<div class="r">
+							<div class="f password">
+								<label for="user_vcs_pass">VCS Password</label>
+								${h.password_field("user_vcs_pass")}
+							</div>
+							<div class="f password">
+								<label for="user_vcs_pass_confirm">Confirm</label>
+								${h.password_field("user_vcs_pass_confirm")}
+							</div>
 						</div>
-						<div class="f password">
-							<label for="user_pass_confirm">Confirm</label>
-							${h.password_field("user_pass_confirm")}
+						<div class="r">
+							<div class="f submit">
+								${h.submit('Register')}
+							</div>
 						</div>
-					</div>
-					<div class="r">
-						<div class="f text">
-							<label for="user_vcs_user">VCS Username</label>
-							${h.text_field("user_vcs_user")}
-						</div>
-					</div>
-					<div class="r">
-						<div class="f password">
-							<label for="user_vcs_pass">VCS Password</label>
-							${h.password_field("user_vcs_pass")}
-						</div>
-						<div class="f password">
-							<label for="user_vcs_pass_confirm">Confirm</label>
-							${h.password_field("user_vcs_pass_confirm")}
-						</div>
-					</div>
-					<div class="r">
-						<div class="f submit">
-							${h.submit('Register')}
-						</div>
-					</div>
-                ${h.end_form()}
-                    <div id="explanation">Fields marked with * are mandatory.</div>
+					${h.end_form()}
                 </div>

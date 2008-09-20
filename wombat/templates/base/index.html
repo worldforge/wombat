@@ -14,7 +14,7 @@ ${self.head()}
     <div id="root">
 ${self.header()}
     <div id="middle">
-${self.menu()}
+
 	    <div id="content">
 <%include file="/components/messages.html"/>
 ${next.body()}
@@ -50,12 +50,19 @@ ${self.footer()}
         <div id="header">
             <div id="logo">
                 <a href="/" title="${c.name}">
-                    <img src="/images/wombat-72.png"
+                    <img src="/images/headLogo.png"
                     	 border="0"
                     	 alt="${c.name}" />
                 </a>
             </div>
-            <div id="logo-text">${c.name}</div>
+			<div id="logo-text">
+				<a href="/">${c.name}</a>
+				${self.menu()}
+			</div>
+        </div>
+</%def>
+
+<%def name="Search()">
             <div id="search">
 <%include file="/components/searchbox.html"/>
                 <div class="action">
@@ -64,15 +71,13 @@ ${self.footer()}
 	            <div id="revAdvancedSearch" style="display:none;">
 <%include file="/components/adv_search.html"/>
     	        </div>
-	    </div>
-        </div>
+		    </div>
 </%def>
 
 <%def name="menu()">
             <div id="menu">
 <%include file="/components/menu.html"/>
-<%include file="/components/additions.html"/>
-                <h2><a class="menulink" href="/show">Server Status</a></h2>
+<!-- %include file="/components/additions.html"/ -->
 	    </div>
 </%def>
 

@@ -14,18 +14,22 @@ var fileDetailsSpeed = 0.5;
  */
 function init()
 {
-	var openByDefault = uncook('openRevDetails');
-	if( openByDefault == "YES" )
+	var search = $('search');
+	if( search )
 	{
-		revealDetails(0.1);
+		var openByDefault = uncook('openRevDetails');
+		if( openByDefault == "YES" )
+		{
+			revealDetails(0.1);
+		}
+		openByDefault = uncook('openSearch');
+		if( openByDefault == "YES" )
+		{
+			revealAdvancedSearch(0.1);
+		}
+		picker_date_in = new Control.DatePicker('date_in', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
+		picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
 	}
-	openByDefault = uncook('openSearch');
-	if( openByDefault == "YES" )
-	{
-		revealAdvancedSearch(0.1);
-	}
-	picker_date_in = new Control.DatePicker('date_in', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
-	picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
 	
 	initItemDetails();
 	initMessageDisposal();
