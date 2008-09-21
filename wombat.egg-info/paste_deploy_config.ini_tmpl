@@ -42,6 +42,9 @@ set debug = false
 sqlalchemy.default.url = sqlite:///%(here)s/data/repository.db
 backend = svn
 
+# Check if a superuser account should be created on setup-app
+create_superuser = true
+
 # Logging configuration
 [loggers]
 keys = root
