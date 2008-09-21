@@ -21,10 +21,12 @@ def init_users_table(metadata):
         Column('id', types.Integer, primary_key=True),
         Column('email', types.Unicode(255)),
         Column('password', types.Unicode(255)),
+        Column('active', types.Boolean)
     )
 
 class User(object):
-    def __init__(self, email, password):
+    def __init__(self, email, password, active=False):
         self.email = email
         self.password = password
+        self.active = active
 

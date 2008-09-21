@@ -16,11 +16,24 @@ class TestAuthController(TestController):
         res.mustcontain("No such user")
 
         s = model.Session()
-        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()))
+        # create the user as "inactive"
+        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()), False)
         data = model.UserData(u"Test Testus", u"test", u"test", u"test")
         data.user = user
         s.save(user)
         s.save(data)
+        s.commit()
+
+        # test that disabled users can't log in
+        form['email'] = "test@localhost"
+        form['password'] = "secret"
+        new_res = form.submit()
+
+        res = new_res.follow()
+        res.mustcontain("Account disabled")
+
+        user.active = True
+        s.update(user)
         s.commit()
 
         form['email'] = "test@localhost"
@@ -42,7 +55,8 @@ class TestAuthController(TestController):
         res.mustcontain("Not logged in")
 
         s = model.Session()
-        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()))
+        # create a user that's already set "active"
+        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()), True)
         data = model.UserData(u"Test Testus", u"test", u"test", u"test")
         data.user = user
         s.save(user)
@@ -65,7 +79,8 @@ class TestAuthController(TestController):
 
         # and with user
         s = model.Session()
-        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()))
+        # create a user that's already active
+        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()), True)
         data = model.UserData(u"Test Testus", u"test", u"test", u"test")
         data.user = user
         s.save(user)

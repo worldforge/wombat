@@ -38,6 +38,14 @@ class AuthController(BaseController):
 
             redirect_to(action='login')
 
+        if not user.active:
+            if id == "ajax":
+                return "account disabled"
+            session['messages'] = ["Account disabled"]
+            session.save()
+
+            redirect_to(action='login')
+
         if user.password != md5.md5(form_password).hexdigest():
             if id == "ajax":
                 return "password mismatch"
