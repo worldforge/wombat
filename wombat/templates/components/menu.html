@@ -20,7 +20,7 @@
                     %endif
                     <li class="last">
 						<div id="loginform" class="f">
-						${h.form(h.url(action="submit"), method="post")}
+						${h.form(h.url(controller="auth", action="submit"), method="post")}
 								<div class="f text">
 									<label for="email">Email:</label>
 									${h.text_field("email")}
