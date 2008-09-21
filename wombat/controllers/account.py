@@ -141,5 +141,12 @@ class AccountController(BaseController):
         if c.account is None:
             abort(404)
 
+        if not 'user' in session:
+            abort(403)
+
+        #TODO: Admin users should be able to edit accounts as well.
+        if session['user'].id != c.account.id:
+            abort(403)
+
         return render('/derived/account/edit.html')
 
