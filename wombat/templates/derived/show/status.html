@@ -1,39 +1,39 @@
         <div id="status">
             <h3>Status</h3>
             <table class="details">
-            	<tr>
-            		<td rowspan="8">
-            			<a href="http://wiki.worldforge.org/wiki/Wombat">
-            				<img src="/images/wombat-144.png" alt="Wombat Media Repository Viewer" border="0" />
+                <tr>
+                    <td class="label" width="25%">Repository URL:</td>
+                    <td class="value"><a href="${c.repo_url}">${c.repo_url}</a></td>
+            		<td rowspan="8" style="text-align:center;">
+            			<a href="http://wiki.worldforge.org/wiki/Wombat" style="text-decoration:none;">
+            				<img src="/images/wombat-144.png" alt="Wombat Media Repository Viewer" border="0" /><br />
+            				View Wombat Documentation
             			</a>
             		</td>
-                <tr>
-                    <td width="25%">Repository URL:</td>
-                    <td><a href="${c.repo_url}">${c.repo_url}</a></td>
                 </tr>
                 <tr>
-                    <td>Current Revision:</td>
-                    <td>${c.revision}</td>
+                    <td class="label">Current Revision:</td>
+                    <td class="value">${c.revision}</td>
                 </tr>
                 <tr>
-                    <td>Total size of the repository:</td>
-                    <td>${h.sizeToStr(c.total_size)} (${c.file_count} files)</td>
+                    <td class="label">Total size of the repository:</td>
+                    <td class="value">${h.sizeToStr(c.total_size)} (${c.file_count} files)</td>
                 </tr>
                 <tr>
-                    <td>Average file size:</td>
-                    <td>${h.sizeToStr(int(round(c.avg_size)))}</td>
+                    <td class="label">Average file size:</td>
+                    <td class="value">${h.sizeToStr(int(round(c.avg_size)))}</td>
                 </tr>
                 <tr>
-                    <td>Most popular file type:</td>
-                    <td>${c.ext_string} (${c.ext_count} files)</td>
+                    <td class="label">Most popular file type:</td>
+                    <td class="value">${c.ext_string} (${c.ext_count} files)</td>
                 </tr>
                 <tr>
-                    <td>Asset count:</td>
-                    <td>${c.asset_count} assets</td>
+                    <td class="label">Asset count:</td>
+                    <td class="value">${c.asset_count} assets</td>
                 </tr>
                 <tr>
-                    <td>Collection count:</td>
-                    <td>${c.collection_count} collections</td>
+                    <td class="label">Collection count:</td>
+                    <td class="value">${c.collection_count} collections</td>
                 </tr>
             </table>
         </div>
