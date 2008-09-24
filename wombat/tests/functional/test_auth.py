@@ -6,7 +6,12 @@ class TestAuthController(TestController):
     def test_login(self):
         res = self.app.get(url_for(controller='auth', action='login', id=None))
 
-        form = res.forms[2]
+        form = None
+        for key in res.forms.keys():
+            if 'email' in res.forms[key].fields:
+                form = res.forms[key]
+
+        self.assertNotEqual(form, None)
 
         form['email'] = "test@localhost"
         form['password'] = "secret"

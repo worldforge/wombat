@@ -1,10 +1,17 @@
+import md5
 from wombat.tests import *
 
 class TestAccountController(TestController):
 
     def test_register(self):
         res = self.app.get(url_for(controller='account', action='register'))
-        form = res.forms[2]
+
+        form = None
+        for key in res.forms.keys():
+            if 'user_email' in res.forms[key].fields:
+                form = res.forms[key]
+
+        self.assertNotEqual(form, None)
 
         new_res = form.submit()
         res = new_res.follow()

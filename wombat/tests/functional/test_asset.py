@@ -45,8 +45,13 @@ class TestAssetController(TestController):
 
     def test_new(self):
         response = self.app.get(url_for(controller='asset', action='new'))
-        # forms[0] is the quick search, forms[1] is the advanced search
-        form = response.forms[2]
+        form = None
+        for key in response.forms.keys():
+            if 'asset_name' in response.forms[key].fields:
+                form = response.forms[key]
+
+        self.assertNotEqual(form, None)
+
         form['asset_name'] = "asset 3"
         form['asset_keywords'] = "third asset keywords"
         new_res = form.submit('commit')
@@ -75,8 +80,13 @@ class TestAssetController(TestController):
         self.assertEqual(response.c.asset.name, a.name)
         self.assertEqual(response.c.asset.keywords, a.keywords)
 
-        # forms[0] is the quick search, forms[1] is the advanced search
-        form = response.forms[2]
+        form = None
+        for key in response.forms.keys():
+            if 'asset_keywords' in response.forms[key].fields:
+                form = response.forms[key]
+
+        self.assertNotEqual(form, None)
+
         form['asset_keywords'] = u"new asset keywords"
         new_res = form.submit('commit')
         self.assertNotEqual(response, new_res)

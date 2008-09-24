@@ -45,8 +45,13 @@ class TestCollectionController(TestController):
 
     def test_new(self):
         response = self.app.get(url_for(controller='collection', action='new'))
-        # forms[0] is the quick search, forms[1] is the advanced search
-        form = response.forms[2]
+        form = None
+        for key in response.forms.keys():
+            if 'collection_name' in response.forms[key].fields:
+                form = response.forms[key]
+
+        self.assertNotEqual(form, None)
+
         form['collection_name'] = "collection 3"
         form['collection_keywords'] = "third collection keywords"
         new_res = form.submit('commit')
@@ -74,9 +79,12 @@ class TestCollectionController(TestController):
 
         self.assertEqual(response.c.collection.name, c.name)
         self.assertEqual(response.c.collection.keywords, c.keywords)
+        for key in response.forms.keys():
+            if 'collection_keywords' in response.forms[key].fields:
+                form = response.forms[key]
 
-        # forms[0] is the quick search, forms[1] is the advanced search
-        form = response.forms[2]
+        self.assertNotEqual(form, None)
+
         form['collection_keywords'] = u"new collection keywords"
         new_res = form.submit('commit')
         self.assertNotEqual(response, new_res)
