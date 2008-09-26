@@ -20,12 +20,12 @@
                             		Tools only appear when the mouse is over the row.
                             		Tools are embedded in an overlay which shows when the main item
                             		"manage" is clicked on. Contents should be drawn as such.. -->
-                            	<!-- if account disabled then -->
-                            	<a href="/account/disable?id=${user.id}">Disable</a>
-                            	<!-- else -->
-                            	<!--a href="/account/enable?id=${user.id}">Enable</a-->
-                            	<!--a href="/account/delete?id=${user.id}">Delete</a-->
-                            	<!-- endif -->
+                                %if user.active:
+                                <a href=${h.url_for(action='disable', id=user.id)}>Disable</a>
+                                %else:
+                                <a href=${h.url_for(action='enable', id=user.id)}>Enable</a>
+                                <a href=${h.url_for(action='delete', id=user.id)}>Delete</a>
+                                %endif
                             </td>
                         </tr>
 %endfor
