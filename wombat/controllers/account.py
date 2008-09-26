@@ -278,3 +278,20 @@ class AccountController(BaseController):
 
         return "account %s enabled" % user.email
 
+    def disable(self, id):
+        if id is None:
+            avort(404)
+
+        s = Session()
+        user = s.query(User).get(id)
+
+        if user is None:
+            abort(404)
+
+        #TODO: check for admin role
+        user.active = False
+        s.update(user)
+        s.commit()
+
+        return "account %s disabled" % user.email
+
