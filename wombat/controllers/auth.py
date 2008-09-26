@@ -54,7 +54,7 @@ class AuthController(BaseController):
 
             redirect_to(action='login')
 
-        session['user'] = user
+        session['user'] = user.id
         session.save()
 
         if id == "ajax":
@@ -67,7 +67,12 @@ class AuthController(BaseController):
 
     def check(self):
         if 'user' in session:
-            return "Logged in as %s" % session['user'].email
+            s = Session()
+            db_user = s.query(User).get(session['user'])
+            if db_user:
+                return "Logged in as %s" % db_user.email
+            else:
+                return "Database error"
         else:
             return "Not logged in"
 
@@ -77,8 +82,14 @@ class AuthController(BaseController):
         c.messages = []
         c.session = Session()
 
-        c.user = session.get('user')
+        user_id = session.get('user')
+        if user_id is None:
+            redirect_to(action='login')
+
+        c.user = c.session.query(User).get(user_id)
         if c.user is None:
+            del session['user']
+            session.save()
             redirect_to(action='login')
 
         return render('/derived/auth/logged_in.html')
