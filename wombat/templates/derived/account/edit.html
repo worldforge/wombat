@@ -28,8 +28,8 @@
 							</div>
 						</div>
 						<div class="r">
-							<a href="javascript:disclose('password');void(0);">Edit Wombat Password</a>
-							<div id="password" style="display:none;">
+							<a href="javascript:disclose('edit_password');void(0);">Edit Wombat Password</a>
+							<div id="edit_password" style="display:none;">
 								<div class="f password req">
 									<label for="user_pass">Password</label>
 									${h.password_field("user_pass")}
@@ -61,7 +61,7 @@
 						</div>
 						<div class="r">
 							<div class="f submit">
-								${h.submit('Register')}
+								${h.submit('Change')}
 							</div>
 						</div>
 					${h.end_form()}
