@@ -261,4 +261,20 @@ class AccountController(BaseController):
 
         return render('derived/account/changed.html')
 
+    def enable(self, id):
+        if id is None:
+            abort(404)
+
+        s = Session()
+        user = s.query(User).get(id)
+
+        if user is None:
+            abort(404)
+
+        #TODO: check for admin role
+        user.active = True
+        s.update(user)
+        s.commit()
+
+        return "account %s enabled" % user.email
 
