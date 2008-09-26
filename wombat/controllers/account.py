@@ -295,3 +295,26 @@ class AccountController(BaseController):
 
         return "account %s disabled" % user.email
 
+    def delete(self, id):
+        if id is None:
+            abort(404)
+
+        s = Session()
+        user = s.query(User).get(id)
+
+        if user is None:
+            return (404)
+
+        if not 'user' in session:
+            abort(403)
+
+        #TODO: Check for admin permissions heere
+        if session['user'] == user.id:
+            s.delete(user.user_data)
+            s.delete(user)
+            s.commit()
+
+            return "Your account has been deleted."
+        else:
+            return "Failed to delete account"
+
