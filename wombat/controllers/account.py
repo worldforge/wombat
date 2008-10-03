@@ -2,6 +2,7 @@ import logging
 
 import md5
 from wombat.lib.base import *
+from wombat.lib.auth import crypt_password
 from wombat.model import User, UserData
 
 log = logging.getLogger(__name__)
@@ -99,7 +100,7 @@ class AccountController(BaseController):
         else:
             vcs_user = None
 
-        user = User(user_email, unicode(md5.md5(user_pass).hexdigest()))
+        user = User(user_email, crypt_password(user_pass))
         data = UserData(user_name, user_nick, vcs_user, vcs_pass)
         data.user = user
         s.save(user)
@@ -209,7 +210,7 @@ class AccountController(BaseController):
                 redirect_to(action="edit")
 
         if user_pass != "":
-            user.password = unicode(md5.md5(user_pass).hexdigest())
+            user.password = crypt_password(user_pass)
 
         if request.params.get('user_vcs_pass') is not None:
             vcs_pass = unicode(request.params.get('user_vcs_pass'))

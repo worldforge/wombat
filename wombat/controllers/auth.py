@@ -2,6 +2,7 @@ import logging
 
 import md5
 from wombat.lib.base import *
+from wombat.lib.auth import check_password
 from wombat.model import User, UserData
 
 log = logging.getLogger(__name__)
@@ -46,7 +47,7 @@ class AuthController(BaseController):
 
             redirect_to(action='login')
 
-        if user.password != md5.md5(form_password).hexdigest():
+        if not check_password(user.password, form_password):
             if id == "ajax":
                 return "password mismatch"
             session['messages'] = ["Password mismatch"]

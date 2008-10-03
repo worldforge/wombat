@@ -6,6 +6,7 @@ from paste.deploy import appconfig
 from pylons import config
 
 from wombat.config.environment import load_environment
+from wombat.lib.auth import crypt_password
 
 log = logging.getLogger(__name__)
 
@@ -16,7 +17,7 @@ def setup_superuser(model):
     print "Enter email for the super user"
     email = unicode(sys.stdin.readline().strip())
     print "Enter superuser password"
-    passwd = unicode(md5.md5(unicode(sys.stdin.readline().strip())).hexdigest())
+    passwd = crypt_password(sys.stdin.readline().strip())
     user = model.User(email, passwd, True)
     admin = s.query(model.Role).filter_by(name=u"admin").first()
     if admin is not None:
