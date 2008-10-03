@@ -18,11 +18,24 @@ def setup_superuser(model):
     print "Enter superuser password"
     passwd = unicode(md5.md5(unicode(sys.stdin.readline().strip())).hexdigest())
     user = model.User(email, passwd, True)
+    admin = s.query(model.Role).filter_by(name=u"admin").first()
+    if admin is not None:
+        user.roles.append(admin)
     s.save(user)
     data = model.UserData(u"System Administrator", u"admin")
     data.user = user
-    #TODO: set up as role "admin"
     s.save(data)
+    s.commit()
+
+def create_roles(model):
+    """Create the default roles"""
+    s = model.Session()
+    admin = model.Role(u"admin")
+    lead = model.Role(u"lead")
+    artist = model.Role(u"artist")
+    s.save(admin)
+    s.save(lead)
+    s.save(artist)
     s.commit()
 
 def setup_config(command, filename, section, vars):
@@ -44,6 +57,8 @@ def setup_config(command, filename, section, vars):
     log.info("Creating tables...")
     model.metadata.create_all(bind=engine)
     log.info("Successfully set up.")
+
+    create_roles(model)
 
     answer = ""
 
