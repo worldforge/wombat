@@ -1,5 +1,5 @@
-import md5
 from wombat.tests import *
+from wombat.lib.auth import crypt_password
 
 class TestAuthController(TestController):
 
@@ -22,7 +22,7 @@ class TestAuthController(TestController):
 
         s = model.Session()
         # create the user as "inactive"
-        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()), False)
+        user = model.User(u"test@localhost", crypt_password("secret"), False)
         data = model.UserData(u"Test Testus", u"test", u"test", u"test")
         data.user = user
         s.save(user)
@@ -61,7 +61,7 @@ class TestAuthController(TestController):
 
         s = model.Session()
         # create a user that's already set "active"
-        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()), True)
+        user = model.User(u"test@localhost", crypt_password('secret'), True)
         data = model.UserData(u"Test Testus", u"test", u"test", u"test")
         data.user = user
         s.save(user)
@@ -85,7 +85,7 @@ class TestAuthController(TestController):
         # and with user
         s = model.Session()
         # create a user that's already active
-        user = model.User(u"test@localhost", unicode(md5.md5(u"secret").hexdigest()), True)
+        user = model.User(u"test@localhost", crypt_password('secret'), True)
         data = model.UserData(u"Test Testus", u"test", u"test", u"test")
         data.user = user
         s.save(user)
