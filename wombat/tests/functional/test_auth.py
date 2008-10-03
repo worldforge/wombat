@@ -18,7 +18,7 @@ class TestAuthController(TestController):
         new_res = form.submit()
 
         res = new_res.follow()
-        res.mustcontain("No such user")
+        res.mustcontain("Password mismatch")
 
         s = model.Session()
         # create the user as "inactive"

@@ -33,8 +33,8 @@ class AuthController(BaseController):
         user = s.query(User).filter_by(email=unicode(form_email)).first()
         if user is None:
             if id == "ajax":
-                return "no such user"
-            session['messages'] = ["No such user"]
+                return "password mismatch"
+            session['messages'] = ["Password mismatch"]
             session.save()
 
             redirect_to(action='login')
