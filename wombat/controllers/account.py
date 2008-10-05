@@ -440,7 +440,7 @@ class AccountController(BaseController):
         if id is None:
             abort(404)
 
-        c.reset_data = c.session.query(ResetData).filter_by(token=id).first()
+        c.reset_data = c.session.query(ResetData).filter_by(token=unicode(id)).first()
 
         if c.reset_data is None:
             abort(404)
@@ -457,12 +457,17 @@ class AccountController(BaseController):
             abort(404)
 
         s = Session()
-        reset_data = s.query(ResetData).filter_by(token=id).first()
+        reset_data = s.query(ResetData).filter_by(token=unicode(id)).first()
+
+        if reset_data is None:
+            abort(404)
+
         # Just a small sanity check if the user was deleted between creating the
         # reset request and resetting the password
         user = s.query(User).filter_by(email=reset_data.email).first()
-
-        if reset_data is None or user is None:
+        if user is None:
+            s.delete(reset_data)
+            s.commmit()
             abort(404)
 
         password = unicode(request.params.get('new_password'))
@@ -497,7 +502,7 @@ class AccountController(BaseController):
         if id is None:
             abort(404)
 
-        reset_data = c.session.query(ResetData).filter_by(token=id).first()
+        reset_data = c.session.query(ResetData).filter_by(token=unicode(id)).first()
 
         if reset_data is None:
             abort(404)

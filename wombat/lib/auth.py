@@ -29,7 +29,7 @@ def random_token():
     """None -> string
     Generate a random 16byte token.
     """
-    token = str(hex(random.getrandbits(16*8))).lstrip('0x').rstrip('L')
+    token = unicode(hex(random.getrandbits(16*8))).lstrip('0x').rstrip('L')
     return token
 
 def crypt_password(password):
