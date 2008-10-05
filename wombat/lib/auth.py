@@ -25,6 +25,13 @@ def random_salt():
     salt = u"".join(random.sample(VALID_CHARS, 8))
     return salt
 
+def random_token():
+    """None -> string
+    Generate a random 16byte token.
+    """
+    token = str(hex(random.getrandbits(16*8))).lstrip('0x').rstrip('L')
+    return token
+
 def crypt_password(password):
     """string -> string
     Generate an encrypted password.
