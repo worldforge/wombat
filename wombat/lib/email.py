@@ -22,7 +22,13 @@ def send_mail(toaddr, msg):
     """(string, string) -> None
     Send an email to <toaddr>
     """
-    server = smtplib.SMTP(config['app_conf']['smtpserver'])
+    servername = config['app_conf']['smtpserver']
+
+    # skip fake server name used for tests.
+    if servername == "fake.example.com":
+        return
+
+    server = smtplib.SMTP(servername)
     fromaddr = config['app_conf']['email_from']
 
     #TODO: Catch errors here once I decided how to handle those error cases.
@@ -60,4 +66,34 @@ To cancel the request, please go to %(cancel_url)s .
 
     return msg
 
+def create_account_activation_msg(toaddr, token):
+    """(string, string) -> string
+    Create the email headers/body of an account activation email.
+    """
+    d = {
+            "from": config['app_conf']['email_from'],
+            "to": toaddr,
+            "date":  datetime.datetime.now().ctime(),
+            "appname": config['app_conf']['site_name'],
+            "activate_url": h.url_for(controller='account', action='activate',
+                id=token, qualified=True),
+            "cancel_url": h.url_for(controller='account', action='cancel_account',
+                id=token, qualified=True)
+        }
+
+    msg = """From: %(from)s
+To: %(to)s
+Date: %(date)s
+Subject: [%(appname)s] account activation.
+
+Somebody, probably you, created a %(appname)s account for your address
+%(to)s.
+
+To activate your account, go to %(activate_url)s .
+
+To cancel the account, please go to %(cancel_url)s .
+""" % d
+    msg = msg.replace('\n', '\r\n')
+
+    return msg
 

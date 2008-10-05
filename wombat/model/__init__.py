@@ -40,6 +40,9 @@ user_roles = Table('user_roles', metadata,
 from reset_data import ResetData, init_reset_data_table
 reset_data_table = init_reset_data_table(metadata)
 
+from email_confirm import EmailConfirm, init_email_confirm_table
+email_confirm_table = init_email_confirm_table(metadata)
+
 mapper(File, files_table)
 mapper(Dir, dirs_table, properties={
     "files":relation(File, backref="directory"),
@@ -57,4 +60,5 @@ mapper(UserData, user_data_table, properties={
 mapper(Role, roles_table, properties={
     "users":relation(User, secondary=user_roles, backref="roles")})
 mapper(ResetData, reset_data_table)
+mapper(EmailConfirm, email_confirm_table)
 

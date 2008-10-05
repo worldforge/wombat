@@ -4,7 +4,7 @@ import md5
 from wombat.lib.base import *
 from wombat.lib.auth import crypt_password, random_token
 from wombat.lib.email import *
-from wombat.model import User, UserData, ResetData
+from wombat.model import User, UserData, ResetData, EmailConfirm
 
 log = logging.getLogger(__name__)
 
@@ -106,9 +106,16 @@ class AccountController(BaseController):
         data.user = user
         s.save(user)
         s.save(data)
+
+        token = random_token()
+        msg = create_account_activation_msg(user.email, token)
+
+        act_data = EmailConfirm(token, user.email)
+        s.save(act_data)
         s.commit()
 
-        # TODO: Look into sending a registration confirmation email.
+        send_mail(user.email, msg)
+
         if id == "ajax":
             return "user successfully registered"
         else:
@@ -121,6 +128,61 @@ class AccountController(BaseController):
         c.session = Session()
 
         return render('/derived/account/registered.html')
+
+    def activate(self, id):
+        c.name = config['app_conf']['site_name']
+        c.title = 'Account activated.'
+        c.messages = []
+        c.session = Session()
+
+        if id is None:
+            abort(404)
+
+        act_data = c.session.query(EmailConfirm).filter_by(token=unicode(id)).first()
+
+        if act_data is None:
+            abort(404)
+
+        user = c.session.query(User).filter_by(email=act_data.email).first()
+        if user is None:
+            c.session.delete(act_data)
+            c.session.commit()
+            abort(404)
+
+        user.active = True
+        c.session.update(user)
+        c.session.delete(act_data)
+        c.session.commit()
+
+        return render('/derived/account/activate.html')
+
+    def cancel_account(self, id):
+        c.name = config['app_conf']['site_name']
+        c.title = 'Account cancelled'
+        c.messages = []
+        c.session = Session()
+
+        if id is None:
+            abort(404)
+
+        act_data = c.session.query(EmailConfirm).filter_by(token=unicode(id)).first()
+
+        if act_data is None:
+            abort(404)
+
+        user = c.session.query(User).filter_by(email=act_data.email).first()
+        if user is not None:
+            # Can't cancel accounts that were already activated.
+            if user.active:
+                abort(403)
+
+            c.session.delete(user.user_data)
+            c.session.delete(user)
+
+        c.session.delete(act_data)
+        c.session.commit()
+
+        return render('/derived/account/cancel_account.html')
 
     def index(self):
         c.title = 'Account Index'
