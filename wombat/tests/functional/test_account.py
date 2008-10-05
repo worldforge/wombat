@@ -4,7 +4,7 @@ from wombat.lib.auth import crypt_password
 class TestAccountController(TestController):
 
     def test_register(self):
-        res = self.app.get(url_for(controller='account', action='register'))
+        res = self.app.get(url_for(controller='account', action='register', id=None))
 
         form = None
         for key in res.forms.keys():
@@ -92,10 +92,6 @@ class TestAccountController(TestController):
         res.mustcontain("Email already associated with an account")
 
     def test_index(self):
-        res = self.app.get(url_for(controller='account'))
-
-        self.assertEqual(res.c.accounts, [])
-
         s = model.Session()
         # create a user that's already active
         user = model.User(u"test@localhost", crypt_password('secret'), True)
@@ -105,35 +101,37 @@ class TestAccountController(TestController):
         s.save(data)
         s.commit()
 
-        res = self.app.get(url_for(controller='account'))
+        # now log in
+        res = self.app.post(url_for(controller='auth', action='submit',
+            id='ajax'), {'email':'test@localhost', 'password':'secret'})
+        res.mustcontain("success")
+
+        res = self.app.get(url_for(controller='account', id=None))
 
         self.assertEqual(len(res.c.accounts), 1)
         acc = res.c.accounts[0]
         self.assertEqual(acc.id, user.id)
 
     def test_edit(self):
-        res = self.app.get(url_for(controller='account', action='edit'),
-                status=404)
-
-        res = self.app.get(url_for(controller='account', action='edit', id=1),
-                status=404)
-
         s = model.Session()
-        # create a user that's already active
+        # create two activated users.
         user = model.User(u"test@localhost", crypt_password('secret'), True)
         data = model.UserData(u"Test Testus", u"test", u"test", u"test")
         data.user = user
         s.save(user)
         s.save(data)
+
+        user2 = model.User(u"test2@localhost", crypt_password('secret'), True)
+        data2 = model.UserData(u"Test2 Testus", u"test2", u"test2", u"test")
+        data2.user = user2
+        s.save(user2)
+        s.save(data2)
         s.commit()
 
-        res = self.app.get(url_for(controller='account', action='edit', id=1),
-                status=403)
-
-        tmp_res = self.app.post(url_for(controller='auth', action='submit', id='ajax'),
+        # Log in
+        res = self.app.post(url_for(controller='auth', action='submit', id='ajax'),
                 params={'email':'test@localhost', 'password':'secret'})
-        tmp_res.mustcontain("success")
-
+        res.mustcontain("success")
 
         res = self.app.get(url_for(controller='account', action='edit', id=1))
 
@@ -197,4 +195,18 @@ class TestAccountController(TestController):
         user = s.query(model.User).get(user.id)
 
         self.assertEqual(user.user_data.nick, u"testus")
+
+        # Now let's try and edit user2's data, should get a 403
+        res =  self.app.get(url_for(controller='account', action='edit', id=2),
+                status=403)
+
+        # Make sure we're an admin now.
+        admin = model.Role(u'admin')
+        s.save(admin)
+        user.roles.append(admin)
+        s.update(user)
+        s.commit()
+
+        # And now it should work.
+        res = self.app.get(url_for(controller='account', action='edit', id=1))
 

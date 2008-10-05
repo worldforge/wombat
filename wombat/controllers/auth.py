@@ -61,8 +61,11 @@ class AuthController(BaseController):
         if id == "ajax":
             return "success"
         else:
-            if session.get('path_before_login'):
-                redirect_to(session.get('path_before_login'))
+            path_info = session.get('path_before_login')
+            if path_info is not None:
+                del session['path_before_login']
+                session.save()
+                redirect_to(path_info)
             else:
                 redirect_to(action='logged_in')
 

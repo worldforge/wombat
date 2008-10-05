@@ -4,6 +4,7 @@ import md5
 from wombat.lib.base import *
 from wombat.lib.auth import crypt_password, random_token
 from wombat.lib.email import *
+from wombat.lib.roles import require_roles, require_login
 from wombat.model import User, UserData, ResetData, EmailConfirm
 
 log = logging.getLogger(__name__)
@@ -184,7 +185,9 @@ class AccountController(BaseController):
 
         return render('/derived/account/cancel_account.html')
 
+    @require_login
     def index(self):
+        c.name = config['app_conf']['site_name']
         c.title = 'Account Index'
         c.messages = []
         c.session = Session()
@@ -192,6 +195,7 @@ class AccountController(BaseController):
 
         return render('/derived/account/index.html')
 
+    @require_roles(['owner', 'admin'])
     def edit(self, id):
         c.name = config['app_conf']['site_name']
         c.title = 'Edit Account'
@@ -210,24 +214,25 @@ class AccountController(BaseController):
         if c.account is None:
             abort(404)
 
-        if not 'user' in session:
-            abort(403)
-
-        #TODO: Admin users should be able to edit accounts as well.
-        if session['user'] != c.account.id:
-            abort(403)
+        session['edit_user'] = c.account.id
+        session.save()
 
         return render('/derived/account/edit.html')
 
+    @require_roles(['owner', 'admin'])
     def change(self, id):
         user_email = unicode(request.params.get('user_email'))
         user_email_c = unicode(request.params.get('user_email_confirm'))
 
-        if not 'user' in session:
-            abort(403)
+        edit_user = session.get('edit_user')
+        if edit_user is None:
+            abort(404)
+
+        del session['edit_user']
+        session.save()
 
         s = Session()
-        user = s.query(User).get(session['user'])
+        user = s.query(User).get(edit_user)
         if user is None:
             abort(404)
 
@@ -237,7 +242,7 @@ class AccountController(BaseController):
             else:
                 session['messages'] = ["Email address mismatch"]
                 session.save()
-                redirect_to(action="edit")
+                redirect_to(action="edit", id=edit_user)
 
         if not self._is_email_valid(user_email):
             if id == "ajax":
@@ -245,7 +250,7 @@ class AccountController(BaseController):
             else:
                 session['messages'] = ["Invalid email address"]
                 session.save()
-                redirect_to(action="edit")
+                redirect_to(action="edit", id=edit_user)
 
         # check if the email matches the current user's email
         u_by_email = s.query(User).filter_by(email=user_email).first()
@@ -257,7 +262,7 @@ class AccountController(BaseController):
                 else:
                     session['messages'] = ["Email already associated with an account"]
                     session.save()
-                    redirect_to(action="edit")
+                    redirect_to(action="edit",id=edit_user)
 
         user.email = user_email
 
@@ -270,7 +275,7 @@ class AccountController(BaseController):
             else:
                 session['messages'] = ["Password mismatch"]
                 session.save()
-                redirect_to(action="edit")
+                redirect_to(action="edit", id=edit_user)
 
         if user_pass != "":
             user.password = crypt_password(user_pass)
@@ -285,7 +290,7 @@ class AccountController(BaseController):
                 else:
                     session['messages'] = ["VCS password mismatch"]
                     session.save()
-                    redirect_to(action="edit")
+                    redirect_to(action="edit", id=edit_user)
 
                 user.user_data.vcs_pass = vcs_pass
 
@@ -325,6 +330,7 @@ class AccountController(BaseController):
 
         return render('derived/account/changed.html')
 
+    @require_roles(['admin'])
     def enable(self, id):
         if id is None:
             abort(404)
@@ -335,13 +341,13 @@ class AccountController(BaseController):
         if user is None:
             abort(404)
 
-        #TODO: check for admin role
         user.active = True
         s.update(user)
         s.commit()
 
         return "account %s enabled" % user.email
 
+    @require_roles(['admin'])
     def disable(self, id):
         if id is None:
             avort(404)
@@ -352,13 +358,13 @@ class AccountController(BaseController):
         if user is None:
             abort(404)
 
-        #TODO: check for admin role
         user.active = False
         s.update(user)
         s.commit()
 
         return "account %s disabled" % user.email
 
+    @require_roles(['owner', 'admin'])
     def delete(self, id):
         if id is None:
             abort(404)
@@ -369,18 +375,11 @@ class AccountController(BaseController):
         if user is None:
             return (404)
 
-        if not 'user' in session:
-            abort(403)
+        s.delete(user.user_data)
+        s.delete(user)
+        s.commit()
 
-        #TODO: Check for admin permissions heere
-        if session['user'] == user.id:
-            s.delete(user.user_data)
-            s.delete(user)
-            s.commit()
-
-            return "Your account has been deleted."
-        else:
-            return "Failed to delete account"
+        return "Your account has been deleted."
 
     def request_reset(self):
         c.name = config['app_conf']['site_name']
