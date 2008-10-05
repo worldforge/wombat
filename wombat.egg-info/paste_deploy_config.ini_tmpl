@@ -45,6 +45,10 @@ backend = svn
 # Check if a superuser account should be created on setup-app
 create_superuser = true
 
+# set smtp server for account activation/password reset emails
+smtpserver = localhost
+email_from = wombat@localhost
+
 # Logging configuration
 [loggers]
 keys = root
