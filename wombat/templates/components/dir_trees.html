@@ -1,0 +1,17 @@
+                    %if c.dir != '':
+                    %if c.dir.path != u'.':
+                    <li><a href="${h.url_for(controller="dir")}?path=${c.dir.parent.path}">
+                            <img src="/images/up.gif" alt="<-" border="0" />
+                            Up one level
+                        </a>
+                    </li>
+                    %endif
+                    %for dir in c.dir.subdirs:
+                    <li><a href="${h.url_for(controller="dir")}?path=${dir.path}">
+                            <img src="/images/dir.gif" alt="->" border="0" />
+                            ${h.truncStr(dir.name, 20)}
+                        </a>
+                    </li>
+                    %endfor
+                    %endif
+
