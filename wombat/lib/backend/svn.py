@@ -51,31 +51,40 @@ def get_create_revision(path, session, rev_id):
 
     return revision
 
-def create_rev_entry(rev_path, session):
+def create_rev_entry(rev_path, rev_id, session):
     """string, Session -> None
     Generate a database entry.
     """
-    xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml")
-    if xml_string == "":
-        # file does not exist anymore
+    if not os.path.exists(rev_path):
         return
+
+    if rev_id > 0:
+        xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml -r %s" % rev_id)
+    else:
+        xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml")
 
     svn = parse_svn(xml_string)
     revision = get_create_revision(rev_path, session, svn.revision)
+    if revision is None:
+        return
 
     if svn.kind == u"file":
         old_file = session.query(File).get(unicode(rev_path))
         if old_file is not None:
-            session.delete(old_file)
-
-        if revision is None:
-            #something is wrong with this file, probably a non-updated reposiory.
-            #skip (re-)adding it.
+            old_file.size = os.path.getsize(rev_path)
+            old_file.revision = revision
+            parent = old_file.directory
+            while parent is not None:
+                parent.revision = revision
+                session.update(parent)
+                parent = parent.parent
+            session.update(old_file)
             return
 
-        new_file = File(svn.path, os.path.basename(svn.path),
-                os.path.getsize(svn.path), svn.root)
+        new_file = File(rev_path, os.path.basename(rev_path),
+                os.path.getsize(rev_path), svn.root)
         new_file.revision = revision
+        session.save(new_file)
 
         parent_path = os.path.dirname(svn.path)
         if parent_path == u'':
@@ -84,15 +93,14 @@ def create_rev_entry(rev_path, session):
         if parent_dir is not None:
             new_file.directory = parent_dir
 
-        session.save_or_update(new_file)
+        session.update(new_file)
     elif svn.kind == u"dir":
         old_dir = session.query(Dir).get(unicode(rev_path))
         if old_dir is not None:
-            session.delete(old_dir)
-
-        if revision is None:
-            # Something is wrong in the repository, skip (re-)adding the dir.
+            old_dir.revision = revision
+            session.update(revision)
             return
+
         if svn.path != u'.':
             dir_name = os.path.basename(svn.path)
         else:
@@ -120,7 +128,7 @@ def scan(session):
         create_rev_entry(new_root, session)
         for file in files:
             file_path = os.path.join(new_root, file)
-            create_rev_entry(file_path, session)
+            create_rev_entry(file_path, -1, session)
 
         if ".svn" in dirs:
             dirs.remove(".svn")
@@ -144,9 +152,13 @@ def update_rev(session, rev_id):
     revision = Revision(svn.revision, u"r%s" % svn.revision, svn.msg, svn.author, svn.date)
     session.save(revision)
 
+    # reverse the order of the changed paths, as svn info --xml reverses them as
+    # well. This way we don't add files before adding the parent dir.
+    svn.changed_paths.reverse()
+
     for action, path in svn.changed_paths:
         if action in (u'M', u'A'):
-            create_rev_entry(path, session)
+            create_rev_entry(path, rev_id, session)
         elif action in (u'D'):
             delete_file_entry(path, session)
         else:
