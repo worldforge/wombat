@@ -86,7 +86,7 @@ def create_rev_entry(rev_path, rev_id, session):
         new_file.revision = revision
         session.save(new_file)
 
-        parent_path = os.path.dirname(svn.path)
+        parent_path = os.path.dirname(rev_path)
         if parent_path == u'':
             parent_path = u'.'
         parent_dir = session.query(Dir).get(parent_path)
@@ -101,18 +101,18 @@ def create_rev_entry(rev_path, rev_id, session):
             session.update(revision)
             return
 
-        if svn.path != u'.':
-            dir_name = os.path.basename(svn.path)
+        if rev_path != u'.':
+            dir_name = os.path.basename(rev_path)
         else:
             dir_name = u'/'
-        new_dir = Dir(svn.path, dir_name, svn.root)
+        new_dir = Dir(rev_path, dir_name, svn.root)
         new_dir.revision = revision
 
-        parent_path = os.path.dirname(svn.path)
+        parent_path = os.path.dirname(rev_path)
         if parent_path == u'':
             parent_path = u'.'
         parent_dir = session.query(Dir).get(parent_path)
-        if parent_dir is not None and svn.path != u'.':
+        if parent_dir is not None and rev_path != u'.':
             new_dir.parent = parent_dir
         session.save_or_update(new_dir)
 
