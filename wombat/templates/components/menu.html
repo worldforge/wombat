@@ -2,6 +2,7 @@
                     <li><a class="menulink" href="${h.url_for(controller="file", action="unassigned")}">Unassigned Files</a></li>
                     <li><a class="menulink" href="${h.url_for(controller="dir")}">Directories</a></li>
                     <li><a class="menulink" href="/show">Server Status</a></li>
+                    <li><a class="menulink" href="/account/register">Register</a></li>
                     <li class="last">
                         <div id="loginform" class="f">
                             ${h.form(h.url(controller="auth", action="submit"), method="post")}
