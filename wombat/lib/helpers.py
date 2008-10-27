@@ -205,3 +205,11 @@ def truncStr(orig_str, max_len):
     trunc_str = "%s...%s" % (orig_str[:trunc_len], orig_str[-trunc_len:])
     return trunc_str
 
+def getCurrentUser(session, db_session):
+    """
+    Get the current logged in user
+    """
+    from wombat.model import User
+    if 'user' in session:
+        return db_session.query(User).get(session['user'])
+    return None
