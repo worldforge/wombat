@@ -124,7 +124,7 @@ def scan(session):
     cwd = os.getcwd()
     os.chdir(media_dir)
     for root, dirs, files in os.walk(media_dir):
-        new_root = root.replace(media_dir,'').lstrip('/')
+        new_root = unicode(root.replace(media_dir,'').lstrip('/'))
         create_rev_entry(new_root, session)
         for file in files:
             file_path = os.path.join(new_root, file)
