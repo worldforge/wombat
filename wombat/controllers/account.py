@@ -191,8 +191,20 @@ class AccountController(BaseController):
         c.title = 'Account Index'
         c.messages = []
         c.session = Session()
-        c.accounts = c.session.query(User).all()
+        accounts = c.session.query(User)
 
+        needle = unicode(request.params.get('q'))
+
+        #conversion to unicode gives us a 'None' string instead of None.
+        if needle != u'None':
+            from sqlalchemy import or_
+            accounts = accounts.filter(User.id == UserData.user_id).filter(
+                    or_(User.email.like(u"%%%s%%" % needle),
+                    or_(UserData.name.like(u"%%%s%%" % needle),
+                    or_(UserData.nick.like(u"%%%s%%" % needle),
+                        UserData.vcs_user.like(u"%%%s%%" % needle)))))
+
+        c.accounts = accounts.all()
         return render('/derived/account/index.html')
 
     @require_roles(['owner', 'admin'])
