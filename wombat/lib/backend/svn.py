@@ -55,10 +55,13 @@ def create_rev_entry(rev_path, rev_id, session):
     """string, Session -> None
     Generate a database entry.
     """
+    if rev_path == u'':
+        rev_path = u'.'
+
     if not os.path.exists(rev_path):
         return
 
-    if rev_id > 0:
+    if rev_id >= 0:
         xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml -r %s" % rev_id)
     else:
         xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml")
@@ -125,7 +128,7 @@ def scan(session):
     os.chdir(media_dir)
     for root, dirs, files in os.walk(media_dir):
         new_root = unicode(root.replace(media_dir,'').lstrip('/'))
-        create_rev_entry(new_root, session)
+        create_rev_entry(new_root, -1, session)
         for file in files:
             file_path = os.path.join(new_root, file)
             create_rev_entry(file_path, -1, session)
