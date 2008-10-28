@@ -506,3 +506,38 @@ div.edit form
 	margin:auto;
 	background-color:#444;
 }
+
+div.report
+{
+	width:100%;
+}
+div.report table
+{
+	width:100%;
+}
+div.report table caption
+{
+	background-color:#666;
+	color:#fff;
+	font-size:14px;
+	font-weight:bold;
+	line-height:28px;
+	-moz-border-radius-topright:5px;
+	-webkit-border-top-right-radius:5px;
+	-moz-border-radius-topleft:5px;
+	-webkit-border-top-left-radius:5px;
+	
+}
+div.report tr th
+{
+	text-align:left;
+}
+div.report tr td
+{
+	text-align:left;
+}
+
+div.report table tr th.a, div.report table tr td.a
+{
+	width:25%;
+}

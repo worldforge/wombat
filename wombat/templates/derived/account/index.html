@@ -1,27 +1,28 @@
 <%inherit file="/base/index.html"/>
-                <div id="accountsearch">
+                <div id="accountsearch" class="report">
                     <table border="0">
                     	<caption>${c.title}</caption>
                         <tr>
-                            <th>Account Name</th>
-                            <th>Account Email</th>
-                            <th>Tools</th>
+                            <th class="a">Account Name</th>
+                            <th class="b">Account Email</th>
+                            <th class="c">Tools</th>
                         </tr>
 %for user in c.accounts:
                         <tr>
-                            <td>
-                            	${user.id}
+                            <td class="a">
+                            	${user.id} {user.name}
                             </td>
-                            <td>
+                            <td class="b">
                                 ${user.email}
                             </td>
-                            <td>
+                            <td class="c">
                             	<!-- TODO
                             		Tools only appear when the mouse is over the row.
                             		Tools are embedded in an overlay which shows when the main item
                             		"manage" is clicked on. Contents should be drawn as such.. -->
                                 %if user.active:
                                 <a href=${h.url_for(action='disable', id=user.id)}>Disable</a>
+                                <a href=${h.url_for(action='edit', id=user.id)}">Edit</a>
                                 %else:
                                 <a href=${h.url_for(action='enable', id=user.id)}>Enable</a>
                                 <a href=${h.url_for(action='delete', id=user.id)}>Delete</a>
