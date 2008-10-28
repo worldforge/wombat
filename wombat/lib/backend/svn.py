@@ -51,7 +51,7 @@ def get_create_revision(path, session, rev_id):
 
     return revision
 
-def create_rev_entry(rev_path, rev_id, session):
+def create_rev_entry(rev_path, session, rev=None):
     """string, Session -> None
     Generate a database entry.
     """
@@ -61,13 +61,18 @@ def create_rev_entry(rev_path, rev_id, session):
     if not os.path.exists(rev_path):
         return
 
-    if rev_id >= 0:
-        xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml -r %s" % rev_id)
+    if rev is not None:
+        xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml -r %s" % rev.id)
     else:
         xml_string = call_svn_cmd(rev_path, "info", "--incremental --xml")
 
     svn = parse_svn(xml_string)
-    revision = get_create_revision(rev_path, session, svn.revision)
+
+    if rev is None:
+        revision = get_create_revision(rev_path, session, svn.revision)
+    else:
+        revision = rev
+
     if revision is None:
         return
 
@@ -128,10 +133,10 @@ def scan(session):
     os.chdir(media_dir)
     for root, dirs, files in os.walk(media_dir):
         new_root = unicode(root.replace(media_dir,'').lstrip('/'))
-        create_rev_entry(new_root, -1, session)
+        create_rev_entry(new_root, session)
         for file in files:
             file_path = os.path.join(new_root, file)
-            create_rev_entry(file_path, -1, session)
+            create_rev_entry(file_path, session)
 
         if ".svn" in dirs:
             dirs.remove(".svn")
@@ -161,7 +166,7 @@ def update_rev(session, rev_id):
 
     for action, path in svn.changed_paths:
         if action in (u'M', u'A'):
-            create_rev_entry(path, rev_id, session)
+            create_rev_entry(path, session, revision)
         elif action in (u'D'):
             delete_file_entry(path, session)
         else:
