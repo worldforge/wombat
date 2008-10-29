@@ -2,6 +2,7 @@ import logging
 
 from wombat.lib.base import *
 from wombat.lib.backend import scan, update
+from wombat.lib.roles import require_roles, require_login
 
 log = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ class ScanController(BaseController):
         c.session = Session()
         return render('/derived/scan/scan.html')
 
+    @require_login
     def scan(self):
         if not h.canScan():
             redirect_to(action="index")
@@ -31,6 +33,7 @@ class ScanController(BaseController):
         c.session = Session()
         return render('/derived/scan/scan_complete.html')
 
+    @require_login
     def update(self):
         # if we never scanned before, do so now.
         if h.canScan():
