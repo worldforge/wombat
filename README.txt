@@ -17,3 +17,13 @@ Tweak the config file as appropriate and then setup the application::
     paster setup-app config.ini
 
 Then you are ready to go.
+
+
+Licensing
+=========
+
+Unless otherwise mentioned, all files are released under the GNU GPL v2.
+A notable exception to this are some of the icons in wombat/public/images, which
+were released under a CC-BY-SA 2.5 license by the Tango project.
+(http://tango.freedesktop.org/Tango_Icon_Library)
+

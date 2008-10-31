@@ -103,7 +103,7 @@ def getIcon(file):
     if icon_name == None:
         icon_name = createPreview(file, "icon")
         if icon_name == None:
-            return "/images/%s.gif" % getType(file.name)
+            return "/images/%s.png" % getType(file.name)
 
     return "/thumb/%s" % icon_name
 
