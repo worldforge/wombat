@@ -7,8 +7,8 @@ except ImportError:
 
 setup(
     name='wombat',
-    version="0.4.0",
-    description='WorldForge Open Media Browser/Archive Tool',
+    version="0.4.1",
+    description='WorldForge Open Media Browser - Artist Tool',
     author='Kai Blin',
     author_email='kai.blin@gmail.com',
     url='http://wiki.worldforge.org/wiki/Wombat',
