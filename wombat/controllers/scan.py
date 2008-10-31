@@ -17,12 +17,11 @@ class ScanController(BaseController):
 
     @require_login
     def scan(self):
-        if not h.canScan():
+        c.session = Session()
+        if not h.canScan(c.session):
             redirect_to(action="index")
 
-        c.session = Session()
         scan(c.session)
-        h.createScanLock()
 
         redirect_to(action="result")
 
@@ -35,11 +34,11 @@ class ScanController(BaseController):
 
     @require_login
     def update(self):
+        c.session = Session()
         # if we never scanned before, do so now.
-        if h.canScan():
+        if h.canScan(c.session):
             redirect_to(action="scan")
 
-        c.session = Session()
         update(c.session)
         redirect_to(action="result")
 

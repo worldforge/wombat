@@ -21,14 +21,11 @@ def getBreadcrumbTrail(dir):
     trail.reverse()
     return trail
 
-def canScan():
-    if os.path.exists(config['app_conf']['scan_lock']):
+def canScan(session):
+    from wombat.model import Revision
+    if session.query(Revision).first() is not None:
         return False
     return True
-
-def createScanLock():
-    f = open(config['app_conf']['scan_lock'], 'w')
-    f.close()
 
 def createTextPreview(file):
     open_tags = """\
