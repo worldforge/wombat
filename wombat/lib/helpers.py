@@ -180,3 +180,12 @@ def getCurrentUser(session, db_session):
     if 'user' in session:
         return db_session.query(User).get(session['user'])
     return None
+
+def getSubFileCount(dir, session):
+    """Dir, Session -> int
+    Get the number of files under a dir and all it's subdirs
+    """
+    from wombat.model import File
+    count = session.query(File).filter(File.path.like("%s/%%" % dir.path)).count()
+    return count
+

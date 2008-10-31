@@ -9,7 +9,8 @@
                                     <a href="${h.url_for(controller="dir")}?path=${dir.path}" title="${dir.name}">
                                         <img class="fade" src="/images/dir.png"
                                         border="0" alt="*" />&nbsp;${h.truncStr(dir.name,26)}&nbsp;
-                                        <small>(${len(dir.subdirs)} subdirs &nbsp;${len(dir.files)} files)</small><br />
+                                        <small>(${len(dir.subdirs)} subdirs
+                                            &nbsp;${h.getSubFileCount(dir, c.session)} files)</small><br />
                                     </a>
                             </td>
 <% i += 1%>
