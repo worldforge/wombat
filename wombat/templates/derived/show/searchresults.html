@@ -36,7 +36,7 @@
 %for file in c.found_files:
             <td class="cell" valign="top" width="50%">
                 <a href="${h.url_for(controller="file")}?path=${file.path}" title="Download ${file.name}">
-                  <img class="fade" src="/images/${h.getType(file.name)}.gif" border="0" alt="*" />
+                  <img class="fade" src="${h.getIcon(file)}" border="0" alt="*" />
                 </a>
                 &nbsp;
                 <a href="${h.url_for(controller="file")}?path=${file.path}" title="File details: ${file.name}">

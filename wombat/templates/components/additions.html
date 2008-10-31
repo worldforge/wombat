@@ -4,7 +4,7 @@
 %for file in h.getLatestAdditions(c.session):
 	            <li>
                         <a href="/file?path=${file.path}">
-                            <img src="/images/${h.getType(file.name)}.gif"
+                            <img src="${h.getIcon(file)}"
                             	 alt="${file.name}"
                             	 border="0" />
                             ${file.name}
