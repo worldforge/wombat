@@ -115,7 +115,13 @@ class AccountController(BaseController):
         s.save(act_data)
         s.commit()
 
-        send_mail(user.email, msg)
+        try:
+            send_mail(user.email, msg)
+        except EmailException, e:
+            if id == "ajax":
+                return "sending account registration failed: %s" % e.message
+            session['email_error'] = e.message
+            session.save()
 
         if id == "ajax":
             return "user successfully registered"
@@ -127,6 +133,11 @@ class AccountController(BaseController):
         c.title = 'Registered'
         c.messages = []
         c.session = Session()
+
+        if 'email_error' in session:
+            c.email_error = session['email_error']
+            del session['email_error']
+            session.save()
 
         return render('/derived/account/registered.html')
 
@@ -428,7 +439,13 @@ class AccountController(BaseController):
         s.save(reset_data)
         s.commit()
 
-        send_mail(toaddr, msg)
+        try:
+            send_mail(toaddr, msg)
+        except EmailException, e:
+            if id == "ajax":
+                return "Sending password reset email failed: %s" % e.message
+            session['email_error'] = e.message
+            session.save()
 
         if id == "ajax":
             return "sent password reset email"
@@ -436,9 +453,14 @@ class AccountController(BaseController):
 
     def request_reset_sent(self):
         c.name = config['app_conf']['site_name']
-        c.title = 'Password reset requested'
+        c.title = 'Password reset sent'
         c.messages = []
         c.session = Session()
+
+        if "email_error" in session:
+            c.email_error = session["email_error"]
+            del session["email_error"]
+            session.save()
 
         return render('/derived/account/request_reset_sent.html')
 

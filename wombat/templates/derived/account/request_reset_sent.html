@@ -1,7 +1,14 @@
 <%inherit file="/base/index.html"/>
                 <div id="request_reset_sentmsg">
+%if c.email_error == "":
                     <h1>Password reset requested.</h1>
                     <p>
                         You should receive an email soon.
                     </p>
+%else:
+                    <h1>Sending password request failed.</h1>
+                    <pre>${c.email_error}</pre>
+                    <p>Please contact the site administrator with this error
+                    message.</p>
+%endif
                 </div>

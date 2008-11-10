@@ -18,6 +18,9 @@ import datetime
 from wombat.lib.base import config
 import wombat.lib.helpers as h
 
+class EmailException(Exception):
+    pass
+
 def send_mail(toaddr, msg):
     """(string, string) -> None
     Send an email to <toaddr>
@@ -31,9 +34,14 @@ def send_mail(toaddr, msg):
     server = smtplib.SMTP(servername)
     fromaddr = config['app_conf']['email_from']
 
-    #TODO: Catch errors here once I decided how to handle those error cases.
-    server.sendmail(fromaddr, toaddr, msg)
-    server.quit()
+    try:
+        server.sendmail(fromaddr, toaddr, msg)
+    except smtplib.SMTPRecipientsRefused:
+        raise EmailException("Recipients refused.")
+    except:
+        raise EmailException("Unknown error sending email.")
+    finally:
+        server.quit()
 
 def create_password_reset_msg(toaddr, token):
     """(string, string) -> string

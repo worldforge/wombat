@@ -1,6 +1,7 @@
 <%inherit file="/base/index.html"/>
                 <div id="registermsg">
-                	<h1>Wombat Account Registration Status</h1>
+%if c.email_error == "":
+                    <h1>Wombat Account Registration Status</h1>
                     <p>
                     	Your account registration has been received by the
                         mechanism which is Wombat. Congratulations and welcome
@@ -8,4 +9,13 @@
                         planet. You will soon receive email with instructions on
                         how to activate your account.
                     </p>
+%else:
+                    <h1>Sending registration confirmation failed</h1>
+                    <pre>${c.email_error}</pre>
+                    <p>Please contact the site admistrator with this error
+                    message. The site administrator will be able to activate
+                    your account manually and should be able to fix sending
+                    confirmation emails for other users.
+                    </p>
+%endif
                 </div>
