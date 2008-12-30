@@ -22,7 +22,7 @@
                             		"manage" is clicked on. Contents should be drawn as such.. -->
                                 %if user.active:
                                 <a href=${h.url_for(action='disable', id=user.id)}>Disable</a>
-                                <a href=${h.url_for(action='edit', id=user.id)}">Edit</a>
+                                <a href=${h.url_for(action='edit', id=user.id)}>Edit</a>
                                 %else:
                                 <a href=${h.url_for(action='enable', id=user.id)}>Enable</a>
                                 <a href=${h.url_for(action='delete', id=user.id)}>Delete</a>
