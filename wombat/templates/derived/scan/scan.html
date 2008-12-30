@@ -2,7 +2,7 @@
                 <div id="main">
 
                     <div class="description">
-%if h.canScan():
+%if h.canScan(c.session):
                         <a href="${h.url_for(controller="scan", action="scan")}">Scan</a> the repository. This can take quite some time.
 %else:
                         Scanning the repository is not necessary.  Proceed to
