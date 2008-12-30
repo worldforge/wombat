@@ -56,9 +56,11 @@ mapper(Collection, collections_table, properties={
     "assets":relation(Asset, backref="collection")})
 mapper(User, users_table)
 mapper(UserData, user_data_table, properties={
-    "user":relation(User, backref=backref("user_data", uselist=False))})
+    "user":relation(User, backref=backref("user_data", uselist=False),
+                    cascade="all, delete, delete-orphan")})
 mapper(Role, roles_table, properties={
-    "users":relation(User, secondary=user_roles, backref="roles")})
+    "users":relation(User, secondary=user_roles, backref="roles",
+                    cascade="all, delete, delete-orphan")})
 mapper(ResetData, reset_data_table)
 mapper(EmailConfirm, email_confirm_table)
 
