@@ -187,3 +187,14 @@ def update(session):
     session.commit()
     os.chdir(cwd)
 
+def fetch(globals):
+    from threading import Timer
+    globals.update_status = "Fetching"
+    cwd = os.getcwd()
+    os.chdir(config['app_conf']['media_dir'])
+    ret = call_svn_cmd(".", "update", "--non-interactive")
+    if ret:
+        globals.update_status = ret
+    else:
+        globals.update_status = "Fetching failed"
+

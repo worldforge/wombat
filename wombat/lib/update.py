@@ -13,12 +13,27 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-from pylons import config
+from threading import Timer
 
-backend = config['app_conf']['backend']
+def update_media(globals):
+    from wombat.lib.backend import fetch, update
+    from wombat.model import Session
+    from wombat.lib.helpers import canScan
 
-if backend == "svn":
-    from svn import scan, update, fetch
-else:
-    raise ImportError("Unknown backend '%s'" % backend)
+    fetch(globals)
+
+    globals.update_status = "Updating database"
+
+    s = Session()
+    if canScan(s):
+        globals.scan_lock.acquire()
+        update(s)
+        globals.scan_lock.release()
+
+    globals.update_status = "Update complete"
+
+    globals.update_timer = Timer(300.0, update_media, [globals])
+    globals.update_timer.start()
+
+    Session.remove()
 

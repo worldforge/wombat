@@ -21,7 +21,9 @@ class ScanController(BaseController):
         if not h.canScan(c.session):
             redirect_to(action="index")
 
+        g.scan_lock.acquire()
         scan(c.session)
+        g.scan_lock.release()
 
         redirect_to(action="result")
 
@@ -39,6 +41,9 @@ class ScanController(BaseController):
         if h.canScan(c.session):
             redirect_to(action="scan")
 
+        g.scan_lock.acquire()
         update(c.session)
+        g.scan_lock.release()
+
         redirect_to(action="result")
 
