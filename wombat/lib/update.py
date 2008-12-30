@@ -25,12 +25,13 @@ def update_media(globals):
     globals.update_status = "Updating database"
 
     s = Session()
-    if canScan(s):
+    if not canScan(s):
         globals.scan_lock.acquire()
         update(s)
         globals.scan_lock.release()
-
-    globals.update_status = "Update complete"
+        globals.update_status = "Update complete"
+    else:
+        globals.update_status = "Update denied"
 
     globals.update_timer = Timer(300.0, update_media, [globals])
     globals.update_timer.start()
