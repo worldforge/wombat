@@ -32,6 +32,7 @@ wombat/lib/__init__.py
 wombat/lib/app_globals.py
 wombat/lib/auth.py
 wombat/lib/base.py
+wombat/lib/cleanup.py
 wombat/lib/email.py
 wombat/lib/filetypes.py
 wombat/lib/helpers.py
@@ -41,6 +42,7 @@ wombat/lib/preview.py
 wombat/lib/rev_info.py
 wombat/lib/roles.py
 wombat/lib/svnwrap.py
+wombat/lib/update.py
 wombat/lib/backend/__init__.py
 wombat/lib/backend/svn.py
 wombat/lib/backend/svn_xml_parser.py
@@ -74,6 +76,7 @@ wombat/public/images/image.png
 wombat/public/images/model.png
 wombat/public/images/other.png
 wombat/public/images/req-off.png
+wombat/public/images/req-on.png
 wombat/public/images/sound.png
 wombat/public/images/text.png
 wombat/public/images/up.png
