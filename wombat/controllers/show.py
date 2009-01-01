@@ -87,7 +87,7 @@ class ShowController(BaseController):
 
         if c.match_author != "":
             file_q = file_q.filter(Revision.author == c.match_author)
-            dir_q = file_q.filter(Revision.author == c.match_author)
+            dir_q = dir_q.filter(Revision.author == c.match_author)
 
         if c.match_ext != "":
             file_q = file_q.filter(File.ext == c.match_ext)
@@ -99,13 +99,17 @@ class ShowController(BaseController):
         if c.match_date_out != "":
             file_q = file_q.filter(Revision.date < c.match_date_out)
             dir_q = dir_q.filter(Revision.date < c.match_date_out)
+
         if c.needle == "" and c.match_author == "" and c.match_ext == "" and\
                 c.match_date_in == "" and c.match_date_out == "":
             c.found_files = []
             c.found_dirs = []
         else:
             c.found_files = file_q.all()
-            c.found_dirs = dir_q.all()
+            if c.match_ext == "":
+                c.found_dirs = dir_q.all()
+            else:
+                c.found_dirs = []
 
         return render('/derived/show/searchresults.html')
 

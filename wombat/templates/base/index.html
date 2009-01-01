@@ -13,6 +13,7 @@ ${self.head()}
 <body>
     <div id="root">
 ${self.header()}
+${self.search()}
     <div id="middle">
 
 	    <div id="content">
@@ -62,7 +63,7 @@ ${self.footer()}
         </div>
 </%def>
 
-<%def name="Search()">
+<%def name="search()">
             <div id="search">
 <%include file="/components/searchbox.html"/>
                 <div class="action">
