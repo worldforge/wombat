@@ -6,6 +6,7 @@ import time
 from wombat.lib.base import *
 from pylons import config
 from wombat.model import Revision, File, Dir, Asset, Collection
+from sqlalchemy.sql import select, func
 
 log = logging.getLogger(__name__)
 
@@ -26,18 +27,17 @@ class ShowController(BaseController):
             return render('/derived/show/please_scan.html')
 
         c.repo_url = first_file.root
-        c.total_size = file_q.sum(File.size)
+        c.total_size = c.session.query(func.sum(File.size)).one()[0]
         c.file_count = file_q.count()
-        c.avg_size = file_q.avg(File.size)
+        c.avg_size = c.session.query(func.avg(File.size)).one()[0]
 
-        from sqlalchemy.sql import select, func
         res = c.session.execute(select([File.ext,
             func.count(File.ext)]).group_by(File.ext).order_by(func.count(File.ext).desc())).fetchone()
 
         c.ext_string = res[0]
         c.ext_count = res[1]
 
-        c.revision = c.session.query(Revision).max(Revision.id)
+        c.revision = c.session.query(func.max(Revision.id)).one()[0]
 
         c.asset_count = c.session.query(Asset).count()
         c.collection_count = c.session.query(Collection).count()

@@ -1,29 +1,29 @@
                 <ul id="tabmenu">
-                    <li><a class="menulink" href="${h.url_for(controller="file", action="unassigned")}">Unassigned Files</a></li>
-                    <li><a class="menulink" href="${h.url_for(controller="dir")}">Directories</a></li>
+                    <li><a class="menulink" href="${url(controller="file", action="unassigned")}">Unassigned Files</a></li>
+                    <li><a class="menulink" href="${url(controller="dir")}">Directories</a></li>
                     <li><a class="menulink" href="/show">Server Status</a></li>
 <% user = h.getCurrentUser(session, c.session)%>
 %if user is None:
                     <li><a class="menulink" href="/account/register">Register</a></li>
                     <li class="last">
                         <div id="loginform" class="f">
-                            ${h.form(h.url(controller="auth", action="submit"), method="post")}
+                            ${h.form(url(controller="auth", action="submit"), method="post")}
                             <div class="f text">
                                 <label for="email">Email:</label>
-                                ${h.text_field("email")}
+                                ${h.text("email")}
                             </div>
                             <div class="f password">
                                 <label for="password">Pass:</label>
-                                ${h.password_field("password")}
+                                ${h.password("password")}
                             </div>
                             <div class="f submit">
-                                ${h.submit('Login')}
+                                ${h.submit('login', 'Login')}
                             </div>
                             ${h.end_form()}
                         </div>
 %else:
 					<li class="last">
-                        <div><a href="${h.url_for(controller="auth",
+                        <div><a href="${url(controller="auth",
                                 action="logout", id=None)}">Logout</a>
                         </div>
                     </li>

@@ -1,27 +1,27 @@
 <%inherit file="/base/index.html"/>
                 <div id="loginform">
-                ${h.form(h.url(action="submit"), method="post")}
+                ${h.form(url(controller="auth", action="submit"), method="post")}
                     <h1>Wobmat Authentication</h1>
                     <p>
                         Please log in to your Wombat account using the
                         information you provided when you registered. If
                         you can't remember your password,
-                        <a href="${h.url_for(controller='account',
+                        <a href="${url(controller='account',
                             action='request_reset')}">you can retrieve it with this link.</a>
                     </p>
                     <div class="r">
                         <div class="f text">
                             <label for="email">Email:</label>
-                            ${h.text_field("email")}
+                            ${h.text("email")}
                         </div>
                         <div class="f password">
                             <label for="password">Password:</label>
-                            ${h.password_field("password")}
+                            ${h.password("password")}
                         </div>
                     </div>
                     <div class="r">
                         <div class="f submit">
-                            ${h.submit('Login')}
+                            ${h.submit('login', 'Login')}
                         </div>
                     </div>
                 ${h.end_form()}

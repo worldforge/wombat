@@ -3,8 +3,7 @@ from sqlalchemy import Column, MetaData, Table, types, schema, ForeignKey
 from sqlalchemy.orm import mapper, relation, backref
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-Session = scoped_session(sessionmaker(autoflush=True, transactional=True,
-                                      bind=config['pylons.g'].sa_engine))
+Session = scoped_session(sessionmaker(bind=config['pylons.g'].sa_engine))
 
 metadata = MetaData()
 
@@ -57,10 +56,10 @@ mapper(Collection, collections_table, properties={
 mapper(User, users_table)
 mapper(UserData, user_data_table, properties={
     "user":relation(User, backref=backref("user_data", uselist=False),
-                    cascade="all, delete, delete-orphan")})
+                    single_parent=True, cascade="all, delete, delete-orphan")})
 mapper(Role, roles_table, properties={
     "users":relation(User, secondary=user_roles, backref="roles",
-                    cascade="all, delete, delete-orphan")})
+                    cascade="all, delete")})
 mapper(ResetData, reset_data_table)
 mapper(EmailConfirm, email_confirm_table)
 

@@ -18,6 +18,7 @@ import os.path
 from pylons import config
 from wombat.model import Revision, File, Dir
 from sqlalchemy.exceptions import InvalidRequestError
+from sqlalchemy.sql import func
 from svn_xml_parser import parse_svn
 
 def call_svn_cmd(path, cmd, opts):
@@ -47,7 +48,7 @@ def get_create_revision(path, session, rev_id):
             return None
         svn = parse_svn(xml_string)
         revision = Revision(svn.revision, u"r%s" % svn.revision, svn.msg, svn.author, svn.date)
-        session.save(revision)
+        session.add(revision)
 
     return revision
 
@@ -84,15 +85,15 @@ def create_rev_entry(rev_path, session, rev=None):
             parent = old_file.directory
             while parent is not None:
                 parent.revision = revision
-                session.update(parent)
+                session.add(parent)
                 parent = parent.parent
-            session.update(old_file)
+            session.add(old_file)
             return
 
         new_file = File(rev_path, os.path.basename(rev_path),
                 os.path.getsize(rev_path), svn.root)
         new_file.revision = revision
-        session.save(new_file)
+        session.add(new_file)
 
         parent_path = os.path.dirname(rev_path)
         if parent_path == u'':
@@ -101,12 +102,12 @@ def create_rev_entry(rev_path, session, rev=None):
         if parent_dir is not None:
             new_file.directory = parent_dir
 
-        session.update(new_file)
+        session.add(new_file)
     elif svn.kind == u"dir":
         old_dir = session.query(Dir).get(unicode(rev_path))
         if old_dir is not None:
             old_dir.revision = revision
-            session.update(revision)
+            session.add(revision)
             return
 
         if rev_path != u'.':
@@ -122,7 +123,7 @@ def create_rev_entry(rev_path, session, rev=None):
         parent_dir = session.query(Dir).get(parent_path)
         if parent_dir is not None and rev_path != u'.':
             new_dir.parent = parent_dir
-        session.save_or_update(new_dir)
+        session.add(new_dir)
 
 def scan(session):
     """Session -> None
@@ -158,7 +159,7 @@ def update_rev(session, rev_id):
     xml_string = call_svn_cmd(".", "log", "--incremental --xml -v -r %s" % rev_id)
     svn = parse_svn(xml_string)
     revision = Revision(svn.revision, u"r%s" % svn.revision, svn.msg, svn.author, svn.date)
-    session.save(revision)
+    session.add(revision)
 
     # reverse the order of the changed paths, as svn info --xml reverses them as
     # well. This way we don't add files before adding the parent dir.
@@ -176,7 +177,7 @@ def update(session):
     """Session -> None
     Update to latest svn revision if needed
     """
-    revision = session.query(Revision).max(Revision.id)
+    revision = session.query(func.max(Revision.id)).first()[0]
     cwd = os.getcwd()
     os.chdir(config['app_conf']['media_dir'])
     xml_string = call_svn_cmd(".", "info", "--incremental --xml")

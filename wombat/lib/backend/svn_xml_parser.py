@@ -15,6 +15,7 @@
 
 from StringIO import StringIO
 from xml.dom import minidom
+from datetime import datetime
 
 class Svn(object):
     def __init__(self):
@@ -87,9 +88,8 @@ class SvnParser(object):
 
     def do_date(self, node):
         date_str = node.childNodes[0].nodeValue
-        date_date = date_str[:date_str.index('T')]
-        date_time = date_str[date_str.index('T')+1:date_str.index('.')]
-        self.svn.date = u"%s %s" % (date_date, date_time)
+        date_str = date_str[:date_str.index('.')]
+        self.svn.date = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
 
     def do_logentry(self, node):
         self.svn.revision = int(node.attributes['revision'].value)

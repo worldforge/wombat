@@ -22,10 +22,10 @@ def setup_superuser(model):
     admin = s.query(model.Role).filter_by(name=u"admin").first()
     if admin is not None:
         user.roles.append(admin)
-    s.save(user)
+    s.add(user)
     data = model.UserData(u"System Administrator", u"admin")
     data.user = user
-    s.save(data)
+    s.add(data)
     s.commit()
 
 def create_roles(model):
@@ -34,9 +34,9 @@ def create_roles(model):
     admin = model.Role(u"admin")
     lead = model.Role(u"lead")
     artist = model.Role(u"artist")
-    s.save(admin)
-    s.save(lead)
-    s.save(artist)
+    s.add(admin)
+    s.add(lead)
+    s.add(artist)
     s.commit()
 
 def setup_config(command, filename, section, vars):

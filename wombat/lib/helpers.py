@@ -3,7 +3,10 @@
 Consists of functions to typically be used within templates, but also
 available to Controllers. This module is available to both as 'h'.
 """
-from webhelpers import *
+from webhelpers.html import escape, HTML, literal, url_escape
+from webhelpers.html.tags import *
+from routes import url_for
+
 from pylons import config
 import os.path
 import string
@@ -117,7 +120,13 @@ def sorted_options_for_select(container, selected=None):
     """container(list, tuple, dict), string -> string
     Sorted version of the builtin function
     """
-    return rails.options_for_select(sorted(container), selected)
+    ret = ""
+    for item in sorted(container):
+        ret += "<option value=\"%s\"" % item
+        if item == selected:
+            ret += " selected=\"selected\""
+        ret += ">%s</option>\n" % item
+    return ret
 
 def getAuthors(session):
     """Session -> [string]
