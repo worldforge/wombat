@@ -7,13 +7,13 @@ except ImportError:
 
 setup(
     name='wombat',
-    version="0.4.2",
+    version="0.4.3",
     description='WorldForge Open Media Browser - Artist Tool',
     author='Kai Blin',
     author_email='kai.blin@gmail.com',
     url='http://wiki.worldforge.org/wiki/Wombat',
     license='GNU GPLv2 or later',
-    install_requires=["Pylons>=0.9.6.2", "SQLAlchemy>=0.4.2p3"],
+    install_requires=["Pylons>=0.9.7", "SQLAlchemy>=0.5"],
     packages=find_packages(exclude=['ez_setup']),
     include_package_data=True,
     test_suite='nose.collector',
