@@ -45,8 +45,10 @@ def cleanup_reset_data():
     Session.remove()
 
 def cleanup_dbs(globals):
+    globals.scan_lock.acquire()
     cleanup_email_confirm()
     cleanup_reset_data()
+    globals.scan_lock.release()
 
     globals.last_cleanup = time.ctime()
 
