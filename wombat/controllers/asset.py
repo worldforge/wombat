@@ -61,7 +61,7 @@ class AssetController(BaseController):
     def create(self):
         session = Session()
         asset = Asset(self.form_result.get("asset_name"),self.form_result.get("asset_keywords"))
-        session.save(asset)
+        session.add(asset)
         session.commit()
         redirect_to(action="show", id=asset.id)
 
@@ -93,7 +93,7 @@ class AssetController(BaseController):
 
         asset.name = self.form_result.get("asset_name")
         asset.keywords = self.form_result.get("asset_keywords")
-        session.update(asset)
+        session.add(asset)
         session.commit()
 
         redirect_to(action="show", id=c.id)

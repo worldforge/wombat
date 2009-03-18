@@ -6,7 +6,7 @@
                         "${asset.keywords}",
                         <a href="${h.url_for(controller="asset", action="edit",
                             id=asset.id)}">edit</a>, <a
-                            href="${h.url_for(controller="asset",
+                            href="${url(controller="asset",
                             action="delete", id=asset.id)}">delete</a>
                         </li>
 %endfor

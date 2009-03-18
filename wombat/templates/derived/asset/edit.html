@@ -1,8 +1,8 @@
 <%inherit file="/base/index.html"/>
                 <div id="editasset" class="edit">
-                ${h.form(h.url(action="change", id=c.id), method="post")}
-                Asset Name: ${h.text_field("asset_name", value=c.asset.name)}<br />
-                Asset keywords: ${h.text_field("asset_keywords", value=c.asset.keywords)}<br />
-                ${h.submit('Change')}
+                ${h.form(url(controller="asset", action="change", id=c.id), method="post")}
+                Asset Name: ${h.text("asset_name", value=c.asset.name)}<br />
+                Asset keywords: ${h.text("asset_keywords", value=c.asset.keywords)}<br />
+                ${h.submit('change', 'Change')}
                 ${h.end_form()}
                 </div>

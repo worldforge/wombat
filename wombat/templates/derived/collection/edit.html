@@ -1,8 +1,8 @@
 <%inherit file="/base/index.html"/>
                 <div id="main">
-                ${h.form(h.url(action="change", id=c.id), method="post")}
-                Collection Name: ${h.text_field("collection_name", value=c.collection.name)}<br />
-                Collection keywords: ${h.text_field("collection_keywords", value=c.collection.keywords)}<br />
-                ${h.submit('Change')}
+                ${h.form(url(controller="collection", action="change", id=c.id), method="post")}
+                Collection Name: ${h.text("collection_name", value=c.collection.name)}<br />
+                Collection keywords: ${h.text("collection_keywords", value=c.collection.keywords)}<br />
+                ${h.submit('change', 'Change')}
                 ${h.end_form()}
                 </div>

@@ -58,7 +58,7 @@ class CollectionController(BaseController):
     def create(self):
         session = Session()
         collection = Collection(self.form_result.get("collection_name"),self.form_result.get("collection_keywords"))
-        session.save(collection)
+        session.add(collection)
         session.commit()
         redirect_to(action="show", id=collection.id)
 
@@ -90,7 +90,7 @@ class CollectionController(BaseController):
 
         collection.name = self.form_result.get("collection_name")
         collection.keywords = self.form_result.get("collection_keywords")
-        session.update(collection)
+        session.add(collection)
         session.commit()
 
         redirect_to(action="show", id=c.id)
