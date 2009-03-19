@@ -25,7 +25,7 @@ class AuthController(BaseController):
 
         return render('/derived/auth/login.html')
 
-    def submit(self, id):
+    def submit(self, id=None):
         form_email = str(request.params.get('email'))
         form_password = str(request.params.get('password'))
 
@@ -98,7 +98,7 @@ class AuthController(BaseController):
 
         return render('/derived/auth/logged_in.html')
 
-    def logout(self, id):
+    def logout(self, id=None):
         c.name = config['app_conf']['site_name']
         c.title = 'Logged out'
         c.messages = []
