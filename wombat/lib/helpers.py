@@ -55,6 +55,7 @@ def createImagePreview(file):
                         <div id="media">
 """
     base, ext = os.path.splitext(file.name)
+    ext = ext.lower()
     if ext in img_inline:
         content = """\
                             <a href="/media/%s"><img src="%s" alt="%s" border="0"/></a>
