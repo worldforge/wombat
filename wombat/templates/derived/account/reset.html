@@ -1,20 +1,20 @@
 <%inherit file="/base/index.html"/>
                 <div id="resetmsg">
                         <h1>Enter new password</h1>
-                        ${h.form(h.url(action="handle_reset"), method="post")}
+                        ${h.form(url(controller="account", action="handle_reset", id=c.id), method="post")}
                         <div class="r">
                             <div class="f password req">
                                 <label for="new_password">Enter new password.</label>
-                                ${h.password_field("new_password")}
+                                ${h.password("new_password")}
                             </div>
                             <div class="f password req">
                                 <label for="new_password_conf">Reenter new password.</label>
-                                ${h.password_field("new_password_conf")}
+                                ${h.password("new_password_conf")}
                             </div>
                         </div>
                         <div class="r">
                             <div class="f submit">
-                                ${h.submit("Reset password")}
+                                ${h.submit("reset password", "Reset password")}
                             </div>
                         </div>
                         ${h.end_form()}

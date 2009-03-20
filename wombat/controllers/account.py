@@ -32,7 +32,7 @@ class AccountController(BaseController):
         # TODO: Add more email validity tests
         return True
 
-    def signup(self, id):
+    def signup(self, id=None):
         user_email = unicode(request.params.get('user_email'))
         user_email_c = unicode(request.params.get('user_email_confirm'))
 
@@ -105,14 +105,14 @@ class AccountController(BaseController):
         user = User(user_email, crypt_password(user_pass))
         data = UserData(user_name, user_nick, vcs_user, vcs_pass)
         data.user = user
-        s.save(user)
-        s.save(data)
+        s.add(user)
+        s.add(data)
 
         token = random_token()
         msg = create_account_activation_msg(user.email, token)
 
         act_data = EmailConfirm(token, user.email)
-        s.save(act_data)
+        s.add(act_data)
         s.commit()
 
         try:
@@ -162,7 +162,7 @@ class AccountController(BaseController):
             abort(404)
 
         user.active = True
-        c.session.update(user)
+        c.session.add(user)
         c.session.delete(act_data)
         c.session.commit()
 
@@ -243,7 +243,7 @@ class AccountController(BaseController):
         return render('/derived/account/edit.html')
 
     @require_roles(['owner', 'admin'])
-    def change(self, id):
+    def change(self, id=None):
         user_email = unicode(request.params.get('user_email'))
         user_email_c = unicode(request.params.get('user_email_confirm'))
 
@@ -337,7 +337,7 @@ class AccountController(BaseController):
         else:
             vcs_user = None
 
-        s.update(user)
+        s.add(user)
         s.commit()
 
         if id == "ajax":
@@ -365,7 +365,7 @@ class AccountController(BaseController):
             abort(404)
 
         user.active = True
-        s.update(user)
+        s.add(user)
         s.commit()
 
         return "account %s enabled" % user.email
@@ -382,7 +382,7 @@ class AccountController(BaseController):
             abort(404)
 
         user.active = False
-        s.update(user)
+        s.add(user)
         s.commit()
 
         return "account %s disabled" % user.email
@@ -412,7 +412,7 @@ class AccountController(BaseController):
 
         return render('/derived/account/request_reset.html')
 
-    def handle_reset_request(self, id):
+    def handle_reset_request(self, id=None):
         s = Session()
         toaddr = request.params.get('email_addr')
 
@@ -473,6 +473,7 @@ class AccountController(BaseController):
         if id is None:
             abort(404)
 
+        c.id = id
         c.reset_data = c.session.query(ResetData).filter_by(token=unicode(id)).first()
 
         if c.reset_data is None:
@@ -512,7 +513,7 @@ class AccountController(BaseController):
             redirect_to(action='reset', id=reset_data.token)
 
         user.password = crypt_password(password)
-        s.update(user)
+        s.add(user)
         s.delete(reset_data)
         s.commit()
 

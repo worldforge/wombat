@@ -28,5 +28,5 @@ class EmailConfirm(object):
     def __init__(self, token, email):
         self.token = token
         self.email = email
-        self.date = datetime.now().isoformat(' ')
+        self.date = datetime.now()
 

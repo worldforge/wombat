@@ -7,35 +7,35 @@
                 		notification via email with your account
                 		information for future reference.
                 	</p>
-					${h.form(h.url(action="signup"), method="post")}
+					${h.form(url(controller="account", action="signup"), method="post")}
 						<div class="r">
 							<div class="f text req">
 								<label for="user_email">Email</label>
-								${h.text_field("user_email")}
+								${h.text("user_email")}
 							</div>
 							<div class="f text req">
 								<label for="user_email_confirm">Confirm</label>
-								${h.text_field("user_email_confirm")}
+								${h.text("user_email_confirm")}
 							</div>
 						</div>
 						<div class="r">
 							<div class="f text req">
 								<label for="user_name">Your Name</label>
-								${h.text_field("user_name")}
+								${h.text("user_name")}
 							</div>
 							<div class="f text req">
 								<label for="user_nick">Nickname</label>
-								${h.text_field("user_nick")}
+								${h.text("user_nick")}
 							</div>
 						</div>
 						<div class="r">
 							<div class="f password req">
 								<label for="user_pass">Password</label>
-								${h.password_field("user_pass")}
+								${h.password("user_pass")}
 							</div>
 							<div class="f password req">
 								<label for="user_pass_confirm">Confirm</label>
-								${h.password_field("user_pass_confirm")}
+								${h.password("user_pass_confirm")}
 							</div>
 						</div>
 						<span class="note">
@@ -49,22 +49,22 @@
 						<div class="r">
 							<div class="f text">
 								<label for="user_vcs_user">VCS Username</label>
-								${h.text_field("user_vcs_user")}
+								${h.text("user_vcs_user")}
 							</div>
 						</div>
 						<div class="r">
 							<div class="f password">
 								<label for="user_vcs_pass">VCS Password</label>
-								${h.password_field("user_vcs_pass")}
+								${h.password("user_vcs_pass")}
 							</div>
 							<div class="f password">
 								<label for="user_vcs_pass_confirm">Confirm</label>
-								${h.password_field("user_vcs_pass_confirm")}
+								${h.password("user_vcs_pass_confirm")}
 							</div>
 						</div>
 						<div class="r">
 							<div class="f submit">
-								${h.submit('Register')}
+								${h.submit('register', 'Register')}
 							</div>
 						</div>
 					${h.end_form()}

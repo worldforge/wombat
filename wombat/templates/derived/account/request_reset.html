@@ -1,14 +1,14 @@
 <%inherit file="/base/index.html"/>
                 <div id="request_resetmsg">
                         <h1>Request password reset</h1>
-                        ${h.form(h.url(action="handle_reset_request"),
+                        ${h.form(url(controller="account", action="handle_reset_request"),
                         method="post")}
                         <div class="f text">
                             <label for="email_addr">Enter email address.</label>
-                            ${h.text_field("email_addr")}
+                            ${h.text("email_addr")}
                         </div>
                         <div class="f submit">
-                            ${h.submit("Request")}
+                            ${h.submit("request", "Request")}
                         </div>
                         ${h.end_form()}
                  </div>

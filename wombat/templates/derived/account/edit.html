@@ -6,25 +6,25 @@
                 		fill it out, add the details that
                 		everyone needs to know.
                 	</p>
-					${h.form(h.url(action="change", id=c.id), method="post")}
+					${h.form(url(controller="account", action="change", id=c.id), method="post")}
 						<div class="r">
 							<div class="f text req">
 								<label for="user_email">Email</label>
-								${h.text_field("user_email", value=c.account.email)}
+								${h.text("user_email", value=c.account.email)}
 							</div>
 							<div class="f text req">
 								<label for="user_email_confirm">Confirm</label>
-								${h.text_field("user_email_confirm", value=c.account.email)}
+								${h.text("user_email_confirm", value=c.account.email)}
 							</div>
 						</div>
 						<div class="r">
 							<div class="f r text req">
 								<label for="user_name">Your Name</label>
-								${h.text_field("user_name", value=c.account.user_data.name)}
+								${h.text("user_name", value=c.account.user_data.name)}
 							</div>
 							<div class="f r text req">
 								<label for="user_nick">Nickname</label>
-								${h.text_field("user_nick", value=c.account.user_data.nick)}
+								${h.text("user_nick", value=c.account.user_data.nick)}
 							</div>
 						</div>
 						<div class="r">
@@ -32,18 +32,18 @@
 							<div id="edit_password" style="display:none;">
 								<div class="f password req">
 									<label for="user_pass">Password</label>
-									${h.password_field("user_pass")}
+									${h.password("user_pass")}
 								</div>
 								<div class="f password req">
 									<label for="user_pass_confirm">Confirm</label>
-									${h.password_field("user_pass_confirm")}
+									${h.password("user_pass_confirm")}
 								</div>
 							</div>
 						</div>
 						<div class="r">
 							<div class="f text req">
 								<label for="user_vcs_user">VCS Username</label>
-								${h.text_field("user_vcs_user", value=c.account.user_data.vcs_user)}
+								${h.text("user_vcs_user", value=c.account.user_data.vcs_user)}
 							</div>
 						</div>
 						<div class="r">
@@ -51,17 +51,17 @@
 							<div id="vcs_password" style="display:none;">
 								<div class="f password req">
 									<label for="user_vcs_pass">VCS Password</label>
-									${h.password_field("user_vcs_pass")}
+									${h.password("user_vcs_pass")}
 								</div>
 								<div class="f password req">
 									<label for="user_vcs_pass_confirm">Confirm</label>
-									${h.password_field("user_vcs_pass_confirm")}
+									${h.password("user_vcs_pass_confirm")}
 								</div>
 							</div>
 						</div>
 						<div class="r">
 							<div class="f submit">
-								${h.submit('Change')}
+								${h.submit('change', 'Change')}
 							</div>
 						</div>
 					${h.end_form()}
