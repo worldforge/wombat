@@ -14,7 +14,7 @@ class Globals(object):
         initialization and is available during requests via the 'g'
         variable
         """
-        self.version = "0.4.3"
+        self.version = "0.4.4"
 
         self.last_cleanup = "Never"
         self.cleanup_timer = Timer(60.0, cleanup_dbs, [self])
