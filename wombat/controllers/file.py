@@ -2,7 +2,7 @@ import logging
 
 from wombat.lib.base import *
 from pylons import config
-from wombat.model import File
+from wombat.model import File, Asset, Tag
 
 log = logging.getLogger(__name__)
 
@@ -54,4 +54,22 @@ class FileController(BaseController):
         c.session = Session()
         c.unassigned = c.session.query(File).filter_by(used_by=None).all()
         return render('/derived/file/unassigned.html')
+
+    def tagged(self, id=None):
+        if id is None:
+            abort(404)
+
+        c.name = config['app_conf']['site_name']
+        c.title = "Files tagged by '%s'" % id
+        c.messages = []
+
+        c.session = Session()
+        tag = c.session.query(Tag).filter_by(name=id).first()
+        if tag is None:
+            abort(404)
+        tagged = []
+        for asset in tag.assets:
+            tagged.extend(asset.files)
+        c.tagged = tagged
+        return render('/derived/file/tagged.html')
 

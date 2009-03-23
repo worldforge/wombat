@@ -1,7 +1,7 @@
                 <ul id="tabmenu">
-                    <li><a class="menulink" href="${url(controller="file", action="unassigned")}">Unassigned Files</a></li>
+                    <li><a class="menulink" href="${url(controller="tag")}">Tag Cloud</a></li>
                     <li><a class="menulink" href="${url(controller="dir")}">Directories</a></li>
-                    <li><a class="menulink" href="/show">Server Status</a></li>
+                    <li><a class="menulink" href="${url(controller="show")} ">Server Status</a></li>
 <% user = h.getCurrentUser(session, c.session)%>
 %if user is None:
                     <li><a class="menulink" href="/account/register">Register</a></li>

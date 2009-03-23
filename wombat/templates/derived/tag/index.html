@@ -3,7 +3,7 @@
                     <ul>
 %for tag in c.tags:
                         <li>Tag name:
-                        ${tag.name},
+                        <a href="${url(controller="file", action="tagged", id=tag.name)}">${tag.name}</a>,
                         use count: ${len(tag.assets) + len(tag.collections)}
                         </li>
 %endfor
