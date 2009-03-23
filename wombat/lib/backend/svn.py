@@ -16,10 +16,24 @@
 import os
 import os.path
 from pylons import config
-from wombat.model import Revision, File, Dir
+from wombat.model import Revision, File, Dir, Asset, Tag
 from sqlalchemy.exceptions import InvalidRequestError
 from sqlalchemy.sql import func
 from svn_xml_parser import parse_svn
+
+def get_tag_from_path(session, path):
+    tag_name = "category_%s" % path[:path.find(os.path.sep)]
+    tag = session.query(Tag).filter_by(name=tag_name).first()
+    if tag is None:
+        tag = Tag(tag_name)
+    return tag
+
+def get_tag_from_filetype(session, type):
+    type_name = "type_%s" % type
+    tag = session.query(Tag).filter_by(name=type_name).first()
+    if tag is None:
+        tag = Tag(type_name)
+    return tag
 
 def call_svn_cmd(path, cmd, opts):
     """string, string, string -> string
@@ -103,6 +117,18 @@ def create_rev_entry(rev_path, session, rev=None):
             new_file.directory = parent_dir
 
         session.add(new_file)
+
+        tags = []
+
+        tags.append(get_tag_from_path(session, new_file.path))
+        tags.append(get_tag_from_filetype(session, new_file.type))
+
+        asset = session.query(Asset).filter(Asset.files.contains(new_file)).first()
+        if asset is None:
+            asset = Asset("auto_%s" % new_file.name, tags)
+            asset.files.append(new_file)
+            session.add(asset)
+
     elif svn.kind == u"dir":
         old_dir = session.query(Dir).get(unicode(rev_path))
         if old_dir is not None:
