@@ -2,7 +2,7 @@
                 <div id="editasset" class="edit">
                 ${h.form(url(controller="asset", action="change", id=c.id), method="post")}
                 Asset Name: ${h.text("asset_name", value=c.asset.name)}<br />
-                Asset keywords: ${h.text("asset_keywords", value=c.asset.keywords)}<br />
+                Asset Tags: ${h.text("asset_tags", value=h.create_tag_str(c.asset.tags))}<br />
                 ${h.submit('change', 'Change')}
                 ${h.end_form()}
                 </div>

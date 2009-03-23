@@ -2,8 +2,8 @@
                 <div id="main">
                     <ul>
 %for asset in c.assets:
-                        <li>Asset ${asset.id} name: "${asset.name}", keywords:
-                        "${asset.keywords}",
+                        <li>Asset ${asset.id} name: "${asset.name}", tags:
+                        "${h.create_tag_str(asset.tags)}",
                         <a href="${h.url_for(controller="asset", action="edit",
                             id=asset.id)}">edit</a>, <a
                             href="${url(controller="asset",

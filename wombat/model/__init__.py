@@ -31,9 +31,22 @@ user_data_table = init_user_data_table(metadata)
 from role import Role, init_roles_table
 roles_table = init_roles_table(metadata)
 
+from tag import Tag, init_tags_table
+tags_table = init_tags_table(metadata)
+
 user_roles = Table('user_roles', metadata,
         Column('user_id', types.Integer, ForeignKey('users.id')),
         Column('role_id', types.Integer, ForeignKey('roles.id'))
+        )
+
+asset_tags = Table('asset_tags', metadata,
+        Column('asset_id', types.Integer, ForeignKey('assets.id')),
+        Column('tag_id', types.Integer, ForeignKey('tags.id'))
+        )
+
+collection_tags = Table('collection_tags', metadata,
+        Column('collection_id', types.Integer, ForeignKey('collections.id')),
+        Column('tag_id', types.Integer, ForeignKey('tags.id'))
         )
 
 from reset_data import ResetData, init_reset_data_table
@@ -59,6 +72,11 @@ mapper(UserData, user_data_table, properties={
                     single_parent=True, cascade="all, delete, delete-orphan")})
 mapper(Role, roles_table, properties={
     "users":relation(User, secondary=user_roles, backref="roles",
+                    cascade="all, delete")})
+mapper(Tag, tags_table, properties={
+    "assets":relation(Asset, secondary=asset_tags, backref="tags",
+                    cascade="all, delete"),
+    "collections":relation(Collection, secondary=collection_tags, backref="tags",
                     cascade="all, delete")})
 mapper(ResetData, reset_data_table)
 mapper(EmailConfirm, email_confirm_table)

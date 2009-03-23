@@ -2,8 +2,8 @@
                 <div id="main">
                     <ul>
 %for collection in c.collections:
-                        <li>Collection ${collection.id} name: "${collection.name}", keywords:
-                        "${collection.keywords}",
+                        <li>Collection ${collection.id} name: "${collection.name}", tags:
+                        "${h.create_tag_str(collection.tags)}",
                         <a href="${h.url_for(controller="collection", action="edit",
                             id=collection.id)}">edit</a>, <a
                             href="${h.url_for(controller="collection",

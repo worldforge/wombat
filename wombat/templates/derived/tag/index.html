@@ -1,0 +1,11 @@
+<%inherit file="/base/index.html"/>
+                <div id="main">
+                    <ul>
+%for tag in c.tags:
+                        <li>Tag name:
+                        ${tag.name},
+                        use count: ${len(tag.assets) + len(tag.collections)}
+                        </li>
+%endfor
+                    </ul>
+                </div>

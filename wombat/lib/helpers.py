@@ -199,3 +199,10 @@ def getSubFileCount(dir, session):
     count = session.query(File).filter(File.path.like("%s/%%" % dir.path)).count()
     return count
 
+def create_tag_str(tags):
+    tag_str = ""
+    for tag in tags:
+        tag_str += "%s " % tag.name
+    tag_str.rstrip(" ")
+    return tag_str
+

@@ -2,7 +2,7 @@ import logging
 
 from wombat.lib.base import *
 from pylons.decorators import validate
-from wombat.model import Asset
+from wombat.model import Asset, Tag
 from wombat.model.form import AssetForm
 
 log = logging.getLogger(__name__)
@@ -57,10 +57,26 @@ class AssetController(BaseController):
 
         return render('/derived/asset/new.html')
 
+    def _create_tags_from_string(self, session, tag_string):
+        tags = tag_string.split(u' ')
+        tag_objects = []
+        for tag in tags:
+            if tag == u'':
+                continue
+            tag_obj = session.query(Tag).filter_by(name=tag).first()
+            if tag_obj is None:
+                # create a new tag
+                tag_obj = Tag(tag)
+                session.add(tag_obj)
+            tag_objects.append(tag_obj)
+        return tag_objects
+
     @validate(schema=AssetForm(), form="new")
     def create(self):
         session = Session()
-        asset = Asset(self.form_result.get("asset_name"),self.form_result.get("asset_keywords"))
+        tag_string = self.form_result.get("asset_tags")
+        tags = self._create_tags_from_string(session, tag_string)
+        asset = Asset(self.form_result.get("asset_name"), tags)
         session.add(asset)
         session.commit()
         redirect_to(action="show", id=asset.id)
@@ -92,7 +108,8 @@ class AssetController(BaseController):
             abort(404)
 
         asset.name = self.form_result.get("asset_name")
-        asset.keywords = self.form_result.get("asset_keywords")
+        tag_string = self.form_result.get("asset_tags")
+        asset.tags = self._create_tags_from_string(session, tag_string)
         session.add(asset)
         session.commit()
 

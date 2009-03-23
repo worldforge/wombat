@@ -2,7 +2,7 @@
                 <div id="main">
                 ${h.form(url(controller="collection", action="change", id=c.id), method="post")}
                 Collection Name: ${h.text("collection_name", value=c.collection.name)}<br />
-                Collection keywords: ${h.text("collection_keywords", value=c.collection.keywords)}<br />
+                Collection Tags: ${h.text("collection_tags", value=h.create_tag_str(c.collection.tags))}<br />
                 ${h.submit('change', 'Change')}
                 ${h.end_form()}
                 </div>

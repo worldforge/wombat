@@ -1,4 +1,4 @@
-# Copyright (C) 2008 by Kai Blin
+# Copyright (C) 2009 by Kai Blin
 #
 # WOMBAT is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,15 +16,13 @@
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy import types, schema
 
-def init_collections_table(metadata):
-    return Table('collections', metadata,
+def init_tags_table(metadata):
+    return Table('tags', metadata,
         Column('id', types.Integer, primary_key=True),
-        Column('name', types.Unicode(255), default=u'Unnamed Collection'),
+        Column('name', types.Unicode(255), unique=True, nullable=False)
     )
 
-class Collection(object):
-    def __init__(self, name, tags):
+class Tag(object):
+    def __init__(self, name):
         self.name = name
-        self.tags = tags
-
 

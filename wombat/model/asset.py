@@ -20,12 +20,10 @@ def init_assets_table(metadata):
     return Table('assets', metadata,
         Column('id', types.Integer, primary_key=True),
         Column('name', types.Unicode(255), default=u'Unnamed Asset'),
-        Column('keywords', types.Unicode(255), default=u''),
         Column('used_by', types.Integer, schema.ForeignKey('collections.id'))
     )
 
 class Asset(object):
-    def __init__(self, name, keywords):
+    def __init__(self, name, tags=[]):
         self.name = name
-        self.keywords = keywords
-
+        self.tags = tags
