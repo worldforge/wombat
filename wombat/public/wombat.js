@@ -84,12 +84,15 @@ function initItemDetails( )
 									method:"get",
 									onSuccess: function(transport)
 									{
-										var response = transport.responseText || "No Response.";							
+										var response = transport.responseText || "No Response.";
 										$(supItem).className = $(supItem).className.replace("lfloat","clr full");
 										$(subItem).innerHTML = response;
 										Effect.BlindDown(subItem, {duration:fileDetailsSpeed});
 										itemDetail.visible = true;
-										$(supItem).onclick = function(){ $(domId).onclick(); }
+                                                                                // Fix bug https://bugs.launchpad.net/wombat/+bug/291724
+                                                                                // Make click on the expanded item not fold back the
+                                                                                // expanded area
+										//$(supItem).onclick = function(){ $(domId).onclick(); }
 									},
 									onFailure: function(){ alert("Failure Fetching File Details."); }
 								}
@@ -98,7 +101,7 @@ function initItemDetails( )
 					}
 					return false;
 				};
-				
+
 				var path = item.getAttribute("rel");
 				item.setAttribute("href","javascript:void(0);");
 				var newItem = {
@@ -110,7 +113,7 @@ function initItemDetails( )
 			}
 		}
 	}
-	
+
 }
 
 /**
