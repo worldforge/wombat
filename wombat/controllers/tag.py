@@ -20,12 +20,27 @@ class TagController(BaseController):
 
         tags = c.session.query(Tag).all()
         used_tags = []
+        max_count = 0
         for tag in tags:
             count = len(tag.assets) + len(tag.collections)
             if count > 0:
-                used_tags.append(tag)
+                if count > max_count:
+                    max_count = count
+                used_tags.append((tag, count))
 
-        c.tags = used_tags
+        ranked_tags = []
+        for tag, count in used_tags:
+            percentage = float(count) / float(max_count)
+            if percentage < 0.5:
+                ranked_tags.append((tag, 'normal'))
+            elif percentage < 0.75:
+                ranked_tags.append((tag, 'popular'))
+            elif percentage < 1:
+                ranked_tags.append((tag, 'very-popular'))
+            else:
+                ranked_tags.append((tag, 'top'))
+
+        c.tags = ranked_tags
 
         return render('/derived/tag/index.html')
 
