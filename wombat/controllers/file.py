@@ -64,11 +64,18 @@ class FileController(BaseController):
         c.messages = []
 
         c.session = Session()
-        tag = c.session.query(Tag).filter_by(name=id).first()
-        if tag is None:
+        tags = id.split(u'+')
+        aq = c.session.query(Asset)
+        tag_ids = []
+        for tag_name in tags:
+            tag = c.session.query(Tag).filter(Tag.name == tag_name).first()
+            aq = aq.filter(Asset.tags.contains(tag))
+        assets = aq.all()
+        if assets is None:
             abort(404)
+        c.id = id
         tagged = []
-        for asset in tag.assets:
+        for asset in assets:
             tagged.extend(asset.files)
         c.tagged = tagged
         return render('/derived/file/tagged.html')

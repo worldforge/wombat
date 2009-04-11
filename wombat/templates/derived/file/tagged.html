@@ -17,6 +17,11 @@
                                 ${file.name}
                             </a>
                             <small>(${h.sizeToStr(file.size)})</small>
+                            <div id="taglist"><ul>
+%for tag in file.asset.tags:
+                                <li><a href="${url(controller="file", action="tagged", id=c.id+"+"+tag.name)}">${tag.name}</a></li>
+%endfor
+                            </ul></div>
                         </td>
                         <%i+=1%>
 %if i%2 == 0:

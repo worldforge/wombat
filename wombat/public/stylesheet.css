@@ -368,6 +368,32 @@ table.details td.value
     font-size: 250%;
 }
 
+#taglist ul
+{
+    padding: 0;
+    display: inline;
+    list-style-type:none;
+}
+
+#taglist li
+{
+    padding-left: 0.5em;
+    display: inline;
+    float:right;
+    /*list-style-type:none;*/
+}
+
+#taglist a
+{
+    background-color:#555;
+    text-decoration:none;
+}
+
+#taglist a:hover
+{
+    background-color:#111;
+}
+
 div.set
 {
 }
