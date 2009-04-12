@@ -8,12 +8,12 @@
 %for file in c.tagged:
                         <td class="cell" valign="top" width="50%">
                             <a
-                                href="${h.url_for(controller="file")}?path=${file.path}" title="Download ${file.name}">
+                                href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="Download ${file.name}">
                                 <img class="fade" src="${h.getIcon(file)}" border="0" alt="*" />
                             </a>
                             &nbsp;
                             <a
-                                href="${h.url_for(controller="file")}?path=${file.path}" title="File details: ${file.name}">
+                                href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="File details: ${file.name}">
                                 ${file.name}
                             </a>
                             <small>(${h.sizeToStr(file.size)})</small>
