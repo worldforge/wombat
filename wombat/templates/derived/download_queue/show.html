@@ -1,0 +1,34 @@
+<%inherit file="/base/index.html"/>
+                <div id="main">
+                    <h3>Files queued for download</h3>
+%if c.dl_queue is not None:
+                    <table border="0" class="group">
+                      <tr>
+                      <% i = 0 %>
+%for file in c.dl_queue.files:
+                        <td class="cell" valign="top" width="50%">
+                            <a
+                                href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="Download ${file.name}">
+                                <img class="fade" src="${h.getIcon(file)}" border="0" alt="*" />
+                            </a>
+                            &nbsp;
+                            <a
+                                href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="File details: ${file.name}">
+                                ${file.name}
+                            </a>
+                            <small>(${h.sizeToStr(file.size)})</small>
+                            <div id="taglist"><ul>
+%for tag in file.asset.tags:
+                                <li><a href="${url(controller="file", action="tagged", id=tag.name)}">${tag.name}</a></li>
+%endfor
+                            </ul></div>
+                        </td>
+                        <%i+=1%>
+%if i%2 == 0:
+                      </tr>
+                      <tr>
+%endif
+%endfor
+                      </tr>
+                    </table>
+%endif                </div>

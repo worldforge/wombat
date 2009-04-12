@@ -49,11 +49,19 @@ collection_tags = Table('collection_tags', metadata,
         Column('tag_id', types.Integer, ForeignKey('tags.id'))
         )
 
+files_queues = Table('files_queues', metadata,
+        Column('file_path', types.Unicode(255), ForeignKey('files.path')),
+        Column('queue_id', types.Integer, ForeignKey('download_queues.id'))
+        )
+
 from reset_data import ResetData, init_reset_data_table
 reset_data_table = init_reset_data_table(metadata)
 
 from email_confirm import EmailConfirm, init_email_confirm_table
 email_confirm_table = init_email_confirm_table(metadata)
+
+from download_queue import DownloadQueue, init_download_queue_table
+download_queue_table = init_download_queue_table(metadata)
 
 mapper(File, files_table)
 mapper(Dir, dirs_table, properties={
@@ -80,4 +88,9 @@ mapper(Tag, tags_table, properties={
                     cascade="all, delete")})
 mapper(ResetData, reset_data_table)
 mapper(EmailConfirm, email_confirm_table)
+mapper(DownloadQueue, download_queue_table, properties={
+    "user":relation(User, backref=backref("download_queue", uselist=False),
+                    single_parent=True, cascade="all, delete, delete-orphan"),
+    "files":relation(File, secondary=files_queues, backref="in_queues")})
+
 
