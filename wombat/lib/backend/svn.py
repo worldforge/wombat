@@ -113,9 +113,15 @@ def create_rev_entry(rev_path, session, rev=None):
         if parent_path == u'':
             parent_path = u'.'
         parent_dir = session.query(Dir).get(parent_path)
-        if parent_dir is not None:
-            new_file.directory = parent_dir
+        if parent_dir is None:
+            # Parent directory was probably created in the same commit.
+            # Recurse just to make sure the parent dir exits. This is
+            # sub-optimal performance-wise, but keeps the database consistent.
+            # SVN XML sucks.
+            create_rev_entry(parent_path, session, rev)
+            parent_dir = session.query(Dir).get(parent_path)
 
+        new_file.directory = parent_dir
         session.add(new_file)
 
         tags = []
