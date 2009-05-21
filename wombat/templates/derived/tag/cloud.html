@@ -1,0 +1,8 @@
+                    <ol class="tagcloud">
+%for tag,type,count in c.tags:
+                        <li class="tag-${type}"><span>${count} assets are tagged</span>
+                            <a href="${url(controller="file", action="tagged", id=tag.name)}">${tag.name}</a>
+                        </li>
+%endfor
+                    </ol>
+

@@ -2,7 +2,7 @@
     <div id="main">
         <div class="subtitle">Welcome to ${c.name}.</div>
 
-        <div class="description">
+        <div id="description" rel="${h.url_for(controller="tag", action="cloud")}">
             See the <a href="${h.url_for(controller="tag", action="index")}">tag cloud</a>.
         </div>
 <%include file="status.html"/>

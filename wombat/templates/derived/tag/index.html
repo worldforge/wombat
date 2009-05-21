@@ -1,13 +1,4 @@
 <%inherit file="/base/index.html"/>
                 <div id="main">
-                    <div id="tagcloud">
-                    <ul>
-%for tag,type in c.tags:
-                        <li id="tag">
-                            <a href="${url(controller="file", action="tagged", id=tag.name)}"
-                                id="tag-${type}">${tag.name}</a>
-                        </li>
-%endfor
-                    </ul>
-                    </div>
+<%include file="cloud.html"/>
                 </div>

@@ -30,10 +30,42 @@ function init()
 		picker_date_in = new Control.DatePicker('date_in', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
 		picker_date_out = new Control.DatePicker('date_out', {icon: '/datepicker/calendar.png',dateFormat: 'yyyy-MM-dd'});
 	}
-	
+
 	initItemDetails();
 	initMessageDisposal();
 	initRequiredFields();
+    fetchTagCloud();
+}
+
+/**
+ * wombat::fetchTagCloud
+ * Fetch the tag cloud for the front page
+ * @return [nil]
+ * @author Kai Blin
+ */
+function fetchTagCloud( )
+{
+    var element = $('description');
+    //window.console.log("found element: " + element);
+    if (element == null)
+    {
+        return;
+    }
+    var fetch_url = element.getAttribute("rel");
+    //window.console.log("rel link is " + fetch_url);
+    if (fetch_url == null)
+    {
+        return;
+    }
+
+    var fetch = new Ajax.Request(fetch_url,
+            {
+                onSuccess: function(transport)
+                    {
+                        element.innerHTML = transport.responseText;
+                    }
+            });
+
 }
 
 /**
