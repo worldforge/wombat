@@ -314,56 +314,65 @@ table.details td.value
     text-align:center;
 }
 
-#tagcloud
+.tagcloud
 {
     clear: both;
     display: block;
     width: 50%;
-    padding-left: 40%;
-    background-color: #999;
+    margin-left: 20%;
+    padding: 0px;
+    background-color: #111;
+    line-height: 3em;
+    text-align: center;
+    -moz-border-radius:12px;
+    -webkit-border-radius:12px;
+
 }
 
-#tagcloud ul
+.tagcloud ol
 {
-    padding: 0;
-    display: block;
     list-style-type:none;
 }
 
-#tagcloud li
+.tagcloud li
 {
-    float: left;
     display: inline;
-    padding: 0.2em;
 }
 
-#tagcloud a
+.tagcloud a
 {
     text-decoration: none;
 }
 
-#tagcloud a:hover
+.tagcloud a:hover
 {
     text-decoration: none;
     background-color: #111;
 }
 
-#tag-normal
+.tagcloud span
+{
+    position: absolute;
+    left: -999px;
+    width: 990px;
+}
+
+.tagcloud .tag-normal
 {
     font-size: 100%;
 }
 
-#tag-popular
+.tagcloud .tag-popular
 {
     font-size: 150%;
 }
 
-#tag-very-popular
+.tagcloud .tag-very-popular
 {
     font-size: 200%;
 }
 
-#tag-top
+.tagcloud .tag-top
 {
     font-size: 250%;
 }

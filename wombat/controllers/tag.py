@@ -32,14 +32,15 @@ class TagController(BaseController):
         for tag, count in used_tags:
             percentage = float(count) / float(max_count)
             if percentage < 0.5:
-                ranked_tags.append((tag, 'normal'))
+                ranked_tags.append((tag, 'normal', count))
             elif percentage < 0.75:
-                ranked_tags.append((tag, 'popular'))
+                ranked_tags.append((tag, 'popular', count))
             elif percentage < 1:
-                ranked_tags.append((tag, 'very-popular'))
+                ranked_tags.append((tag, 'very-popular', count))
             else:
-                ranked_tags.append((tag, 'top'))
+                ranked_tags.append((tag, 'top', count))
 
+        ranked_tags.sort()
         c.tags = ranked_tags
 
         return render('/derived/tag/index.html')

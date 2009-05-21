@@ -25,4 +25,10 @@ def init_tags_table(metadata):
 class Tag(object):
     def __init__(self, name):
         self.name = name
+    def __cmp__(self, obj):
+        return cmp(self.name, obj.name)
+    def __str__(self):
+        return self.name
+    def __repr__(self):
+        return "'%s'" % self.name
 
