@@ -1,19 +1,18 @@
 """Pylons middleware initialization"""
 from beaker.middleware import CacheMiddleware, SessionMiddleware
-from routes.middleware import RoutesMiddleware
 from paste.cascade import Cascade
 from paste.registry import RegistryManager
 from paste.urlparser import StaticURLParser
 from paste.deploy.converters import asbool
 from paste.urlmap import URLMap
-from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons import config
-from pylons.error import error_template
+from pylons.middleware import ErrorHandler, StatusCodeRedirect
 from pylons.wsgiapp import PylonsApp
+from routes.middleware import RoutesMiddleware
 
 from wombat.config.environment import load_environment
 
-def make_app(global_conf, full_stack=True, **app_conf):
+def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
 
     ``global_conf``
@@ -58,11 +57,12 @@ def make_app(global_conf, full_stack=True, **app_conf):
     app = RegistryManager(app)
 
     # Static files
-    static_app = StaticURLParser(config['pylons.paths']['static_files'])
-    media_app = StaticURLParser(config['app_conf']['media_dir'])
-    thumb_app = StaticURLParser(config['app_conf']['thumb_dir'])
-    urlmap = URLMap()
-    urlmap['/media'] = media_app
-    urlmap['/thumb'] = thumb_app
-    app = Cascade([urlmap, static_app, app])
+    if asbool(static_files):
+        static_app = StaticURLParser(config['pylons.paths']['static_files'])
+        media_app = StaticURLParser(config['app_conf']['media_dir'])
+        thumb_app = StaticURLParser(config['app_conf']['thumb_dir'])
+        urlmap = URLMap()
+        urlmap['/media'] = media_app
+        urlmap['/thumb'] = thumb_app
+        app = Cascade([urlmap, static_app, app])
     return app
