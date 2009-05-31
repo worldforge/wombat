@@ -1,3 +1,5 @@
+/* @override http://localhost:5000/stylesheet.css */
+
 html,body
 {
     margin:0px;
@@ -85,12 +87,21 @@ a{ color:#f90; }
 
 #search
 {
+	position:absolute;
     display:block;
-    float:right;
     clear:none;
     overflow:hidden;
+    top:78px;
+    right:1%;
     width:30%;
+    min-width:290px;
     margin-top:5px;
+    padding:5px;
+    background-color:rgba(0,0,0,0.75);
+    -moz-border-bottomright-radius:11px;
+    -webkit-border-bottom-right-radius:11px;
+    -moz-border-bottomleft-radius:11px;
+    -webkit-border-bottom-left-radius:11px;
 }
 
 #search form
@@ -128,7 +139,7 @@ a{ color:#f90; }
 	float:left;
 	clear:none;
     list-style-type:none;
-    margin:0px;
+    margin:0px 0px 20px 0px;
     padding:0px 5px 0px 5px;
 }
 #menu ul li a
@@ -155,6 +166,8 @@ a{ color:#f90; }
 #menu ul li.last
 {
 	float:right;
+	clear:right;
+	width:420px;
 }
 #menu #loginform
 {
@@ -499,9 +512,11 @@ div.f div.f label
 	clear:none;
 	overflow:hidden;
 	width:50px;
-	text-align:left;
+	text-align:right;
 	font-size:12px;
-	line-height:22px;
+	line-height:20px;
+	height:20px;
+	padding:0px 3px 0px 0px;
 }
 div.f div.f.text input,div.f div.f.password input,div.f div.f.select select,div.f div.f.textarea textarea
 {
@@ -509,15 +524,18 @@ div.f div.f.text input,div.f div.f.password input,div.f div.f.select select,div.
 	background-color:#ccc;
 	padding:0px;
 	margin:0px;
-	line-height:22px;
-	height:22px;
+	line-height:18px;
+	height:18px;
 	font-size:11px;
-    -moz-border-radius:11px;
-    -webkit-border-radius:11px;
+	border:1px solid #000;
 }
+
 div.f div.f.submit input
 {
-	width:32px;
+	width:48px;
+	margin:0px 0px 0px 5px;
+	height:20px;
+	line-height:20px;
 }
 div.r /* form row */
 {
