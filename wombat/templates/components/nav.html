@@ -14,5 +14,17 @@
 %else:
                                 <li><img src="/images/dir_small.png" border="0" alt="*" />&nbsp;${h.truncStr(c.dir.name, 12)}</li>
 %endif
+%if c.upload == True:
                             </ul>
+                            <div class="Upload">
+                                <ul>
+                                    <li>
+                                        <a href="/upload?path=${c.req_path}">Upload to this directory</a>
+                                    </li>
+                                    <li>
+                                        <a href="/dir/create?path=${c.req_path}">Create a subdirectori</a>
+                                    </li>
+                                </ul>
+                            </div>
+%endif
                         </div>
