@@ -23,5 +23,7 @@ def make_map():
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 
+    map.connect('/uploads/{new_name}/{name}', controller='moderation', action='servefile')
+
 
     return map

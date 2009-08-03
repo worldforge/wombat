@@ -1,0 +1,33 @@
+<%inherit file="/base/index.html"/>
+
+            <br /><h3>To be moderated :</h3>
+            <br />
+            %if c.modfilelist == []:
+            Empty
+            %else:
+            %for file in c.modfilelist:
+            <a href="${h.url_for(controller='moderation', action='view')}?file=${file.new_name}">${file.name}</a> - ${file.author}
+            (<a href="${h.url_for(controller='moderation', action='accepted')}?name=${file.new_name}">accepted</a>/<a href="${h.url_for(controller='moderation', action='rejected')}?name=${file.new_name}">rejected</a>)
+            <br />
+            %endfor
+            %endif
+            <br />
+            <br /><h3>To be commit to repository :</h3>
+            <br />
+            %if c.comfilelist == []:
+            Empty
+            %else:
+            <form action="${h.url_for(controller='moderation', action='commit')}" method="post">
+            ${h.auth_token_hidden_field()}
+            %for file in c.comfilelist:
+            <a href="${h.url_for(controller='moderation', action='view')}?file=${file.new_name}">${file.name}</a> - ${file.author}
+            (<a href="${h.url_for(controller='moderation', action='remove')}?name=${file.new_name}">remove from list</a>)
+            <br />
+            %endfor
+            <br />
+            commit message : <input name="message" type="text" size="25" />
+            <input name="commit" value="commit" type="submit" />
+            </form>
+            %endif
+            <br />
+            <br />

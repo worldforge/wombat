@@ -1,0 +1,19 @@
+<%inherit file="/base/index.html"/>
+
+            <a href="${h.url_for(controller='moderation')}">Go back</a>
+            <br /><br />
+            <h3>${c.filename} - ${c.author}  :</h3>
+            %if not c.status == "Moderated":
+            (<a href="${h.url_for(controller='moderation', action='accepted')}?name=${c.new_name}">accepted</a>/<a href="${h.url_for(controller='moderation', action='rejected')}?name=${c.new_name}">rejected</a>)
+            %else:
+            (<a href="${h.url_for(controller='moderation', action='remove')}?name=${c.new_name}">remove from list</a>)
+            %endif
+            <p>destination: ${c.destination}</p>
+            <p>description: ${c.description}</p>
+            %if c.scr:
+            <a href="${c.scr}"><img border="0" alt="${c.filename | h}" src="${c.scr}"/></a>
+            %else:
+            <a href="${c.href}">${c.filename}</a>
+            %endif
+            <br />
+            <br />
