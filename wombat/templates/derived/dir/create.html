@@ -1,0 +1,7 @@
+<%inherit file="/base/index.html"/>
+                ${h.form(url("createdir"), multipart=True)}
+                Subdirectori name: ${h.text('createdir')} <br />
+                ${h.hidden('path', c.path)}
+                ${h.auth_token_hidden_field()}
+                ${h.submit('Submit', 'Submit')}
+                ${h.end_form()}
