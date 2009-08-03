@@ -22,13 +22,7 @@
                             ${h.end_form()}
                         </div>
 %else:
-					<li class="last">
-                        <div><a href="${url(controller="auth",
-                                action="logout", id=None)}">Logout</a>
-                        </div>
-                    </li>
-                    <li class="last">
-						<a class="menutext" href="/account/edit/${user.user_data.id}">${user.user_data.name}</a>
-					</li>
+                    <li><a class="menulink" href="/account/edit/${user.user_data.id}">${user.user_data.name}</a></li>                   </li>
+                    <li><a class="menulink" href="${url(controller="auth", action="logout", id=None)}">Logout</a></li>
 %endif
                 </ul>
