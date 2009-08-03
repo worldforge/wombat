@@ -1,0 +1,28 @@
+<%inherit file="/base/index.html"/>
+
+        <script type="text/javascript">
+			function addFile() {
+				var html = '<input id="myfile" name="myfile" type="file" /><br/>';
+				var newfield = document.createElement('div');
+				newfield.setAttribute('class', 'upload_file');
+				newfield.innerHTML = html;
+				document.getElementById('upload_file').appendChild(newfield);
+			}
+		</script>
+
+
+        <h3>Upload to <a href="${h.url_for(controller='dir')}?path=${c.destination}">${c.destination}</a></h3>
+        <br/>
+        <form action="${h.url_for(controller='upload' , action='upload')}" enctype="multipart/form-data" method="post">
+            ${h.hidden('path', c.destination)}
+            ${h.auth_token_hidden_field()}
+            <div id="upload_file">
+                File(s):<br />
+                ${h.file('myfile')}<br/>
+            </div>
+            <p><a href="javascript:addFile();" >add files</a></p>
+            description: ${h.text('description')} (for moderation purpose only)
+            <br /><br />
+            ${h.submit('Upload', 'Upload')}
+        </form>
+        <br/>

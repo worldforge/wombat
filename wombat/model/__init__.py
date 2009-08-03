@@ -90,6 +90,10 @@ email_confirm_table = init_email_confirm_table(meta.metadata)
 from download_queue import DownloadQueue, init_download_queue_table
 download_queue_table = init_download_queue_table(meta.metadata)
 
+from upload import Upload, init_uploads_table
+uploads_table = init_uploads_table(meta.metadata)
+
+orm.mapper(Upload, uploads_table)
 orm.mapper(File, files_table)
 orm.mapper(Dir, dirs_table, properties={
     "files":orm.relation(File, backref="directory"),
