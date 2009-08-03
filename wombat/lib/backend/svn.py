@@ -16,7 +16,7 @@
 import os.path
 from subprocess import Popen, PIPE
 from pylons import config
-from wombat.model import Revision, File, Dir, Asset, Tag
+from wombat.model import Revision, File, Dir, Asset, Tag, User
 from sqlalchemy.exceptions import InvalidRequestError
 from sqlalchemy.sql import func
 from svn_xml_parser import parse_svn
@@ -229,3 +229,45 @@ def fetch(globals):
     else:
         globals.update_status = "Fetching failed"
 
+def add(path, session):
+    #svn add (File or dir)
+    #add to the db
+    cwd = os.getcwd()
+    media_dir = config['app_conf']['media_dir']
+    os.chdir(media_dir)
+    pipe = os.popen("svn add '%s'" % path)
+    rc = pipe.close()
+    if  rc != None and rc % 256:
+        return "There were some errors"
+    os.chdir(cwd)
+
+def commit(paths, message, userid, session):
+    #svn commit (File or dir)
+    cwd = os.getcwd()
+    media_dir = config['app_conf']['media_dir']
+    os.chdir(media_dir)
+    user = session.query(User).get(userid)
+    #TODO error handling
+    if user.user_data.vcs_user is not None:
+        pipe = os.popen("svn commit -m '%s' --username '%s' --password '%s'" % (message, user.user_data.vcs_user, user.user_data.vcs_pass))
+        rc = pipe.close()
+        if  rc != None and rc % 256:
+            return "There were some errors"
+    elif config['app_conf']['default_vcs'] == "true":
+        default_vcs_user = config['app_conf']['default_vcs_user']
+        default_vcs_pass = config['app_conf']['default_vcs_pass']
+        pipe = os.popen("svn commit -m '%s' --username '%s' --password '%s'" % (message, default_vcs_user, default_vcs_pass))
+        rc = pipe.close()
+        if  rc != None and rc % 256:
+            return "There were some errors"
+    else:
+        #Trying anyway
+        pipe = os.popen("svn commit -m '%s'" % message)
+        rc = pipe.close()
+        if  rc != None and rc % 256:
+            return "There were some errors"
+
+    for path in paths:
+        create_rev_entry(path, session)
+    session.commit()
+    os.chdir(cwd)

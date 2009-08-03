@@ -18,7 +18,7 @@ from pylons import config
 backend = config['app_conf']['backend']
 
 if backend == "svn":
-    from svn import scan, update, fetch
+    from svn import scan, update, fetch, add, commit
 else:
     raise ImportError("Unknown backend '%s'" % backend)
 

@@ -28,6 +28,9 @@ site_name = WOMBAT Demo Site
 beaker.session.key = wombat
 beaker.session.secret = ${app_instance_secret}
 app_instance_uuid = ${app_instance_uuid}
+default_vcs = true
+default_vcs_user = None
+default_vcs_pass = None
 
 # If you'd like to fine-tune the individual locations of the cache data dirs
 # for the Cache data, or the Session saves, un-comment the desired settings
