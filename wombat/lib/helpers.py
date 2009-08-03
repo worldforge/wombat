@@ -48,7 +48,7 @@ def createTextPreview(file):
         f.close()
     except:
         content = "Error reading %s" % file.name
-    return (open_tags, content, close_tags)
+    return (literal(open_tags), literal(content), literal(close_tags))
 
 def createImagePreview(file):
     open_tags = """\
@@ -67,7 +67,7 @@ def createImagePreview(file):
     close_tags = """\
                         </div>
 """
-    return (open_tags, content, close_tags)
+    return (literal(open_tags), literal(content), literal(close_tags))
 
 def createSoundPreview(file):
     open_tags = """\
@@ -80,7 +80,7 @@ def createSoundPreview(file):
     close_tags = """\
                         </div>
 """
-    return (open_tags, content, close_tags)
+    return (literal(open_tags), literal(content), literal(close_tags))
 
 def createPreview(file):
     type = getType(file.name)
@@ -127,7 +127,7 @@ def sorted_options_for_select(container, selected=None):
         if item == selected:
             ret += " selected=\"selected\""
         ret += ">%s</option>\n" % item
-    return ret
+    return literal(ret)
 
 def getAuthors(session):
     """Session -> [string]
