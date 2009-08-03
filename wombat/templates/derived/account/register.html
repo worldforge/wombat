@@ -8,6 +8,7 @@
                 		information for future reference.
                 	</p>
 					${h.form(url(controller="account", action="signup"), method="post")}
+                        ${h.auth_token_hidden_field()}
 						<div class="r">
 							<div class="f text req">
 								<label for="user_email">Email</label>

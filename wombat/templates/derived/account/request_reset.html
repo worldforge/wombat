@@ -3,6 +3,7 @@
                         <h1>Request password reset</h1>
                         ${h.form(url(controller="account", action="handle_reset_request"),
                         method="post")}
+                        ${h.auth_token_hidden_field()}
                         <div class="f text">
                             <label for="email_addr">Enter email address.</label>
                             ${h.text("email_addr")}

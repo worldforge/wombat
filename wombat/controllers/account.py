@@ -1,9 +1,11 @@
 import logging
 
 from wombat.lib.base import *
-from wombat.lib.auth import crypt_password, random_token
+from wombat.lib.auth import crypt_password, random_token, check_password
 from wombat.lib.email import *
-from wombat.lib.roles import require_roles, require_login
+from wombat.lib.roles import require_roles, require_login, check_role
+from webhelpers.html.secure_form import authentication_token
+from pylons.decorators.secure import authenticate_form
 from wombat.model import User, UserData, ResetData, EmailConfirm
 
 log = logging.getLogger(__name__)
@@ -31,6 +33,7 @@ class AccountController(BaseController):
         # TODO: Add more email validity tests
         return True
 
+    @authenticate_form
     def signup(self, id=None):
         user_email = unicode(request.params.get('user_email'))
         user_email_c = unicode(request.params.get('user_email_confirm'))
@@ -241,10 +244,12 @@ class AccountController(BaseController):
 
         return render('/derived/account/edit.html')
 
+    @authenticate_form
     @require_roles(['owner', 'admin'])
     def change(self, id=None):
         user_email = unicode(request.params.get('user_email'))
         user_email_c = unicode(request.params.get('user_email_confirm'))
+        current_password = str(request.params.get('current_password'))
 
         edit_user = session.get('edit_user')
         if edit_user is None:
@@ -257,6 +262,14 @@ class AccountController(BaseController):
         user = s.query(User).get(edit_user)
         if user is None:
             abort(404)
+
+        if not check_role("admin"):
+            if not check_password(user.password, current_password):
+                if id == "ajax":
+                    return "incorrect password"
+                session['messages'] = ["Incorrect password"]
+                session.save()
+                redirect_to(action="edit", id=edit_user)
 
         if user_email != user_email_c:
             if id == "ajax":
@@ -354,6 +367,10 @@ class AccountController(BaseController):
 
     @require_roles(['admin'])
     def enable(self, id):
+
+        if request.params.get('_authentication_token', None) != authentication_token():
+            abort(403)
+
         if id is None:
             abort(404)
 
@@ -371,6 +388,10 @@ class AccountController(BaseController):
 
     @require_roles(['admin'])
     def disable(self, id):
+
+        if request.params.get('_authentication_token', None) != authentication_token():
+            abort(403)
+
         if id is None:
             avort(404)
 
@@ -388,6 +409,10 @@ class AccountController(BaseController):
 
     @require_roles(['owner', 'admin'])
     def delete(self, id):
+
+        if request.params.get('_authentication_token', None) != authentication_token():
+            abort(403)
+
         if id is None:
             abort(404)
 
@@ -411,6 +436,7 @@ class AccountController(BaseController):
 
         return render('/derived/account/request_reset.html')
 
+    @authenticate_form
     def handle_reset_request(self, id=None):
         s = Session()
         toaddr = request.params.get('email_addr')

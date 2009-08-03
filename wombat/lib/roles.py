@@ -72,3 +72,12 @@ def require_login(fn, *args, **kwargs):
 
     return fn(*args, **kwargs)
 
+def check_role(role):
+    s = Session()
+
+    user = s.query(User).get(session['user'])
+    for i in range(len(user.roles)):
+        if role == user.roles[i].name:
+            return True
+    return False
+

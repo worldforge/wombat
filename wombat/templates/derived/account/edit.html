@@ -7,6 +7,13 @@
                 		everyone needs to know.
                 	</p>
 					${h.form(url(controller="account", action="change", id=c.id), method="post")}
+                        ${h.auth_token_hidden_field()}
+                        <div class="r">
+                            <div class="f r text req">
+                                <label for="current_password">Curent Password</label>
+                                ${h.password("current_password")}
+                            </div>
+                        </div>
 						<div class="r">
 							<div class="f text req">
 								<label for="user_email">Email</label>

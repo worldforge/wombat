@@ -1,6 +1,6 @@
 <%inherit file="/base/index.html"/>
     <div class="clr group">
-    	<em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle | h}".</em>
+    	<em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle}".</em>
 
 %if c.found_dirs != []:
 		<h3>Found Directories</h3>

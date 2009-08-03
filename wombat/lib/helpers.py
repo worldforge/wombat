@@ -5,6 +5,7 @@ available to Controllers. This module is available to both as 'h'.
 """
 from webhelpers.html import escape, HTML, literal, url_escape
 from webhelpers.html.tags import *
+from webhelpers.html.secure_form import auth_token_hidden_field, secure_form, authentication_token
 from routes import url_for
 
 from pylons import config
