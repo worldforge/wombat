@@ -18,6 +18,10 @@ def setup_superuser(model):
     passwd = crypt_password(sys.stdin.readline().strip())
     user = model.User(email, passwd, True)
     admin = s.query(model.Role).filter_by(name=u"admin").first()
+    #TODO remove the lead role
+    lead = s.query(model.Role).filter_by(name=u"lead").first()
+    if lead is not None:
+        user.roles.append(lead)
     if admin is not None:
         user.roles.append(admin)
     s.add(user)
