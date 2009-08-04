@@ -69,6 +69,8 @@ class FileController(BaseController):
         tag_ids = []
         for tag_name in tags:
             tag = c.session.query(Tag).filter(Tag.name == tag_name).first()
+            if tag is None:
+                continue
             aq = aq.filter(Asset.tags.contains(tag))
         assets = aq.all()
         if assets is None:
