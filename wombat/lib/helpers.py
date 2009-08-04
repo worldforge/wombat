@@ -14,6 +14,7 @@ import string
 from time import strptime, mktime
 from preview import getThumbnail, getIcon
 from filetypes import getType, img_inline
+from wombat.model import User, Upload
 
 def getBreadcrumbTrail(dir):
     trail = []
@@ -206,3 +207,11 @@ def create_tag_str(tags):
     tag_str.rstrip(" ")
     return tag_str
 
+def moderation_link(session, db_session):
+    role = "lead"
+    if 'user' in session:
+        user = db_session.query(User).get(session['user'])
+        for i in range(len(user.roles)):
+            if role == user.roles[i].name:
+                return db_session.query(Upload).count()
+    return -1

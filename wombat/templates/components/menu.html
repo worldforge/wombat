@@ -2,6 +2,10 @@
                     <li><a class="menulink" href="${url(controller="tag")}">Tag Cloud</a></li>
                     <li><a class="menulink" href="${url(controller="dir")}">Directories</a></li>
                     <li><a class="menulink" href="${url(controller="show")} ">Server Status</a></li>
+<% moderation = h.moderation_link(session, c.session)%>
+%if moderation >= 0:
+                    <li><a class="menulink" href="${url(controller="moderation")}">Moderation (${moderation})</a></li>
+%endif
 <% user = h.getCurrentUser(session, c.session)%>
 %if user is None:
                     <li><a class="menulink" href="/account/register">Register</a></li>
