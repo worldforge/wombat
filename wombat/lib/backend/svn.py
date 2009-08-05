@@ -20,6 +20,7 @@ from wombat.model import Revision, File, Dir, Asset, Tag, User
 from sqlalchemy.exceptions import InvalidRequestError
 from sqlalchemy.sql import func
 from svn_xml_parser import parse_svn
+from wombat.lib.sanitation import escape_quote, check_quote
 
 def get_tag_from_path(session, path):
     tag_name = "category_%s" % path[:path.find(os.path.sep)]
@@ -247,15 +248,22 @@ def commit(paths, message, userid, session):
     media_dir = config['app_conf']['media_dir']
     os.chdir(media_dir)
     user = session.query(User).get(userid)
+    message = escape_quote(message)
     #TODO error handling
     if user.user_data.vcs_user is not None:
-        pipe = os.popen("svn commit -m '%s' --username '%s' --password '%s'" % (message, user.user_data.vcs_user, user.user_data.vcs_pass))
+        username = user.user_data.vcs_user
+        password = user.user_data.vcs_pass
+        if check_quote(username) and check_quote(password):
+            return "Quotes are not allowed for now"
+        pipe = os.popen("svn commit -m '%s' --username '%s' --password '%s'" % (message, username, password))
         rc = pipe.close()
         if  rc != None and rc % 256:
             return "There were some errors"
     elif config['app_conf']['default_vcs'] == "true":
         default_vcs_user = config['app_conf']['default_vcs_user']
         default_vcs_pass = config['app_conf']['default_vcs_pass']
+        if check_quote(default_vcs_user) and check_quote(default_vcs_pass):
+            return "Quotes are not allowed for now"
         pipe = os.popen("svn commit -m '%s' --username '%s' --password '%s'" % (message, default_vcs_user, default_vcs_pass))
         rc = pipe.close()
         if  rc != None and rc % 256:

@@ -20,6 +20,7 @@ from pylons import config
 from wombat.lib.roles import require_login
 from pylons.decorators.secure import authenticate_form
 from wombat.model import Upload, Dir, UserData
+import re
 
 import os
 import shutil
@@ -89,23 +90,28 @@ class UploadController(BaseController):
             shutil.copyfileobj(myfile.file, permanent_file)
 
             #add it to the Upload database
-            filename = original_name.replace(os.sep,"_")
-            ext = os.path.splitext(filename)[1].lower()
-            db_file = Upload(name = filename,
-                            file_type = ext,
-                            destination = destination,
-                            description = request.POST.get('description', ''),
-                            new_name = myfile.filename,
-                            author = author)
+            p = re.compile("^[A-Za-z0-9_.][A-Za-z0-9_.-]{0,99}$")
+            if not p.match(original_name):
+                session['messages'] += ['ERROR invalid filename : %s' % (original_name)]
+                session.save()
+            else:
+                filename = original_name
+                ext = os.path.splitext(filename)[1].lower()
+                db_file = Upload(name = filename,
+                                file_type = ext,
+                                destination = destination,
+                                description = request.POST.get('description', ''),
+                                new_name = myfile.filename,
+                                author = author)
 
-            Session.add(db_file)
-            Session.commit()
+                Session.add(db_file)
+                Session.commit()
 
-            myfile.file.close()
-            permanent_file.close()
+                myfile.file.close()
+                permanent_file.close()
 
-            #Security?
-            session['messages'] += ['Successfully uploaded: %s' % (original_name)]
-            session.save()
+                #Security?
+                session['messages'] += ['Successfully uploaded: %s' % (original_name)]
+                session.save()
 
         return redirect_to(url_for(controller="upload") + '?path=' + str(uri_dir))
