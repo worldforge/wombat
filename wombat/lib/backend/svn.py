@@ -13,8 +13,8 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-import os
 import os.path
+from subprocess import Popen, PIPE
 from pylons import config
 from wombat.model import Revision, File, Dir, Asset, Tag
 from sqlalchemy.exceptions import InvalidRequestError
@@ -40,16 +40,14 @@ def call_svn_cmd(path, cmd, opts):
     Call a svn command and return an xml string
     """
     stringlist = []
-    cli_in, cli_out = os.popen2("svn %s %s '%s' 2> /dev/null" % (cmd, opts, path))
-    cli_in.close()
+    cli_out = Popen("svn %s %s '%s' 2> /dev/null" % (cmd, opts, path), shell=True,
+                    stdout=PIPE, close_fds=True).stdout
     try:
         stringlist = cli_out.readlines()
         xml_string = "".join(stringlist)
         return xml_string
-    finally:
-        cli_out.close()
-
-    return None
+    except:
+        return None
 
 def get_create_revision(path, session, rev_id):
     """string, Session, int -> Revision
