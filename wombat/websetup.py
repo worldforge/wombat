@@ -1,11 +1,10 @@
 """Setup the wombat application"""
 import logging
 import sys
-
-from paste.deploy import appconfig
 from pylons import config
 
 from wombat.config.environment import load_environment
+from wombat.model import meta
 from wombat.lib.auth import crypt_password
 
 log = logging.getLogger(__name__)
@@ -13,7 +12,7 @@ log = logging.getLogger(__name__)
 def setup_superuser(model):
     """Set up the superuser account"""
     import md5
-    s = model.Session()
+    s = meta.Session()
     print "Enter email for the super user"
     email = unicode(sys.stdin.readline().strip())
     print "Enter superuser password"
@@ -30,7 +29,7 @@ def setup_superuser(model):
 
 def create_roles(model):
     """Create the default roles"""
-    s = model.Session()
+    s = meta.Session()
     admin = model.Role(u"admin")
     lead = model.Role(u"lead")
     artist = model.Role(u"artist")
@@ -39,9 +38,8 @@ def create_roles(model):
     s.add(artist)
     s.commit()
 
-def setup_config(command, filename, section, vars):
+def setup_app(command, conf, vars):
     """Place any commands to setup wombat here"""
-    conf = appconfig('config:' + filename)
     load_environment(conf.global_conf, conf.local_conf)
 
     # Create cache dir, if it doesn't exist yet
@@ -52,13 +50,8 @@ def setup_config(command, filename, section, vars):
 
     # Populate the DB on 'paster setup-app'
     import wombat.model as model
-
-    log.info("Setting up database connectivity...")
-    engine = config['pylons.g'].sa_engine
-    log.info("Creating tables...")
-    model.metadata.create_all(bind=engine)
-    log.info("Successfully set up.")
-
+    # Create the tables if they don't already exist
+    meta.metadata.create_all(bind=meta.engine)
     create_roles(model)
 
     answer = ""

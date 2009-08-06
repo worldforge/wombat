@@ -8,12 +8,13 @@ from pylons.controllers import WSGIController
 from pylons.controllers.util import abort, etag_cache, redirect_to
 from pylons.decorators import jsonify, validate
 from pylons.i18n import _, ungettext, N_
-from pylons.templating import render
+from pylons.templating import render_mako as render
 
 import wombat.lib.helpers as h
 import wombat.model as model
 
-from wombat.model import Session
+from wombat.model import meta
+from wombat.model.meta import Session
 
 class BaseController(WSGIController):
 

@@ -17,14 +17,14 @@ from threading import Timer
 
 def update_media(globals):
     from wombat.lib.backend import fetch, update
-    from wombat.model import Session
+    from wombat.model import meta
     from wombat.lib.helpers import canScan
 
     fetch(globals)
 
     globals.update_status = "Updating database"
 
-    s = Session()
+    s = meta.Session()
     if not canScan(s):
         globals.scan_lock.acquire()
         update(s)
@@ -36,5 +36,5 @@ def update_media(globals):
     globals.update_timer = Timer(300.0, update_media, [globals])
     globals.update_timer.start()
 
-    Session.remove()
+    meta.Session.remove()
 

@@ -19,8 +19,8 @@ import datetime
 
 def cleanup_email_confirm():
     """Clean up the old entries from the EmailConfirm table"""
-    from wombat.model import Session, EmailConfirm, User
-    s = Session()
+    from wombat.model import meta, EmailConfirm, User
+    s = meta.Session()
     delta = datetime.timedelta(days=2)
     now = datetime.datetime.now()
     to_delete = s.query(EmailConfirm).filter(EmailConfirm.date < now - delta).all()
@@ -31,18 +31,18 @@ def cleanup_email_confirm():
             s.delete(user.user_data)
             s.delete(user)
     s.commit()
-    Session.remove()
+    meta.Session.remove()
 
 def cleanup_reset_data():
-    from wombat.model import Session, ResetData
-    s = Session()
+    from wombat.model import meta, ResetData
+    s = meta.Session()
     delta = datetime.timedelta(days=2)
     now = datetime.datetime.now()
     to_delete = s.query(ResetData).filter(ResetData.date < now - delta).all()
     for item in to_delete:
         s.delete(item)
     s.commit()
-    Session.remove()
+    meta.Session.remove()
 
 def cleanup_dbs(globals):
     globals.scan_lock.acquire()
