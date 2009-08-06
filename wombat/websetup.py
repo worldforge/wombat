@@ -11,7 +11,6 @@ log = logging.getLogger(__name__)
 
 def setup_superuser(model):
     """Set up the superuser account"""
-    import md5
     s = meta.Session()
     print "Enter email for the super user"
     email = unicode(sys.stdin.readline().strip())

@@ -1,6 +1,5 @@
 import logging
 
-import md5
 from wombat.lib.base import *
 from wombat.lib.auth import check_password
 from wombat.model import User, UserData

@@ -1,6 +1,5 @@
 import logging
 
-import md5
 from wombat.lib.base import *
 from wombat.lib.auth import crypt_password, random_token
 from wombat.lib.email import *

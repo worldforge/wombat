@@ -11,7 +11,6 @@ from pylons import config
 import os.path
 import string
 from time import strptime, mktime
-from rev_info import Info
 from preview import getThumbnail, getIcon
 from filetypes import getType, img_inline
 

@@ -13,7 +13,7 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-import md5
+import hashlib
 import os.path
 from pylons import config
 from filetypes import getType
@@ -26,7 +26,7 @@ def loadPreview(file, type):
     Load a preview from thumb_dir.
     Returns the path to the preview file or None if the file doesn't exist.
     """
-    hash = md5.new(file.path)
+    hash = hashlib.md5(file.path)
     base, ext = os.path.splitext(file.name)
     thumb_name = "%s_%s%s" % (hash.hexdigest(), type, ext)
     thumb_path = os.path.join(config['app_conf']['thumb_dir'], thumb_name)
@@ -40,7 +40,7 @@ def createPreview(file, type):
     Create a preview file.
     Return the preview file name or None on error.
     """
-    hash = md5.new(file.path)
+    hash = hashlib.md5(file.path)
     base, ext = os.path.splitext(file.name)
 
     if type == "thumb":

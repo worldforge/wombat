@@ -13,7 +13,7 @@
 # this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-import md5
+import hashlib
 import random
 
 VALID_CHARS="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#^&"
@@ -37,7 +37,7 @@ def crypt_password(password):
     Generate an encrypted password.
     """
     salt = random_salt()
-    md5_hash = md5.md5(salt)
+    md5_hash = hashlib.md5(salt)
     md5_hash.update(unicode(password))
     crypt_pass = unicode(md5_hash.hexdigest())
     return u"{MD5}$%s$%s" % (salt, crypt_pass)
@@ -61,7 +61,7 @@ def check_password(stored, provided):
     if salt is None or crypt_pass is None:
         return False
 
-    md5_hash = md5.md5(salt)
+    md5_hash = hashlib.md5(salt)
     md5_hash.update(unicode(provided))
 
     return crypt_pass == unicode(md5_hash.hexdigest())
