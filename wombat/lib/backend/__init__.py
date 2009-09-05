@@ -1,4 +1,4 @@
-# Copyright (C) 2008 by Kai Blin
+# Copyright (C) 2008, 2009 by Kai Blin
 #
 # WOMBAT is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@ backend = config['app_conf']['backend']
 
 if backend == "svn":
     from svn import scan, update, fetch, add, commit
+elif backend == "libsvn":
+    from libsvn import scan, update, fetch, add, commit
 else:
     raise ImportError("Unknown backend '%s'" % backend)
 
