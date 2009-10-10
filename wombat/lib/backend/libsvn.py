@@ -18,6 +18,7 @@ import os.path
 from datetime import datetime
 from pylons import config
 from wombat.model import Revision, Dir, File, Tag, Asset
+from sqlalchemy.sql import func
 
 def get_client():
     """()->pysvn.Client
@@ -89,9 +90,17 @@ def create_rev_entry(rev_path, session, rev=None, recurse=False):
     info_list = client.info2(rev_path, revision=pyrev, recurse=recurse)
 
     for path, info in info_list:
-        path = unicode(path)
-        if path == u"trunk":
-            path = u"."
+        if recurse:
+            # For some reason, the top level dir is called trunk in the
+            # recursive info, but paths under the top level dir don't contain
+            # that part.
+            if path != "trunk":
+                path = unicode(path)
+            else:
+                path = u"."
+        else:
+            # restore the old path, client.info2 only has the top level name
+            path = unicode(rev_path)
 
         if rev is None:
             revision = get_create_revision(path, session, info.last_changed_rev.number)
@@ -107,7 +116,6 @@ def create_rev_entry(rev_path, session, rev=None, recurse=False):
             if old_dir is not None:
                 old_dir.revision = revision
                 session.add(revision)
-                print "updated old_dir %s" % path
                 continue
             # '.' does not look nice for the breadcrumb path
             if path == u".":
@@ -115,7 +123,6 @@ def create_rev_entry(rev_path, session, rev=None, recurse=False):
             else:
                 dir_name = unicode(os.path.basename(path))
 
-            print "Adding dir %s, named '%s'" % (path, dir_name)
             new_dir = Dir(path, dir_name, unicode(info.repos_root_URL))
             new_dir.revision = revision
 
@@ -130,6 +137,8 @@ def create_rev_entry(rev_path, session, rev=None, recurse=False):
 
             session.add(new_dir)
         elif info.kind == pysvn.node_kind.file:
+            if not os.path.exists(path):
+                continue
             old_file = session.query(File).get(unicode(path))
             if old_file is not None:
                 old_file.size = os.path.getsize(path)
@@ -140,14 +149,13 @@ def create_rev_entry(rev_path, session, rev=None, recurse=False):
                     session.add(parent)
                     parent = parent.parent
                 session.add(old_file)
-                return
+                continue
 
             new_file = File(path, os.path.basename(path),
-                    os.path.getsize(path), info.repos_root_URL)
+                            os.path.getsize(path), info.repos_root_URL)
             new_file.revision = revision
-            session.add(new_file)
 
-            parent_path = os.path.dirname(rev_path)
+            parent_path = unicode(os.path.dirname(path))
             if parent_path == u'':
                 parent_path = u'.'
             parent_dir = session.query(Dir).get(parent_path)
@@ -224,5 +232,51 @@ def update(session):
     """(session)->node
     Update the database entries to reflect the current status of the media dir
     """
-    raise Exception(NotImplemented)
+    revision = session.query(func.max(Revision.id)).first()[0]
+    cwd = os.getcwd()
+    os.chdir(config['app_conf']['media_dir'])
+    client = get_client()
+
+    log = client.log(".", revision_start=pysvn.Revision(pysvn.opt_revision_kind.head),
+                        revision_end=pysvn.Revision(pysvn.opt_revision_kind.number, revision+1),
+                        discover_changed_paths=True)
+
+    log.reverse()
+    for entry in log:
+        if entry.revision.number == revision:
+            continue
+        revision = Revision(entry.revision.number, u"r%s" % entry.revision.number,
+                        unicode(entry.message), unicode(entry.author),
+                        datetime.utcfromtimestamp(entry.date))
+        session.add(revision)
+
+        # Unfortunately the changed paths are not sorted, so in order to keep
+        # the database sane, we will go over the list directories first, files
+        # second.
+        for path in entry.changed_paths:
+            stripped_path = path.path.lstrip("%strunk%s" % (os.sep, os.sep))
+            if os.path.isdir(stripped_path):
+                if path.action in ("A", "M"):
+                    create_rev_entry(rev_path=stripped_path, session=session,
+                                     rev=revision, recurse=False)
+                elif path.action == "D":
+                    del_dir = session.query(Dir).get(unicode(stripped_path))
+                    if del_dir is not None:
+                        session.delete(del_dir)
+                        session.commit()
+
+        for path in entry.changed_paths:
+            stripped_path = path.path.lstrip("%strunk%s" % (os.sep, os.sep))
+            if os.path.isfile(stripped_path):
+                if path.action in ("A", "M"):
+                    create_rev_entry(rev_path=stripped_path, session=session,
+                                     rev=revision, recurse=False)
+                elif path.action == "D":
+                    del_file = session.query(File).get(unicode(stripped_path))
+                    if del_file is not None:
+                        session.delete(del_file)
+                        session.commit()
+
+    os.chdir(cwd)
+
 
