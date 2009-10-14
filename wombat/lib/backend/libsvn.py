@@ -16,9 +16,19 @@ import pysvn
 import os
 import os.path
 from datetime import datetime
-from pylons import config
+from pylons import config, g
 from wombat.model import Revision, Dir, File, Tag, Asset
 from sqlalchemy.sql import func
+
+def login_callback(realm, username, may_save):
+    """(string, string, bool)->(bool, string, string, bool)
+    Get the password subversion should use.
+    """
+    #TODO: Make this actually do something.
+    print "login_callback triggered. realm: '%s', username: '%s', may_save: %s" %\
+            (realm, username, may_save)
+
+    return (False, "", "", False)
 
 def get_client():
     """()->pysvn.Client
@@ -187,15 +197,28 @@ def add(path, session):
     """(string, session)->none
     Add a path to the version control backened
     """
-    #TODO: Implement this
-    raise Exception(NotImplemented)
+    media_dir = config['app_conf']['media_dir']
+    cwd = os.getcwd()
+    os.chdir(media_dir)
+    client = get_client()
+    client.add(path, recurse=False)
+    os.chdir(cwd)
 
 def commit(paths, msg, userid, session):
     """([string], string, int, session)->none
     Commit a list of files to the version control
     """
-    #TODO: implement this
-    raise Exception(NotImplemented)
+    media_dir = config['app_conf']['media_dir']
+    cwd = os.getcwd()
+    os.chdir(media_dir)
+    client = get_client()
+    client.callback_get_login = login_callback
+
+    client.checkin(paths, msg, recurse=False)
+
+    fetch(g)
+    update(session)
+    os.chdir(cwd)
 
 def fetch(globals):
     """({globals})->none
