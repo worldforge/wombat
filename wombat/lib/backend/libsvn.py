@@ -201,8 +201,17 @@ def add(path, session):
     cwd = os.getcwd()
     os.chdir(media_dir)
     client = get_client()
-    client.add(path, recurse=False)
-    os.chdir(cwd)
+    try:
+        client.add(path, recurse=False)
+    except pysvn.ClientError, e:
+        e_code = e.args[1][0][1]
+        # Error code 150002 is "file already added", just ignore that
+        if e_code == 150002:
+            pass
+        else:
+            raise e
+    finally:
+        os.chdir(cwd)
 
 def commit(paths, msg, userid, session):
     """([string], string, int, session)->none
