@@ -260,46 +260,53 @@ def update(session):
     os.chdir(config['app_conf']['media_dir'])
     client = get_client()
 
-    log = client.log(".", revision_start=pysvn.Revision(pysvn.opt_revision_kind.head),
-                        revision_end=pysvn.Revision(pysvn.opt_revision_kind.number, revision+1),
-                        discover_changed_paths=True)
+    # Some versions of pysvn (not all of them, yay) throw a ClientError if a
+    # revision+1 does not exist.
+    try:
+        log = client.log(".", revision_start=pysvn.Revision(pysvn.opt_revision_kind.head),
+                            revision_end=pysvn.Revision(pysvn.opt_revision_kind.number, revision+1),
+                            discover_changed_paths=True)
 
-    log.reverse()
-    for entry in log:
-        if entry.revision.number == revision:
-            continue
-        revision = Revision(entry.revision.number, u"r%s" % entry.revision.number,
-                        unicode(entry.message), unicode(entry.author),
-                        datetime.utcfromtimestamp(entry.date))
-        session.add(revision)
+        log.reverse()
+        for entry in log:
+            if entry.revision.number == revision:
+                continue
+            revision = Revision(entry.revision.number, u"r%s" % entry.revision.number,
+                            unicode(entry.message), unicode(entry.author),
+                            datetime.utcfromtimestamp(entry.date))
+            session.add(revision)
 
-        # Unfortunately the changed paths are not sorted, so in order to keep
-        # the database sane, we will go over the list directories first, files
-        # second.
-        for path in entry.changed_paths:
-            stripped_path = path.path.lstrip("%strunk%s" % (os.sep, os.sep))
-            if os.path.isdir(stripped_path):
-                if path.action in ("A", "M"):
-                    create_rev_entry(rev_path=stripped_path, session=session,
-                                     rev=revision, recurse=False)
-                elif path.action == "D":
-                    del_dir = session.query(Dir).get(unicode(stripped_path))
-                    if del_dir is not None:
-                        session.delete(del_dir)
-                        session.commit()
+            # Unfortunately the changed paths are not sorted, so in order to keep
+            # the database sane, we will go over the list directories first, files
+            # second.
+            for path in entry.changed_paths:
+                stripped_path = path.path.lstrip("%strunk%s" % (os.sep, os.sep))
+                if os.path.isdir(stripped_path):
+                    if path.action in ("A", "M"):
+                        create_rev_entry(rev_path=stripped_path, session=session,
+                                         rev=revision, recurse=False)
+                    elif path.action == "D":
+                        del_dir = session.query(Dir).get(unicode(stripped_path))
+                        if del_dir is not None:
+                            session.delete(del_dir)
+                            session.commit()
 
-        for path in entry.changed_paths:
-            stripped_path = path.path.lstrip("%strunk%s" % (os.sep, os.sep))
-            if os.path.isfile(stripped_path):
-                if path.action in ("A", "M"):
-                    create_rev_entry(rev_path=stripped_path, session=session,
-                                     rev=revision, recurse=False)
-                elif path.action == "D":
-                    del_file = session.query(File).get(unicode(stripped_path))
-                    if del_file is not None:
-                        session.delete(del_file)
-                        session.commit()
+            for path in entry.changed_paths:
+                stripped_path = path.path.lstrip("%strunk%s" % (os.sep, os.sep))
+                if os.path.isfile(stripped_path):
+                    if path.action in ("A", "M"):
+                        create_rev_entry(rev_path=stripped_path, session=session,
+                                         rev=revision, recurse=False)
+                    elif path.action == "D":
+                        del_file = session.query(File).get(unicode(stripped_path))
+                        if del_file is not None:
+                            session.delete(del_file)
+                            session.commit()
 
-    os.chdir(cwd)
+    except pysvn.ClientError, e:
+        pass
+
+    finally:
+        os.chdir(cwd)
 
 
