@@ -31,8 +31,12 @@ def send_mail(toaddr, msg):
     if servername == "fake.example.com":
         return
 
-    server = smtplib.SMTP(servername)
-    fromaddr = config['app_conf']['email_from']
+    try:
+        server = smtplib.SMTP(servername)
+        fromaddr = config['app_conf']['email_from']
+    except smtplib.socket.error, msg:
+        raise EmailException("Connecting to SMTP server returned error '%s' (%s)" %
+                (msg.args[1], msg.args[0]))
 
     try:
         server.sendmail(fromaddr, toaddr, msg)
