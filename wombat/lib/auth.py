@@ -32,9 +32,9 @@ def random_token():
     token = unicode(hex(random.getrandbits(16*8))).lstrip('0x').rstrip('L')
     return token
 
-def crypt_password(password):
+def crypt_password_md5(password):
     """string -> string
-    Generate an encrypted password.
+    Generate an MD5 encrypted password.
     """
     salt = random_salt()
     md5_hash = hashlib.md5(salt)
@@ -42,11 +42,57 @@ def crypt_password(password):
     crypt_pass = unicode(md5_hash.hexdigest())
     return u"{MD5}$%s$%s" % (salt, crypt_pass)
 
+def crypt_password_md5k(password):
+    salt = random_salt()
+    md5_hash = hashlib.md5(salt)
+    md5_hash.update(unicode(password))
+    for i in range(10000):
+        md5_hash.update(md5_hash.hexdigest())
+    crypt_pass = unicode(md5_hash.hexdigest())
+    return u"{MD5k}$%s$%s" % (salt, crypt_pass)
+
+password_methods = {
+        "MD5" : crypt_password_md5,
+        "MD5k" : crypt_password_md5k }
+
+def crypt_password(password, method="MD5k"):
+    """string, string -> string
+    Generate an encrypted password using the method specified.
+    """
+    function = password_methods[method]
+    return function(password)
+
 def parse_pass(pass_string):
     """string -> (string, string, string)
     Parse an encrypted password.
     """
     return tuple(pass_string.split("$"))
+
+def check_password_md5(crypt_pass, salt, provided):
+    """string, string -> boolean
+    Check if the encrypted stored md5 password matches the provided plaintext
+    password.
+    """
+    md5_hash = hashlib.md5(salt)
+    md5_hash.update(unicode(provided))
+
+    return crypt_pass == unicode(md5_hash.hexdigest())
+
+def check_password_md5k(crypt_pass, salt, provided):
+    """string, string -> boolean
+    Check if the encrypted stored md5k password matches the provided plaintext
+    password.
+    """
+    md5_hash = hashlib.md5(salt)
+    md5_hash.update(unicode(provided))
+    for i in range(10000):
+        md5_hash.update(md5_hash.hexdigest())
+
+    return crypt_pass == unicode(md5_hash.hexdigest())
+
+check_methods = {
+        "{MD5}" : check_password_md5,
+        "{MD5k}" : check_password_md5k }
 
 def check_password(stored, provided):
     """string, string -> boolean
@@ -54,15 +100,15 @@ def check_password(stored, provided):
     password.
     """
     method, salt, crypt_pass = parse_pass(stored)
-    # Here we could check the method if we at some point decide to use more than
-    # just md5
 
     # Check that the stored password parsed correctly
-    if salt is None or crypt_pass is None:
+    if method is None or salt is None or crypt_pass is None:
         return False
 
-    md5_hash = hashlib.md5(salt)
-    md5_hash.update(unicode(provided))
+    try:
+        function = check_methods[method]
+        return function(crypt_pass, salt, provided)
+    except KeyError:
+        return False
 
-    return crypt_pass == unicode(md5_hash.hexdigest())
 
