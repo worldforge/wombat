@@ -16,12 +16,13 @@ class Globals(object):
         """
         self.version = "0.5.0pre1"
 
-        self.last_cleanup = "Never"
-        self.cleanup_timer = Timer(60.0, cleanup_dbs, [self])
-        self.cleanup_timer.start()
+        if config['app_conf']['multithreading'] == "true":
+            self.last_cleanup = "Never"
+            self.cleanup_timer = Timer(60.0, cleanup_dbs, [self])
+            self.cleanup_timer.start()
 
-        self.scan_lock = Lock()
+            self.scan_lock = Lock()
 
-        self.update_status = "Never updated"
-        self.update_timer = Timer(30.0, update_media, [self])
-        self.update_timer.start()
+            self.update_status = "Never updated"
+            self.update_timer = Timer(30.0, update_media, [self])
+            self.update_timer.start()
