@@ -164,6 +164,7 @@ wombat/templates/derived/tag/cloud.html
 wombat/templates/derived/tag/index.html
 wombat/templates/derived/upload/index.html
 wombat/tests/__init__.py
+wombat/tests/test_crypto.py
 wombat/tests/test_models.py
 wombat/tests/functional/__init__.py
 wombat/tests/functional/test_account.py

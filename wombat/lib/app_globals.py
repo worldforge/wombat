@@ -14,7 +14,7 @@ class Globals(object):
         initialization and is available during requests via the 'g'
         variable
         """
-        self.version = "0.5.0pre1"
+        self.version = "0.5.0"
 
         if config['app_conf']['multithreading'] == "true":
             self.last_cleanup = "Never"
