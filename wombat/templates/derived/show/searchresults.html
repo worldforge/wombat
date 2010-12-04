@@ -1,9 +1,9 @@
 <%inherit file="/base/index.html"/>
     <div class="clr group">
-    	<em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle}".</em>
+        <em>Found ${len(c.found_dirs)} directories and ${len(c.found_files)} files containing "${c.needle}".</em>
 
 %if c.found_dirs != []:
-		<h3>Found Directories</h3>
+        <h3>Found Directories</h3>
         <table border="0" class="group">
           <tr>
           <% i = 0 %>
@@ -27,34 +27,35 @@
           </tr>
         </table>
 %endif
-
+    </div>
+    <div class="group">
 %if c.found_files != []:
-		<h3>Found Files</h3>
-        <table border="0" class="group">
-          <tr>
+        <h3>Found Files</h3>
+        <div class="clr set">
           <% i = 0 %>
 %for file in c.found_files:
-            <td class="cell" valign="top" width="50%" id="file_li_${i}">
-              <script type="text/javascript">
-                  lazyLoad('${h.url_for(controller="file", action="file_li", id=None)}?path=${file.path}', $('file_li_${i}'));
-              </script>
-              <a href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="Download ${file.name}">
-                <img class="fade" src="/images/other.png" border="0" alt="*" />
-              </a>
-              &nbsp;
-              <a href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="File details: ${file.name}">
-                ${file.name}
-              </a>
-              <div>&nbsp;</div>
-            </td>
+            <div id="item_${i}" class="lfloat item">
+                <a href="${h.url_for(controller="file")}?path=${file.path}"
+                   id="act_${i}"
+                   title="View Details for: &ldquo;${file.name}&rdquo;"
+                   type="text/itemDetail"
+                   rel="${h.url_for(controller="file", action="panel")}?path=${file.path}"
+                   class="clr">
+                    <span class="lfloat">
+                        <img class="fade" src="/images/other.png"
+                        height="32" width="32" vspace="1" hspace="1" border="0" alt="" />
+                    </span>
+                    <span class="lfloat">
+                        ${h.truncStr(file.name, 20)}<br />
+                    </span>
+                </a>
+                <script type="text/javascript">
+                    lazyLoad('${h.url_for(controller="file", action="file_li2", id=None)}?path=${file.path}&id=${i}', $('act_${i}'));
+                </script>
+                <div id="exp_item_${i}" class="exp"></div>
+            </div>
 <%i+=1%>
-%if i%2 == 0:
-          </tr>
-          <tr>
-%endif
 %endfor
-          </tr>
-        </table>
+        </div>
 %endif
-
     </div>
