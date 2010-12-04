@@ -1,0 +1,6 @@
+                                    <a href="${h.url_for(controller="dir")}?path=${c.dir.path}" title="${c.dir.name}">
+                                        <img class="fade" src="/images/dir.png"
+                                        border="0" alt="*" />&nbsp;${h.truncStr(c.dir.name,26)}&nbsp;
+                                        <small>(${len(c.dir.subdirs)} subdirs
+                                            &nbsp;${h.getSubFileCount(c.dir, c.session)} files)</small><br />
+                                    </a>

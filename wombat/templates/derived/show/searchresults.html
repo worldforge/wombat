@@ -34,15 +34,18 @@
           <tr>
           <% i = 0 %>
 %for file in c.found_files:
-            <td class="cell" valign="top" width="50%">
-                <a href="${h.url_for(controller="file")}?path=${file.path}" title="Download ${file.name}">
-                  <img class="fade" src="${h.getIcon(file)}" border="0" alt="*" />
-                </a>
-                &nbsp;
-                <a href="${h.url_for(controller="file")}?path=${file.path}" title="File details: ${file.name}">
-                  ${file.name}
-                </a>
-                <small>(${h.sizeToStr(file.size)})</small>
+            <td class="cell" valign="top" width="50%" id="file_li_${i}">
+              <script type="text/javascript">
+                  lazyLoad('${h.url_for(controller="file", action="file_li", id=None)}?path=${file.path}', $('file_li_${i}'));
+              </script>
+              <a href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="Download ${file.name}">
+                <img class="fade" src="/images/other.png" border="0" alt="*" />
+              </a>
+              &nbsp;
+              <a href="${h.url_for(controller="file", action="index", id=None)}?path=${file.path}" title="File details: ${file.name}">
+                ${file.name}
+              </a>
+              <div>&nbsp;</div>
             </td>
 <%i+=1%>
 %if i%2 == 0:

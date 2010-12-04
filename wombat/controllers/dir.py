@@ -40,6 +40,19 @@ class DirController(BaseController):
 
         return render('/derived/dir/dir.html')
 
+    def dir_li(self):
+        c.session = Session()
+
+        try:
+            req_path = unicode(request.params['path'])
+        except KeyError:
+            req_path = u""
+
+        c.dir = c.session.query(Dir).get(req_path)
+        if c.file is None:
+            abort(404)
+        return render('/derived/dir/dir_li.html')
+
     @require_login
     def create(self):
         c.name = config['app_conf']['site_name']

@@ -14,16 +14,16 @@
                                    rel="${h.url_for(controller="file", action="panel")}?path=${file.path}"
 								   class="clr">
 									<div class="lfloat">
-                                        <img class="fade" src="${h.getIcon(file)}"
+                                        <img class="fade" src="/images/other.png"
                                         height="32" width="32" vspace="1" hspace="1" border="0" alt="" />
 									</div>
 									<div class="lfloat">
 										${h.truncStr(file.name, 20)}<br />
-										<span class="meta">
-											(${h.sizeToStr(file.size)})
-										</span>
 									</div>
 								</a>
+								<script type="text/javascript">
+									lazyLoad('${h.url_for(controller="file", action="file_li2", id=None)}?path=${file.path}&id=${g}_${i}', $('act_${g}_${i}'));
+								</script>
 								<div id="exp_item_${g}_${i}" class="exp"></div>
 							</div>
 <% i = i+1 %>

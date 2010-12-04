@@ -103,6 +103,7 @@ function initItemDetails( )
 							Effect.BlindUp(subItem, {duration:fileDetailsSpeed/2, afterFinish: function(){
 								$(supItem).className = $(supItem).className.replace("clr full","lfloat");
 								$(subItem).innerHTML = "";
+								layout();
 							}
 							});
 							itemDetail.visible = false;
@@ -119,7 +120,7 @@ function initItemDetails( )
 										var response = transport.responseText || "No Response.";
 										$(supItem).className = $(supItem).className.replace("lfloat","clr full");
 										$(subItem).innerHTML = response;
-										Effect.BlindDown(subItem, {duration:fileDetailsSpeed});
+										Effect.BlindDown(subItem, {duration:fileDetailsSpeed, afterFinish: layout});
 										itemDetail.visible = true;
                                                                                 // Fix bug https://bugs.launchpad.net/wombat/+bug/291724
                                                                                 // Make click on the expanded item not fold back the

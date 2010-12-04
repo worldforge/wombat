@@ -1,0 +1,17 @@
+                            <div style="height:32px">
+                            <a
+                                href="${h.url_for(controller="file", action="index", id=None)}?path=${c.file.path}" title="Download ${c.file.name}">
+                                <img class="fade" src="${h.getIcon(c.file)}" border="0" alt="*" />
+                            </a>
+                            &nbsp;
+                            <a
+                                href="${h.url_for(controller="file", action="index", id=None)}?path=${c.file.path}" title="File details: ${c.file.name}">
+                                ${c.file.name}
+                            </a>
+                            <small>(${h.sizeToStr(c.file.size)})</small>
+                            </div>
+                            <div id="taglist"><ul>
+%for tag in c.file.asset.tags:
+                                <li><a href="${url(controller="file", action="tagged", id=c.id+"+"+tag.name)}">${tag.name}</a></li>
+%endfor
+                            </ul></div>
